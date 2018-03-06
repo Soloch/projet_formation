@@ -1,0 +1,25 @@
+{
+  "name": "projet_formation",
+  "version": "1.0.0",
+  "description": "Media Template",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Soloch/projet_formation.git"
+  },
+  "author": "webforce3",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Soloch/projet_formation/issues"
+  },
+  "homepage": "https://github.com/Soloch/projet_formation#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.1"
+  }
+}
