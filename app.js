@@ -6,36 +6,37 @@ app.set('view engine' , 'ejs');
 const PORT = 3000;
 
 app.get('/index', (req, res)=> {
-  res.render('index.ejs', {title: "Bonjour"});
+res.render('index.ejs', {title: "Bonjour"});
 });
 
 
 
 /* Page de contact. */
 app.get('/contact', function (req, res) {
-  res.send('Contact');
+    res.send('Contact');
 });
 
 /* Page d'administration. */
 app.get('/admin', function (req, res) {
-  res.send('administration');
+    res.send('administration');
 });
 
 /* Page de login. */
 app.get('/login', function (req, res) {
-  res.send('login');
+    res.send('login');
 });
 
 /* Page erreur 404. */
 app.get('/404', function (req, res) {
-  res.send('erreur 404');
+    res.send('erreur 404');
 });
 
 /* Articles. */
 app.get('/article/:nom', function (req, res) {
-  res.send(`article ${req.params.nom}`);
+    res.send(`article ${req.params.nom}`);
 });
 
 app.listen(PORT, ()=> {
-  console.log(`Serveur lancé sur le port ${PORT}`);
+    console.log(`Serveur lancé sur le port ${PORT}`);
+
 });
