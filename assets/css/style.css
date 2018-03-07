@@ -1,0 +1,53 @@
+
+
+
+
+/*
+----- FOOTER -----
+ */
+/*-- FOOTER-ICONE  --*/
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #111;
+    text-align: center;
+}
+
+.footer-icone {
+    /*bottom: 0;*/
+    width: 100%;
+
+}
+
+footer .container{
+    color: #fff;
+    width: 100%;
+}
+
+.h3footer {
+    color: wheat;
+;
+}
+
+.pfooter {
+    color: #CCC;
+}
+
+.reservedrigth {
+    background-color: #111;
+    text-align: center;
+    color: #CCC;
+}
+
+.rsr{
+    padding: 10.5px;
+    margin: 0px;
+    margin-top: 2%;
+    line-height: 100%;
+}
+
+
+/*
+------ END FOOTER -------
+ */
