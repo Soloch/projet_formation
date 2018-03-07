@@ -4,11 +4,12 @@ const PORT = 3000;
 app.set('views' , './views');
 app.set('view engine' , 'ejs');
 
+app.use('/css' , express.static('assets/css'));
+app.use('/js' , express.static('assets/js'));
 
 
 
-
-app.get('/index', (req, res)=> {
+app.get('/', (req, res)=> {
 res.render('index.ejs', {title: "Bonjour"});
 });
 // Page de contact
