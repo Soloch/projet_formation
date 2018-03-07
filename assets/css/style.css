@@ -1,6 +1,41 @@
 
 
 
+/**
+----- SIDEBAR -----
+**/
+.sidebar{
+    background-color:grey;
+}
+
+.listarticle {
+    
+}
+
+.dernierarticle{
+    
+    height: 2em;
+    
+}
+
+.derniersarticles{
+    text-decoration: none;
+    /*padding: 0px 20px;*/
+    color: white;
+    
+}
+
+ul li {
+    list-style: none;
+}
+
+
+
+/**
+----- END SIDEBAR -----
+**/
+
+
 
 /*
 ----- FOOTER -----
@@ -45,6 +80,7 @@ footer .container{
     margin: 0px;
     margin-top: 2%;
     line-height: 100%;
+    font-size: 12px;
 }
 
 
