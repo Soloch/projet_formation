@@ -11,12 +11,16 @@ app.set('view engine' , 'ejs');
 app.get('/index', (req, res)=> {
 res.render('index.ejs', {title: "Bonjour"});
 });
+// Page de contact
+app.get('/contact' , (req , res) => {
+  res.render('contact.ejs' , {title: "Contact"});
+});
+ app.get ('/inscription' , (req , res)=> {
+   res.render('inscription.ejs' , {title: "Inscription"});
+ });
 
-
-
-/* Page de contact. */
-app.get('/contact', function (req, res) {
-    res.send('Contact');
+app.get('/login' , (req , res)=> {
+  res.render('login.ejs' , {title: "Connexion"});
 });
 
 /* Page d'administration. */
