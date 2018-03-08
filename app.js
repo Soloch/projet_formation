@@ -5,6 +5,13 @@ const app = express()
 const faker = require('faker');
 
 
+const PORT = 3000;
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const {body, check, validationResult} = require('express-validator/check')
+const {sanitizeBody} = require('express-validator/filter')
+const validator = require('express-validator')
+
 // GESTION DE LA DB
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://pandacious:gallad59282@ds261138.mlab.com:61138/mediatemplate');
@@ -25,12 +32,7 @@ const Article = mongoose.model('Article' , articleSchema );
 
 // FIN DE LA GESTION DB
 
-const PORT = 3000;
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const {body, check, validationResult} = require('express-validator/check')
-const {sanitizeBody} = require('express-validator/filter')
-const validator = require('express-validator')
+
 app.set('views' , './views');
 app.set('view engine' , 'ejs');
 
@@ -39,8 +41,23 @@ app.use('/js' , express.static('assets/js'));
 app.use('/img' , express.static('assets/img'));
 app.use(bodyParser.urlencoded({extended: false}));
 
+// GESTION DES ARTICLES
 
-app.get('/', (req, res)=> {
+app.post('/index' ,  (req , res) => {
+  console.log('Image de l\'article :', req.body.articleimage);
+  console.log('Le titre :',req.body.articletitle);
+  console.log('Contenu :',req.body.articletext);
+  console.log('La date :',req.body.articledate);
+  console.log('L\'auteur :',req.body.authorarticle);
+  res.sendStatus(201);
+})
+
+
+
+
+// FIN GESTION DES ARTICLES
+
+app.get('/index', (req, res)=> {
 res.render('index.ejs', {title: "Bonjour"});
 });
 // Page de contact
@@ -55,6 +72,9 @@ app.get('/login', (req, res)=> {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
 });
 
+app.get('/adminarticle', (req , res) => {
+  res.render('adminarticle.ejs' , {title: "Ajouter un article" })
+});
 /* Post pour le login. */
 app.post('/login', [
   /* Vérification email. */
