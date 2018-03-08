@@ -1,6 +1,11 @@
 const express = require('express')
 const app = express()
-// CONNEXION A LA DB
+
+// Générateur de faux contenu
+const faker = require('faker');
+
+
+// GESTION DE LA DB
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://pandacious:gallad59282@ds261138.mlab.com:61138/mediatemplate');
 const db = mongoose.connection;
@@ -8,6 +13,17 @@ db.on('error', console.error.bind(console, 'Erreur de connection : Impossible de
 db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
+
+const articleSchema = mongoose.Schema({
+  articletitle: String,
+  articledate : Date,
+
+});
+
+const Article = mongoose.model('Article' , articleSchema );
+
+
+// FIN DE LA GESTION DB
 
 const PORT = 3000;
 const bodyParser = require('body-parser')

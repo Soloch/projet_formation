@@ -25,6 +25,7 @@
     "mongoose": "^5.0.9"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
     "nodemon": "^1.17.1"
   }
 }
