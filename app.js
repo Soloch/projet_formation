@@ -1,5 +1,14 @@
 const express = require('express')
 const app = express()
+// CONNEXION A LA DB
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://pandacious:gallad59282@ds261138.mlab.com:61138/mediatemplate');
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Erreur de connection : Impossible de se connecter à la base de donnée'));
+db.once('open', ()=> {
+  console.log('Vous êtes connecté à la base de données. GG.');
+});
+
 const PORT = 3000;
 const bodyParser = require('body-parser')
 const session = require('express-session')
