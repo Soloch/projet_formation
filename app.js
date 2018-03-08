@@ -11,6 +11,7 @@ app.set('view engine' , 'ejs');
 
 app.use('/css' , express.static('assets/css'));
 app.use('/js' , express.static('assets/js'));
+app.use('/img' , express.static('assets/img'));
 app.use(bodyParser.urlencoded({extended: false}));
 
 
