@@ -34,7 +34,7 @@ app.post('/login', [
   /* Vérification email. */
   check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
   check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum')
-], (req, res/*, next*/) => {
+], (req, res, next) => {
   const erreurs = validationResult(req);
   if (!erreurs.isEmpty())
   {
@@ -57,14 +57,14 @@ app.get('/login', function (req, res) {
     res.send('login');
 });
 
-/* Page erreur 404. */
-app.get('/404', function (req, res) {
-    res.send('erreur 404');
-});
-
 /* Articles. */
 app.get('/article/:nom', function (req, res) {
     res.send(`article ${req.params.nom}`);
+});
+
+/* Page erreur 404. */
+app.use(function (req, res, next) {
+  res.status(404).render('404.ejs', {title: "Page introuvable"});
 });
 
 app.listen(PORT, ()=> {
