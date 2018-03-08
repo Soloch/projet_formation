@@ -5,23 +5,35 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 /*
------ LOGIN -----
+----- NAVABAR -----
  */
 
-.bgimg{
+.navbar{
+    border-radius: 0px;
+}
     
-
+.login{
+    border: none;
+    margin-top: 11px;
+    margin-right: 6px;
 }
 
+.fabutton{
+    background: transparent;
+    border: none;
+    color:white;
+}
 /*
------- END LOGIN -------
+------ END NAVBAR -------
  */
+
+
+
 
 
 /**
-
-
 ----- SIDEBAR -----
 **/
 .sidebar{
