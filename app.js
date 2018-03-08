@@ -1,5 +1,14 @@
 const express = require('express')
 const app = express()
+// CONNEXION A LA DB
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://pandacious:gallad59282@ds261138.mlab.com:61138/mediatemplate');
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Erreur de connection : Impossible de se connecter à la base de donnée'));
+db.once('open', ()=> {
+  console.log('Vous êtes connecté à la base de données. GG.');
+});
+
 const PORT = 3000;
 const bodyParser = require('body-parser')
 const session = require('express-session')
@@ -35,7 +44,7 @@ app.post('/login', [
   /* Vérification email. */
   check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
   check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum')
-], (req, res/*, next*/) => {
+], (req, res, next) => {
   const erreurs = validationResult(req);
   if (!erreurs.isEmpty())
   {
@@ -58,14 +67,14 @@ app.get('/login', function (req, res) {
     res.send('login');
 });
 
-/* Page erreur 404. */
-app.get('/404', function (req, res) {
-    res.send('erreur 404');
-});
-
 /* Articles. */
 app.get('/article/:nom', function (req, res) {
     res.send(`article ${req.params.nom}`);
+});
+
+/* Page erreur 404. */
+app.use(function (req, res, next) {
+  res.status(404).render('404.ejs', {title: "Page introuvable"});
 });
 
 app.listen(PORT, ()=> {
