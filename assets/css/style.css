@@ -1,18 +1,26 @@
+html, body {
+height: 100%;
+margin: 0;
+padding: 0;;
+}
+
 body{
     height: 100%;
     width: 100%;
+    display: table;
     background-image: url(/img/bgnews.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+
+}
+
+body#notfound{
+    background-image: url(/img/desert.jpg);
 }
 /*
 ----- LOGIN -----
  */
 
-.bgimg{
-    
-
-}
 
 /*
 ------ END LOGIN -------
@@ -22,10 +30,83 @@ body{
 /**
 
 
------ SIDEBAR -----
+
+/* ----- 404 ------
+*/
+.travolta {
+    position: absolute;
+    right: 40%;
+    animation: john 2s ease;
+    bottom: 0px;
+}
+
+@keyframes john {
+    0% {
+        right: 200%;
+    }
+    100% {
+        rigth: 40%;
+    }
+}
+
+/* ------ END 404 ---- */
+
+
+/* ---- ARTICLE -----*/
+.article {
+
+}
+
+.titrearticle {
+    font-size: 32px;
+    color: black;
+    margin: 20px 0px 0px 0px;
+    font-weight: bold;   
+}
+article a {
+    color: peachpuff;
+}
+
+.cssdate {
+    color: peachpuff;
+}
+
+.imagearticle {
+    max-width: 100%;
+}
+.textarticle {
+    font-size: 15px;
+    margin: 15px 0px;
+}
+
+.auteur{
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.socialsarticle {
+
+}
+
+.textsocials {
+    font-size: 22px;
+    text-transform: uppercase;
+    line-height: 50px;
+    color: salmon;
+    margin-right: 20px;
+}
+
+.socialsicons {
+
+}
+
+
+/* ----- END ARTICLE ----- */
+
+/*----- SIDEBAR -----
 **/
 .sidebar{
-    background-color:grey;
+    background-color: grey;
 }
 
 .listarticle {
@@ -49,21 +130,24 @@ ul li {
     list-style: none;
 }
 
-
-
 /**
 ----- END SIDEBAR -----
 **/
 
 
 
+
+
+
 /*
 ----- FOOTER -----
  */
-/*-- FOOTER-ICONE  --*/
+
 footer {
-    position: fixed;
-    bottom: 0;
+    /*position: relative;*/
+    display: table-row;
+    height: 100px;
+    bottom: 0px;
     width: 100%;
     background-color: #111;
     text-align: center;
@@ -103,7 +187,12 @@ footer .container{
     font-size: 12px;
 }
 
-
+@media screen and (max-width: 768px) {
+    footer .col-md-3.col-sm-6.col-xs-6 {
+      width: 100%;
+    }
+  }
+  
 /*
 ------ END FOOTER -------
  */
