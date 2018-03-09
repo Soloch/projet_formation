@@ -1,0 +1,25 @@
+<% include ./partials/head %>
+<title>Surface Ajout Articles</title>
+</head>
+<% include ./partials/navbar %>
+<form class="addarticle" action="/index" method="post">
+  <label for="articleimage">Illustration de l'article</label>
+  <input type="file" name="articleimage" value="" id="articleimage">
+  <br>
+  <label for="articletitle">Titre de l'article</label>
+  <input type="text" name="articletitle" id="articletitle" value="">
+  <br>
+  <label for="articledate">Date de parution</label>
+  <input type="date" name="articledate" id="articledate" value="">
+  <br>
+  <label for="articletext">Contenu de l'article</label>
+  <input type="text" name="articletext" value="">
+  <br>
+  <label for="authorarticle">Auteur de l'article</label>
+  <input type="text" name="authorarticle" value="" id="authorarticle">
+  <br>
+
+  <button type="submit" name="button">Ajouter l'article</button>
+</form>
+
+<% include ./partials/footer %>
