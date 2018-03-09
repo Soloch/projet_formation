@@ -14,9 +14,7 @@ body{
 
 }
 
-body#notfound{
-    background-image: url(/img/desert.jpg);
-}
+
 
 /*
 ----- NAVABAR -----
@@ -47,11 +45,48 @@ body#notfound{
 
 /* ----- 404 ------
 */
+
+body#notfound{
+    background: linear-gradient(1.6turn,#0d0e0e, #ad8dda, #fff);
+}
+
+.text-center {
+    margin-top: 30%;
+}
+
+.pageintrouvable {
+    font-size: 70px;
+    
+}
+
+.error404 {
+    font-size: 35px;
+}
+
+
 .travolta {
     position: absolute;
-    right: 40%;
+    right: 37%;
     animation: john 2s ease;
     bottom: 0px;
+}
+
+.btnerror {
+        background: #0d0e0e;
+        background-image: -webkit-linear-gradient(top, #ad8dda);
+        border-radius: 28px;
+        color: #ad8dda;
+        font-size: 20px;
+        padding: 10px 20px 10px 20px;
+        text-decoration: none;
+        margin-top: 10px;
+        border-style: unset;
+        transition-duration: 2s;
+}
+.btnerror:hover{
+    background: #fff;
+    color: #0d0e0e;
+    
 }
 
 @keyframes john {
@@ -62,6 +97,7 @@ body#notfound{
         rigth: 40%;
     }
 }
+
 
 /* ------ END 404 ---- */
 
