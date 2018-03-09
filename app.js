@@ -17,13 +17,7 @@ db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
 
-const articleSchema = mongoose.Schema({
-  articletitle: String,
-  articledate : Date,
 
-});
-
-const Article = mongoose.model('Article' , articleSchema );
 
 
 // FIN DE LA GESTION DB
@@ -32,6 +26,7 @@ const Article = mongoose.model('Article' , articleSchema );
 
 /** Inclusion des modèles **/
 var User = require('./models/user');
+var articlePage = require('./models/article');
 
 
 const PORT = 3000;
@@ -61,7 +56,7 @@ app.post('/index' ,  (req , res) => {
   console.log('La date :',req.body.articledate);
   console.log('L\'auteur :',req.body.authorarticle);
   res.sendStatus(201);
-})
+});
 
 
 
@@ -70,6 +65,7 @@ app.post('/index' ,  (req , res) => {
 
 app.get('/index', (req, res)=> {
 res.render('index.ejs', {title: "Bonjour"});
+});
 /* Middleware pour la gestion des sessions. */
 app.use(session({
   /* Utilisation de goose-session. */

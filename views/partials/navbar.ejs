@@ -20,10 +20,19 @@
             <li>
                 <ul class="nav navbar-nav">
                     <li><a href="/inscription">Inscription</a></li>
-                    <li><a href="/login">Login</a></li>
                     <li><a href="/contact">Contact</a></li>
                 </ul>
             </li>
         </ul>
+        <div class="nav navbar-right login">
+            <form method="post" action="/login">
+                <p>
+                    <input type="email" name="email" id="email" placeholder="Votre email" />
+                    <input type="password" name="password" id="password" placeholder="Votre mot de passe" />
+                    <button type="submit" id="submit" class="fabutton fa fa-user fa-lg"></button>
+                                                         
+                </p>
+            </form>
+        </div>
     </div>
 </nav>

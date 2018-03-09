@@ -1,6 +1,6 @@
 /**
  * user.js
- * 
+ *
  * Modèle pour les utilisateurs.
  */
 
