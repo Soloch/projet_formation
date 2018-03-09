@@ -1,6 +1,11 @@
 const express = require('express')
 const app = express()
-// CONNEXION A LA DB
+
+// Générateur de faux contenu
+const faker = require('faker');
+
+
+// GESTION DE LA DB
 const mongoose = require('mongoose');
 /* Gestionnaire d'erreurs pour MongoDB. */
 mongoose.connection.on('error', function(err) {
@@ -13,9 +18,20 @@ db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
 
+const articleSchema = mongoose.Schema({
+  articletitle: String,
+  articledate : Date,
+
+});
+
+const Article = mongoose.model('Article' , articleSchema );
+
+
+// FIN DE LA GESTION DB
 
 /** Inclusion des modèles **/
 var User = require('./models/user');
+var articlePage = require('./models/articlePage')
 
 
 const PORT = 3000;
@@ -110,7 +126,7 @@ app.post('/login', [
         }
       }
     });
-    
+
     res.render('index.ejs', {title: "Bonjour" + req.session.userName, erreurs: "Aucune erreur"});
   }
 });

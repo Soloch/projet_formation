@@ -1,0 +1,57 @@
+<% include ./partials/head %>
+
+  <title><%= title %></title>
+</head>
+<body>
+  <% include ./partials/navbar %>
+  
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-md-8 col-sm-12">
+            <article class="article">
+              <h1 class="titrearticle"><%= title %></h1> 
+
+              <div class="auteurdate">
+                  <a href="#"><%= AUTEUR %></a>
+                  <span class="cssdate"><%= DATE %></span>
+              </div>
+
+              <div class="imagearticle">
+                <img src="<%= CHEMINIMAGE %>" alt="<%= TITREIMAGE %>">
+              </div>
+
+              <p class="textarticle">
+                <%= CONTENUARTICLE %>
+              </p>
+              <h5 class="auteur">
+                <%= AUTEUR %>
+              </h5>
+
+            </article>
+
+            <div class="socialsarticle">
+               <p class="textsocials">
+                partager nos articles sur les réseaux sociaux
+               </p>
+               <ul class="socialsicons">
+                   <li><a href="#"><i class="fa fa-facebook-square fa-3x"></i></a></i></li>
+                   <li><a href="#"><i class="fa fa-twitter-square fa-3x"></i></a></li>
+               </ul> 
+            </div>
+
+        </div>
+
+        
+          
+          
+        <% include ./partials/sidebar %>
+
+      </div> <!-- DIV ROW -->
+    </div> <!-- DIV CONTAINER -->  
+
+  
+
+  <% include ./partials/footer %>

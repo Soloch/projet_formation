@@ -2,21 +2,48 @@
 
   <title><%= title %></title>
 </head>
+<<<<<<< HEAD
 <body >
   <% include ./partials/navbar %>
   <div style="height: 250px;">
+=======
+<body id="notfound">
+
+  
+ 
+>>>>>>> 7d819c0680c68d537d587b34f812fea469c612ee
 
     <div class="container">
-      <div class="row">
+      
+       
+        <div class="text-center">
 
-        <h1><%= title %></h1>
-        <h2>Erreur 404</h2>
+          <h1><%= title %></h1>
+          <h2>Erreur 404</h2>
+         
+          <img class="travolta" src="img/travolta.gif" alt="travoltagif">
 
-        <% include ./partials/sidebar %>
+        </div>
+        
 
-      </div> <!-- DIV ROW -->
+        
+
+      
     </div> <!-- DIV CONTAINER -->  
 
-  </div>
+    <script>
+    $(document).ready(function(){
 
-  <% include ./partials/footer %>
+    $("img.travolta").animate({
+        left: '250px',
+        height: '+=150px',
+        width: '+=150px'
+    });      
+   
+   });
+    </script>
+    
+   
+  
+
+  
