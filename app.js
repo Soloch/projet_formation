@@ -61,9 +61,6 @@ app.post('/index' ,  (req , res) => {
 
 // FIN GESTION DES ARTICLES
 
-app.get('/index', (req, res)=> {
-res.render('index.ejs', {title: "Bonjour"});
-});
 /* Middleware pour la gestion des sessions. */
 app.use(session({
   /* Utilisation de goose-session. */
@@ -81,8 +78,12 @@ app.use(session({
   cookie: {path: '/', httpOnly: true, secure: false, maxAge: 2628000000}
 }));
 
+
 app.get('/', (req, res)=> {
-res.render('index.ejs', {title: /*"Bonjour"*/(req.session.cookie.maxAge / 1000)});
+  let title = "Accueil";
+  res.render(
+    'index.ejs',
+    {title: req.session.userName, userName: req.session.userName});
 });
 // Page de contact
 app.get('/contact', (req, res) => {
@@ -112,7 +113,7 @@ app.post('/login', [
   const erreurs = validationResult(req);
   if (!erreurs.isEmpty())
   {
-    res.render('login.ejs', {title: "Erreur", erreurs: erreurs.mapped()});
+    res.redirect('/');
     console.log(erreurs.mapped());
   }
   else
@@ -143,10 +144,10 @@ app.post('/login', [
           req.session.userName = user.firstName + " " + user.lastName;
           console.log("session userName : " + req.session.userName);
         }
+
+        res.redirect('/');
       }
     });
-
-    res.render('index.ejs', {title: "Bonjour" + req.session.userName, erreurs: "Aucune erreur"});
   }
 });
 
@@ -157,12 +158,19 @@ app.get('/admin', function (req, res) {
 
 /* Page de login. */
 app.get('/login', function (req, res) {
-    res.send('login');
+
+  res.send('login');
 });
 
 /* Articles. */
 app.get('/article/:nom', function (req, res) {
-    res.send(`article ${req.params.nom}`);
+  res.send(`article ${req.params.nom}`);
+});
+
+/* Déconnection */
+app.get('/logout', function (req, res) {
+  req.session.destroy();
+  res.redirect('/');
 });
 
 /* Page erreur 404. */

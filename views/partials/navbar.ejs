@@ -25,14 +25,23 @@
             </li>
         </ul>
         <div class="nav navbar-right login">
-            <form method="post" action="/login">
-                <p>
-                    <input type="email" name="email" id="email" placeholder="Votre email" />
-                    <input type="password" name="password" id="password" placeholder="Votre mot de passe" />
-                    <button type="submit" id="submit" class="fabutton fa fa-user fa-lg"></button>
+            <% if (!userName) { %>
+                <form method="post" action="/login">
+                    <p>
+                        <input type="email" name="email" id="email" placeholder="Votre email" />
+                        <input type="password" name="password" id="password" placeholder="Votre mot de passe" />
+                        <button type="submit" id="submit" class="fabutton fa fa-user fa-lg"></button>
                                                          
-                </p>
-            </form>
+                    </p>
+                </form>
+            <% } else { %>
+                <form method="get" action="/logout">
+                    <p>
+                        <span><%= userName %></span>
+                        <button type="submit" id="submit" class="fabutton fa fa-times fa-lg"></button>                                    
+                    </p>
+                </form>
+            <% } %>
         </div>
     </div>
 </nav>
