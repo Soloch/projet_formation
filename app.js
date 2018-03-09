@@ -13,20 +13,10 @@ db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
 
-/** Schemas **/
-/* Schema Utilisateur */
-var userSchema = mongoose.Schema({
-  email: String,
-  password: String,
-  firstName: String,
-  lastName: String,
-  lastConnection: {type: Date, default: Date.now},
-  role: Number,
-  connected: Boolean
-});
 
-/** Modèles **/
-var User = mongoose.model('User', userSchema);
+/** Inclusion des modèles **/
+var User = require('./models/user');
+
 
 const PORT = 3000;
 const bodyParser = require('body-parser')
