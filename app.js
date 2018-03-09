@@ -17,23 +17,13 @@ db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> b25e85eb18f9bab30a265e1dd5d4b6ac6b299944
-
-// FIN DE LA GESTION DB
-
 
 
 /** Inclusion des modèles **/
 var User = require('./models/user');
-<<<<<<< HEAD
+
 var Article = require('./models/article');
-=======
-var articlePage = require('./models/article');
->>>>>>> b25e85eb18f9bab30a265e1dd5d4b6ac6b299944
+
 
 
 const PORT = 3000;
@@ -55,13 +45,9 @@ app.use('/img' , express.static('assets/img'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 
-<<<<<<< HEAD
-app.post('/' ,  (req , res) => {
-=======
 // GESTION DES ARTICLES
 
 app.post('/index' ,  (req , res) => {
->>>>>>> b25e85eb18f9bab30a265e1dd5d4b6ac6b299944
   console.log('Image de l\'article :', req.body.articleimage);
   console.log('Le titre :',req.body.articletitle);
   console.log('Contenu :',req.body.articletext);
@@ -73,17 +59,11 @@ app.post('/index' ,  (req , res) => {
 
 
 
-<<<<<<< HEAD
-
-app.get('/index', (req, res)=> {
-res.render('index.ejs', {title: "Bonjour"});
-=======
 // FIN GESTION DES ARTICLES
 
 app.get('/index', (req, res)=> {
 res.render('index.ejs', {title: "Bonjour"});
 });
->>>>>>> b25e85eb18f9bab30a265e1dd5d4b6ac6b299944
 /* Middleware pour la gestion des sessions. */
 app.use(session({
   /* Utilisation de goose-session. */
@@ -117,15 +97,11 @@ app.get('/login', (req, res)=> {
 });
 
 app.get('/adminarticle', (req , res) => {
-<<<<<<< HEAD
-  res.render('adminarticle.ejs' , {title: "Ajouter un article" })
-=======
   res.render('adminarticle.ejs' , {title: "Ajouter un article" });
 });
 
 app.get('/article' , (req , res) => {
   res.render('article.ejs' , {title: "Articles"});
->>>>>>> b25e85eb18f9bab30a265e1dd5d4b6ac6b299944
 });
 /* Post pour le login. */
 app.post('/login', [
