@@ -31,7 +31,7 @@ const Article = mongoose.model('Article' , articleSchema );
 
 /** Inclusion des modèles **/
 var User = require('./models/user');
-var articlePage = require('./models/articlePage')
+//var articlePage = require('./models/articlePage')
 
 
 const PORT = 3000;
