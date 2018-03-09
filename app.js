@@ -49,23 +49,29 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // GESTION DES ARTICLES
 
-app.post('/index' ,  (req , res) => {
+app.post('/adminarticle' ,  (req , res) => {
   console.log('Image de l\'article :', req.body.articleimage);
   console.log('Le titre :',req.body.articletitle);
   console.log('Contenu :',req.body.articletext);
   console.log('La date :',req.body.articledate);
   console.log('L\'auteur :',req.body.authorarticle);
+  const newArticle = { title: req.body.articletitle,
+                       content: req.body.articletext,
+                       date: req.body.articledate,
+                       author: req.body.authorarticle,
+                       image: req.body.articleimage};
+
+listArticle = [...frenchMovies, newArticle];
+console.log(listArticle);
+
   res.sendStatus(201);
 });
 
 
 
-
 // FIN GESTION DES ARTICLES
 
-app.get('/index', (req, res)=> {
-res.render('index.ejs', {title: "Bonjour"});
-});
+
 /* Middleware pour la gestion des sessions. */
 app.use(session({
   /* Utilisation de goose-session. */
