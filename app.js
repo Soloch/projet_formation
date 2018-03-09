@@ -4,16 +4,12 @@ const app = express()
 // Générateur de faux contenu
 const faker = require('faker');
 
-
-const PORT = 3000;
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const {body, check, validationResult} = require('express-validator/check')
-const {sanitizeBody} = require('express-validator/filter')
-const validator = require('express-validator')
-
 // GESTION DE LA DB
 const mongoose = require('mongoose');
+/* Gestionnaire d'erreurs pour MongoDB. */
+mongoose.connection.on('error', function(err) {
+  console.error('MongoDB Error: ', err);
+});
 mongoose.connect('mongodb://pandacious:gallad59282@ds261138.mlab.com:61138/mediatemplate');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Erreur de connection : Impossible de se connecter à la base de donnée'));
@@ -33,12 +29,27 @@ const Article = mongoose.model('Article' , articleSchema );
 // FIN DE LA GESTION DB
 
 
+
+/** Inclusion des modèles **/
+var User = require('./models/user');
+
+
+const PORT = 3000;
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
+const gooseSession = require('goose-session')
+const {body, check, validationResult} = require('express-validator/check')
+const {sanitizeBody} = require('express-validator/filter')
+const validator = require('express-validator')
 app.set('views' , './views');
 app.set('view engine' , 'ejs');
 
 app.use('/css' , express.static('assets/css'));
 app.use('/js' , express.static('assets/js'));
 app.use('/img' , express.static('assets/img'));
+
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // GESTION DES ARTICLES
@@ -59,6 +70,25 @@ app.post('/index' ,  (req , res) => {
 
 app.get('/index', (req, res)=> {
 res.render('index.ejs', {title: "Bonjour"});
+/* Middleware pour la gestion des sessions. */
+app.use(session({
+  /* Utilisation de goose-session. */
+  store: gooseSession(mongoose, {
+    collection: 'sessions',
+    expireAfter: '3d'
+  }),
+
+  /* Configuration de la session. */
+  secret: 'jaipascompris',
+  name: 'sessionId',
+  rolling: true,
+  saveUninitialized: false,
+  unset: 'destroy',
+  cookie: {path: '/', httpOnly: true, secure: false, maxAge: 2628000000}
+}));
+
+app.get('/', (req, res)=> {
+res.render('index.ejs', {title: /*"Bonjour"*/(req.session.cookie.maxAge / 1000)});
 });
 // Page de contact
 app.get('/contact', (req, res) => {
@@ -73,7 +103,11 @@ app.get('/login', (req, res)=> {
 });
 
 app.get('/adminarticle', (req , res) => {
-  res.render('adminarticle.ejs' , {title: "Ajouter un article" })
+  res.render('adminarticle.ejs' , {title: "Ajouter un article" });
+});
+
+app.get('/article' , (req , res) => {
+  res.render('article.ejs' , {title: "Articles"});
 });
 /* Post pour le login. */
 app.post('/login', [
@@ -89,7 +123,36 @@ app.post('/login', [
   }
   else
   {
-    res.render('index.ejs', {title: "Bon", erreurs: "Aucune erreur"});
+    /* Création histoire d'avoir quelquechose à controller. */
+    /*var tata = new User();
+    tata.email = "tata@tete.titi";
+    tata.password = "totote";
+    tata.firstName = "tata";
+    tata.lastName = "tete";
+    tata.role = 1;
+    tata.connected = true;
+    tata.save(function(err) {
+      if (err) res.send(err);
+      res.send({message: "Tata enregistrée !"});
+    });*/
+    /* Contrôle de l'identité de l'utilisateur. */
+    User.findOne({email: req.body.email}, function(err, user) {
+      if (err) throw err;
+
+      console.log("user : " + user);
+      if (user)
+      {
+        console.log("session user");
+        /* Contrôle du mot de passe. */
+        if (req.body.password == user.password)
+        {
+          req.session.userName = user.firstName + " " + user.lastName;
+          console.log("session userName : " + req.session.userName);
+        }
+      }
+    });
+
+    res.render('index.ejs', {title: "Bonjour" + req.session.userName, erreurs: "Aucune erreur"});
   }
 });
 
