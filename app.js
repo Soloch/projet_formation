@@ -1,9 +1,8 @@
 const express = require('express')
-const app = express()
+const app = express();
 
 // Générateur de faux contenu
 const faker = require('faker');
-
 
 // GESTION DE LA DB
 const mongoose = require('mongoose');
@@ -18,30 +17,23 @@ db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
 
-const articleSchema = mongoose.Schema({
-  articletitle: String,
-  articledate : Date,
-
-});
-
-const Article = mongoose.model('Article' , articleSchema );
-
 
 // FIN DE LA GESTION DB
 
 /** Inclusion des modèles **/
 var User = require('./models/user');
-var articlePage = require('./models/articlePage')
+var Article = require('./models/article');
 
 
 const PORT = 3000;
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const cookieParser = require('cookie-parser')
-const gooseSession = require('goose-session')
-const {body, check, validationResult} = require('express-validator/check')
-const {sanitizeBody} = require('express-validator/filter')
-const validator = require('express-validator')
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const gooseSession = require('goose-session');
+const {body, check, validationResult} = require('express-validator/check');
+const {sanitizeBody} = require('express-validator/filter');
+const validator = require('express-validator');
+
 app.set('views' , './views');
 app.set('view engine' , 'ejs');
 
@@ -52,6 +44,21 @@ app.use('/img' , express.static('assets/img'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.post('/' ,  (req , res) => {
+  console.log('Image de l\'article :', req.body.articleimage);
+  console.log('Le titre :',req.body.articletitle);
+  console.log('Contenu :',req.body.articletext);
+  console.log('La date :',req.body.articledate);
+  console.log('L\'auteur :',req.body.authorarticle);
+  res.sendStatus(201);
+});
+
+
+
+
+
+app.get('/index', (req, res)=> {
+res.render('index.ejs', {title: "Bonjour"});
 /* Middleware pour la gestion des sessions. */
 app.use(session({
   /* Utilisation de goose-session. */
@@ -84,6 +91,9 @@ app.get('/login', (req, res)=> {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
 });
 
+app.get('/adminarticle', (req , res) => {
+  res.render('adminarticle.ejs' , {title: "Ajouter un article" })
+});
 /* Post pour le login. */
 app.post('/login', [
   /* Vérification email. */
