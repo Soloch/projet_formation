@@ -35,6 +35,15 @@ body{
     border: none;
     color:white;
 }
+
+.user_name{
+    color: #9d9d9d;
+}
+
+.user_name:hover{
+    color: #FFF;
+    text-decoration: none;
+}
 /*
 ------ END NAVBAR -------
  */
