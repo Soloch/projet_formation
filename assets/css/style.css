@@ -82,7 +82,7 @@ body#notfound{
         margin-top: 1em;
         display: inline-block;    
         border-style: unset;
-        transition-duration: 2s;
+        transition-duration: 0.5s;
         
 }
 .btnerror:hover{

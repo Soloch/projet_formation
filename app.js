@@ -89,6 +89,8 @@ app.get('/*', (req, res, next) => {
   next();
 });
 
+
+
 /* Accueil */
 app.get('/', (req, res)=> {
   let title = "Accueil";
