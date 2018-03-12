@@ -78,20 +78,36 @@ app.use(session({
   cookie: {path: '/', httpOnly: true, secure: false, maxAge: 2628000000}
 }));
 
+/* Middleware pour répondre l'objet «utilisateur» s'il existe. */
+app.get('/*', (req, res, next) => {
+  if (typeof req.session.userName !== "undifined")
+  {
+    /* L'utilisateur est ajouté dans les variables locales de la réponse. */
+    res.locals.user = req.session.user;
+    //console.log("res.locals.user : " + req.session.user);
+  }
+  next();
+});
 
+/* Accueil */
 app.get('/', (req, res)=> {
   let title = "Accueil";
   res.render(
     'index.ejs',
-    {title: req.session.userName, userName: req.session.userName});
+    {title: req.session.userName});
 });
 // Page de contact
 app.get('/contact', (req, res) => {
   res.render('contact.ejs', {title: "Contact"});
 });
- app.get ('/inscription', (req, res)=> {
-   res.render('inscription.ejs', {title: "Inscription"});
- });
+
+app.get ('/inscription', (req, res) => {
+  res.render('inscription.ejs', {title: "Inscription"});
+});
+
+app.post('/inscription', (req, res) => {
+  res.redirect('/inscription');
+});
 
 app.get('/login', (req, res)=> {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
@@ -141,8 +157,7 @@ app.post('/login', [
         /* Contrôle du mot de passe. */
         if (req.body.password == user.password)
         {
-          req.session.userName = user.firstName + " " + user.lastName;
-          console.log("session userName : " + req.session.userName);
+          req.session.user = user;
         }
 
         res.redirect('/');
