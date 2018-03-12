@@ -202,6 +202,14 @@ ul li {
 /**
 ----- INSCRIPTION -----
 **/
+.inscription {
+    margin-top: 2%;
+}
+
+.text-center {
+    margin-top: 5%;
+}
+
 
 label{
     margin-top: 1em;
@@ -211,26 +219,29 @@ label{
 }
 
 .btninscription {
- background: #0d0e0e;
+    background: #0d0e0e;
     background-image: -webkit-linear-gradient(top, #ad8dda);
     border-radius: 28px;
     color: #ad8dda;
     font-size: 20px;
     padding: 10px 20px 10px 20px;
     text-decoration: none;
-    margin-top: 1em;
     display: inline-block;    
     border-style: unset;
     transition-duration: 0.5s;
-    margin-left: 35%;
     margin-bottom: 2em;
+    
 }
 
 .btninscription:hover{
 background: #ad8dda;
 color: #0d0e0e;
 text-decoration: none;
+}
 
+.jumbotron {
+    background-color: #fff;
+    box-shadow: 2px 2px 1px rgba(13, 14, 14, 0.4);
 }
 
 
