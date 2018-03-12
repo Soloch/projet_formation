@@ -124,6 +124,7 @@ app.post('/inscription', [
   check('confirmPassword').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
   ], (req, res) => {
     const erreurs = validationResult(req);
+    let title = "Échec de l'inscription";
     if (!erreurs.isEmpty())
     {
       res.redirect('/');
@@ -140,8 +141,8 @@ app.post('/inscription', [
       {
         /* Création du nouvel utilisateur. */
         let machin = new User();
-        machin.lastName = req.body.lastName;
-        machin.firsName = req.body.firsName;
+        machin.lastName = req.body.lastname;
+        machin.firstName = req.body.firstname;
         machin.email = req.body.email;
         machin.password = req.body.password;
         machin.role = 1;
@@ -153,11 +154,11 @@ app.post('/inscription', [
             console.log("erreur enregistrement machin : " + err);
           else
           {
-            
+            title = "Bienvenue " + machin.firstName + " " + machin.lastName;
           }
         });
       }
-      res.render('inscription.ejs', {title: "Échec de l'inscription", confirm: "Mots de passe différents."});
+      res.render('inscription.ejs', {title: title, confirm: "Mots de passe différents."});
     }
 });
 

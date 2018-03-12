@@ -10,7 +10,7 @@
       
         <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
       
-     
+    <% if (typeof user === "undefined") { %>
     <form class="inscription jumbotron" method="POST">
         <div class="form-group">
             <label for="lastname">Nom</label> 
@@ -48,9 +48,11 @@
           <input class="btninscription" type="submit" name="Confirmer" value="Confirmer">
         </div>
     </form>    
+    <% } else { %>
     <div class="jumbotron">
       <p class="validationinscription"></p>
     </div>
+    <% } %>
 
     </div>
 
