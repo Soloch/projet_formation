@@ -1,0 +1,29 @@
+<% include ./partials/head %>
+
+  <title><%= title %></title>
+</head>
+<body>
+  <% include ./partials/navbar %>
+  
+
+    <div class="container bgimg">
+      
+        <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
+      
+     
+    <form class="inscription">
+        <label for="nom">Nom</label> 
+        <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom">
+        <label for="prenom">Prénom</label> 
+        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom">
+        <label for="email">Email</label> 
+        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+        <label for="password">Mot de passe</label> 
+        <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe">
+        <label for="confirm password">Confirmation du mot de passe</label> 
+        <input type="confirm password" class="form-control" id="confirm password" name="confirm password" placeholder="Confirmation mot de passe">
+        <input type="submit" name="Confirmer" value="Confirmer">
+    </form>    
+ 
+
+  <% include ./partials/footer %>

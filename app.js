@@ -79,7 +79,7 @@ app.use(session({
 }));
 
 /* Middleware pour répondre l'objet «utilisateur» s'il existe. */
-app.get('/*', (req, res, next) => {
+app.use('/*', (req, res, next) => {
   if (typeof req.session.userName !== "undifined")
   {
     /* L'utilisateur est ajouté dans les variables locales de la réponse. */
@@ -162,7 +162,7 @@ app.post('/login', [
           req.session.user = user;
         }
 
-        res.redirect('/' + req.body.origin);
+        res.redirect("back");
       }
     });
   }
@@ -187,7 +187,7 @@ app.get('/article/:nom', function (req, res) {
 /* Déconnection */
 app.get('/logout', function (req, res) {
   req.session.destroy();
-  res.redirect('/');
+  res.redirect('back');
 });
 
 /* Page erreur 404. */
