@@ -100,9 +100,14 @@ app.get('/', (req, res)=> {
 app.get('/contact', (req, res) => {
   res.render('contact.ejs', {title: "Contact"});
 });
- app.get ('/inscription', (req, res)=> {
-   res.render('inscription.ejs', {title: "Inscription"});
- });
+
+app.get ('/inscription', (req, res) => {
+  res.render('inscription.ejs', {title: "Inscription"});
+});
+
+app.post('/inscription', (req, res) => {
+  res.redirect('/inscription');
+});
 
 app.get('/login', (req, res)=> {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
