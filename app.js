@@ -113,10 +113,23 @@ app.post('/inscription', [
   check('firstname').exists(),
   check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
   check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum'),
-  check('confirm password').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
+  check('confirmPassword').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
   ], (req, res) => {
-
-    res.redirect('/inscription');
+    const erreurs = validationResult(req);
+    if (!erreurs.isEmpty())
+    {
+      res.redirect('/');
+      console.log(erreurs.mapped());
+    }
+    else
+    {
+      /* Vérification de la correspondance des 2 mots de passe. */
+      if (req.body.password != req.body.confirmPassword)
+      {
+        console.log("Mots de passe différents !");
+      }
+      res.redirect('/inscription');
+    }
 });
 
 app.get('/login', (req, res)=> {
