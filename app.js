@@ -17,7 +17,15 @@ db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
 
-
+/* Mailer */
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'mediatemplate.project@gmail.com',
+    pass: 'webforce3'
+  }
+});
 
 /** Inclusion des modèles **/
 var User = require('./models/user');
@@ -128,7 +136,28 @@ app.post('/inscription', [
       {
         console.log("Mots de passe différents !");
       }
-      res.redirect('/inscription');
+      else
+      {
+        /* Création du nouvel utilisateur. */
+        let machin = new User();
+        machin.lastName = req.body.lastName;
+        machin.firsName = req.body.firsName;
+        machin.email = req.body.email;
+        machin.password = req.body.password;
+        machin.role = 1;
+        machin.connected = true;
+
+        /* Tentative de sauvegarde du nouvel utilisateur. */
+        machin.save(function (err) {
+          if (err)
+            console.log("erreur enregistrement machin : " + err);
+          else
+          {
+            
+          }
+        });
+      }
+      res.render('inscription.ejs', {title: "Échec de l'inscription", confirm: "Mots de passe différents."});
     }
 });
 
