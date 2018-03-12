@@ -29,6 +29,10 @@ body{
     margin-top: 11px;
     margin-right: 6px;
 }
+.form-control.navco {
+   width: 40%;
+   margin-bottom: 0.5em;
+}
 
 .fabutton{
     background: transparent;
@@ -153,8 +157,9 @@ article a {
 
 }
 
-
 /* ----- END ARTICLE ----- */
+
+
 
 /*----- SIDEBAR -----
 **/
@@ -184,9 +189,8 @@ ul li {
 }
 
 
-
 .envedette{
-    text-dec
+    
 }
 
 /**
@@ -195,9 +199,44 @@ ul li {
 
 
 
+/**
+----- INSCRIPTION -----
+**/
+
+label{
+    margin-top: 1em;
+    color: #ad8dda;
+    font-weight: 700;
+    
+}
+
+.btninscription {
+ background: #0d0e0e;
+    background-image: -webkit-linear-gradient(top, #ad8dda);
+    border-radius: 28px;
+    color: #ad8dda;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    margin-top: 1em;
+    display: inline-block;    
+    border-style: unset;
+    transition-duration: 0.5s;
+    margin-left: 35%;
+    margin-bottom: 2em;
+}
+
+.btninscription:hover{
+background: #ad8dda;
+color: #0d0e0e;
+text-decoration: none;
+
+}
 
 
-
+/**
+------ END INSCRIPTION -----
+*/
 /*
 ----- FOOTER -----
  */
