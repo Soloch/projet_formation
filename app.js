@@ -1,5 +1,5 @@
 const express = require('express')
-const app = express()
+const app = express();
 
 // Générateur de faux contenu
 const faker = require('faker');
@@ -19,24 +19,22 @@ db.once('open', ()=> {
 
 
 
-
-// FIN DE LA GESTION DB
-
-
-
 /** Inclusion des modèles **/
 var User = require('./models/user');
-var articlePage = require('./models/article');
+
+var Article = require('./models/article');
+
 
 
 const PORT = 3000;
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const cookieParser = require('cookie-parser')
-const gooseSession = require('goose-session')
-const {body, check, validationResult} = require('express-validator/check')
-const {sanitizeBody} = require('express-validator/filter')
-const validator = require('express-validator')
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const gooseSession = require('goose-session');
+const {body, check, validationResult} = require('express-validator/check');
+const {sanitizeBody} = require('express-validator/filter');
+const validator = require('express-validator');
+
 app.set('views' , './views');
 app.set('view engine' , 'ejs');
 
@@ -71,7 +69,10 @@ console.log(listArticle);
 
 // FIN GESTION DES ARTICLES
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 /* Middleware pour la gestion des sessions. */
 app.use(session({
   /* Utilisation de goose-session. */
@@ -89,16 +90,36 @@ app.use(session({
   cookie: {path: '/', httpOnly: true, secure: false, maxAge: 2628000000}
 }));
 
+/* Middleware pour répondre l'objet «utilisateur» s'il existe. */
+app.get('/*', (req, res, next) => {
+  if (typeof req.session.userName !== "undifined")
+  {
+    /* L'utilisateur est ajouté dans les variables locales de la réponse. */
+    res.locals.user = req.session.user;
+    //console.log("res.locals.user : " + req.session.user);
+  }
+  next();
+});
+
+/* Accueil */
 app.get('/', (req, res)=> {
-res.render('index.ejs', {title: /*"Bonjour"*/(req.session.cookie.maxAge / 1000)});
+  let title = "Accueil";
+  res.render(
+    'index.ejs',
+    {title: req.session.userName});
 });
 // Page de contact
 app.get('/contact', (req, res) => {
   res.render('contact.ejs', {title: "Contact"});
 });
- app.get ('/inscription', (req, res)=> {
-   res.render('inscription.ejs', {title: "Inscription"});
- });
+
+app.get ('/inscription', (req, res) => {
+  res.render('inscription.ejs', {title: "Inscription"});
+});
+
+app.post('/inscription', (req, res) => {
+  res.redirect('/inscription');
+});
 
 app.get('/login', (req, res)=> {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
@@ -120,7 +141,7 @@ app.post('/login', [
   const erreurs = validationResult(req);
   if (!erreurs.isEmpty())
   {
-    res.render('login.ejs', {title: "Erreur", erreurs: erreurs.mapped()});
+    res.redirect('/');
     console.log(erreurs.mapped());
   }
   else
@@ -148,13 +169,12 @@ app.post('/login', [
         /* Contrôle du mot de passe. */
         if (req.body.password == user.password)
         {
-          req.session.userName = user.firstName + " " + user.lastName;
-          console.log("session userName : " + req.session.userName);
+          req.session.user = user;
         }
+
+        res.redirect('/');
       }
     });
-
-    res.render('index.ejs', {title: "Bonjour" + req.session.userName, erreurs: "Aucune erreur"});
   }
 });
 
@@ -165,12 +185,19 @@ app.get('/admin', function (req, res) {
 
 /* Page de login. */
 app.get('/login', function (req, res) {
-    res.send('login');
+
+  res.send('login');
 });
 
 /* Articles. */
 app.get('/article/:nom', function (req, res) {
-    res.send(`article ${req.params.nom}`);
+  res.send(`article ${req.params.nom}`);
+});
+
+/* Déconnection */
+app.get('/logout', function (req, res) {
+  req.session.destroy();
+  res.redirect('/');
 });
 
 /* Page erreur 404. */
