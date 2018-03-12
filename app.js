@@ -160,7 +160,7 @@ app.post('/login', [
           req.session.user = user;
         }
 
-        res.redirect('/');
+        res.redirect('/' + req.body.origin);
       }
     });
   }

@@ -79,13 +79,16 @@ body#notfound{
         font-size: 20px;
         padding: 10px 20px 10px 20px;
         text-decoration: none;
-        margin-top: 10px;
+        margin-top: 1em;
+        display: inline-block;    
         border-style: unset;
         transition-duration: 2s;
+        
 }
 .btnerror:hover{
     background: #fff;
     color: #0d0e0e;
+    text-decoration: none;
     
 }
 
@@ -178,6 +181,12 @@ article a {
 
 ul li {
     list-style: none;
+}
+
+
+
+.envedette{
+    text-dec
 }
 
 /**
