@@ -107,8 +107,16 @@ app.get ('/inscription', (req, res) => {
   res.render('inscription.ejs', {title: "Inscription"});
 });
 
-app.post('/inscription', (req, res) => {
-  res.redirect('/inscription');
+app.post('/inscription', [
+  /* Vérification des champs. */
+  check('lastname').exists(),
+  check('firstname').exists(),
+  check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
+  check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum'),
+  check('confirm password').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
+  ], (req, res) => {
+
+    res.redirect('/inscription');
 });
 
 app.get('/login', (req, res)=> {
@@ -124,18 +132,18 @@ app.get('/article' , (req , res) => {
 });
 /* Post pour le login. */
 app.post('/login', [
-  /* Vérification email. */
-  check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
-  check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum')
-], (req, res, next) => {
-  const erreurs = validationResult(req);
-  if (!erreurs.isEmpty())
-  {
-    res.redirect('/');
-    console.log(erreurs.mapped());
-  }
-  else
-  {
+    /* Vérification email et mot de passer. */
+    check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
+    check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum')
+  ], (req, res, next) => {
+    const erreurs = validationResult(req);
+    if (!erreurs.isEmpty())
+    {
+      res.redirect('/');
+      console.log(erreurs.mapped());
+    }
+    else
+    {
     /* Création histoire d'avoir quelquechose à controller. */
     /*var tata = new User();
     tata.email = "tata@tete.titi";
@@ -149,8 +157,8 @@ app.post('/login', [
       res.send({message: "Tata enregistrée !"});
     });*/
     /* Contrôle de l'identité de l'utilisateur. */
-    User.findOne({email: req.body.email}, function(err, user) {
-      if (err) throw err;
+      User.findOne({email: req.body.email}, function(err, user) {
+        if (err) throw err;
 
       console.log("user : " + user);
       if (user)

@@ -36,7 +36,7 @@
             <% } else { %>
                 <form method="get" action="/logout">
                     <p>
-                        <a href="/user/<%= user._id %>"><%= user.firstName + " " + user.lastName %></a>
+                        <a class="user_name" href="/user/<%= user._id %>"><%= user.firstName + " " + user.lastName %></a>
                         <button type="submit" id="submit" class="fabutton fa fa-times fa-lg"></button>                                    
                     </p>
                 </form>
