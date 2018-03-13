@@ -30,17 +30,17 @@
         </div>
         
 
-        <div class="form-group">
+        <div class="form-group <% if (typeof helps.password !== "undefined") { %>has-error<% } %>">
             <label for="password">Mot de passe (min 5 caractères)</label> 
             <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
             <span class="help-block"></span>
         </div>
         
 
-        <div class="form-group">
+        <div class="form-group <% if (typeof helps.confirm !== "undefined") { %>has-error<% } %>">
             <label for="confirmPassword">Confirmation du mot de passe</label> 
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmation mot de passe" required>
-            <span class="help-block"><% if (typeof helps.passwords !== "undefined") { %><%= helps.passwords %><% } %></span>
+            <span class="help-block"><% if (typeof helps.confirm !== "undefined") { %><%= helps.confirm %><% } %></span>
         </div>
         
 

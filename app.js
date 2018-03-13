@@ -138,7 +138,7 @@ app.post('/inscription', [
       if (req.body.password != req.body.confirmPassword)
       {
         console.log("Mots de passe différents !");
-        helps['passwords'] = "Mots de passe différents !";
+        helps['confirm'] = "Mots de passe différents !";
       }
       else
       {
@@ -148,15 +148,18 @@ app.post('/inscription', [
         machin.firstName = req.body.firstname;
         machin.email = req.body.email;
         machin.password = req.body.password;
-        machin.role = 1;
+        machin.role = 0;
         machin.connected = true;
 
         /* Tentative de sauvegarde du nouvel utilisateur. */
         machin.save(function (err) {
           if (err)
+          {
             console.log("erreur enregistrement machin : " + err);
+          }
           else
           {
+            /* Bienvenue. */
             title = "Bienvenue " + machin.firstName + " " + machin.lastName;
           }
         });
@@ -166,7 +169,7 @@ app.post('/inscription', [
 });
 
 app.get('/welcome', (req, res) => {
-  res.render('welcome.ejs');
+  res.render('welcome.ejs', {title: "Bienvenue"});
 });
 
 app.get('/login', (req, res) => {
@@ -180,6 +183,7 @@ app.get('/adminarticle', (req , res) => {
 app.get('/article' , (req , res) => {
   res.render('article.ejs' , {title: "Articles"});
 });
+
 /* Post pour le login. */
 app.post('/login', [
     /* Vérification email et mot de passer. */
