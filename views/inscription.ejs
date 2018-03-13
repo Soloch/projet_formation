@@ -8,10 +8,11 @@
 
     <div class="container bgimg">
       
-        <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
       
-    <% if (typeof user === "undefined") { %>
+      
     <form class="inscription jumbotron" method="POST">
+      <h1 class="h1scription text-center">Inscrivez-vous</h1>
+      <p class="text-center">Votre inscription aura pour but de pouvoir commenter nos articles et échanger avec les membres du site.</p>
         <div class="form-group">
             <label for="lastname">Nom</label> 
             <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Nom" required>
@@ -30,17 +31,17 @@
         </div>
         
 
-        <div class="form-group <% if (typeof helps.password !== "undefined") { %>has-error<% } %>">
+        <div class="form-group">
             <label for="password">Mot de passe (min 5 caractères)</label> 
             <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" required>
             <span class="help-block"></span>
         </div>
         
 
-        <div class="form-group <% if (typeof helps.confirm !== "undefined") { %>has-error<% } %>">
+        <div class="form-group">
             <label for="confirmPassword">Confirmation du mot de passe</label> 
             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmation mot de passe" required>
-            <span class="help-block"><% if (typeof helps.confirm !== "undefined") { %><%= helps.confirm %><% } %></span>
+            <span class="help-block"></span>
         </div>
         
 
@@ -48,11 +49,7 @@
           <input class="btninscription" type="submit" name="Confirmer" value="Confirmer">
         </div>
     </form>    
-    <% } else { %>
-    <div class="jumbotron">
-      <p class="validationinscription"></p>
-    </div>
-    <% } %>
+    
 
     </div>
 
