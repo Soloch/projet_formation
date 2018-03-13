@@ -125,9 +125,11 @@ app.post('/inscription', [
   ], (req, res) => {
     const erreurs = validationResult(req);
     let title = "Échec de l'inscription";
+    let helps = {};
+    /* Présence d'erreurs. */
     if (!erreurs.isEmpty())
     {
-      res.redirect('/');
+      res.redirect('/inscription');
       console.log(erreurs.mapped());
     }
     else
@@ -136,6 +138,7 @@ app.post('/inscription', [
       if (req.body.password != req.body.confirmPassword)
       {
         console.log("Mots de passe différents !");
+        helps['passwords'] = "Mots de passe différents !";
       }
       else
       {
@@ -158,11 +161,15 @@ app.post('/inscription', [
           }
         });
       }
-      res.render('inscription.ejs', {title: title, confirm: "Mots de passe différents."});
+      res.render('inscription.ejs', {title: title, helps: helps});
     }
 });
 
-app.get('/login', (req, res)=> {
+app.get('/welcome', (req, res) => {
+  res.render('welcome.ejs');
+});
+
+app.get('/login', (req, res) => {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
 });
 
