@@ -17,7 +17,15 @@ db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
 
-
+/* Mailer */
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'mediatemplate.project@gmail.com',
+    pass: 'webforce3'
+  }
+});
 
 /** Inclusion des modèles **/
 var User = require('./models/user');
@@ -113,13 +121,58 @@ app.post('/inscription', [
   check('firstname').exists(),
   check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
   check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum'),
-  check('confirm password').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
+  check('confirmPassword').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
   ], (req, res) => {
+    const erreurs = validationResult(req);
+    let title = "Échec de l'inscription";
+    let helps = {};
+    /* Présence d'erreurs. */
+    if (!erreurs.isEmpty())
+    {
+      res.redirect('/inscription');
+      console.log(erreurs.mapped());
+    }
+    else
+    {
+      /* Vérification de la correspondance des 2 mots de passe. */
+      if (req.body.password != req.body.confirmPassword)
+      {
+        console.log("Mots de passe différents !");
+        helps['confirm'] = "Mots de passe différents !";
+      }
+      else
+      {
+        /* Création du nouvel utilisateur. */
+        let machin = new User();
+        machin.lastName = req.body.lastname;
+        machin.firstName = req.body.firstname;
+        machin.email = req.body.email;
+        machin.password = req.body.password;
+        machin.role = 0;
+        machin.connected = true;
 
-    res.redirect('/inscription');
+        /* Tentative de sauvegarde du nouvel utilisateur. */
+        machin.save(function (err) {
+          if (err)
+          {
+            console.log("erreur enregistrement machin : " + err);
+          }
+          else
+          {
+            /* Bienvenue. */
+            title = "Bienvenue " + machin.firstName + " " + machin.lastName;
+          }
+        });
+      }
+      res.render('inscription.ejs', {title: title, helps: helps});
+    }
 });
 
-app.get('/login', (req, res)=> {
+app.get('/welcome', (req, res) => {
+  res.render('welcome.ejs', {title: "Bienvenue"});
+});
+
+app.get('/login', (req, res) => {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
 });
 
@@ -130,6 +183,7 @@ app.get('/adminarticle', (req , res) => {
 app.get('/article' , (req , res) => {
   res.render('article.ejs' , {title: "Articles"});
 });
+
 /* Post pour le login. */
 app.post('/login', [
     /* Vérification email et mot de passer. */
