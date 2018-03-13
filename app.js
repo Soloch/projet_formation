@@ -112,7 +112,7 @@ app.get('/contact', (req, res) => {
 });
 
 app.get ('/inscription', (req, res) => {
-  res.render('inscription.ejs', {title: "Inscription"});
+  res.render('inscription.ejs', {title: "Inscription", helps: "undefined"});
 });
 
 app.post('/inscription', [
@@ -129,7 +129,7 @@ app.post('/inscription', [
     /* Présence d'erreurs. */
     if (!erreurs.isEmpty())
     {
-      res.redirect('/inscription');
+      erreurs.foreach((erreur) )
       console.log(erreurs.mapped());
     }
     else
