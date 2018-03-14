@@ -119,7 +119,7 @@ app.post('/inscription', [
   /* Vérification des champs. */
   check('lastname').exists(),
   check('firstname').exists(),
-  check('email').isEmail().withMessage('Doit être une adresse email valide').trim().normalizeEmail(),
+  check('email').isEmail().withMessage('Doit être un email').trim(),
   check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum'),
   check('confirmPassword').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
   ], (req, res) => {
@@ -129,8 +129,11 @@ app.post('/inscription', [
     /* Présence d'erreurs. */
     if (!erreurs.isEmpty())
     {
-      res.redirect('/inscription');
+      erreurs.mapped().foreach((erreur) => {
+        helps[erreur] = erreur.msg;
+      });
       console.log(erreurs.mapped());
+      res.render('inscription.ejs', {title: title, helps: helps});
     }
     else
     {
@@ -162,16 +165,23 @@ app.post('/inscription', [
           {
             /* Bienvenue. */
             title = "Bienvenue " + machin.firstName + " " + machin.lastName;
+
+            /* Envoi de l'email de bienvenue. */
+            let mailOptions = {
+              from: '"Media Template" <mediatemplate.project@gmail.com>',
+              to: req.body.email,
+              subject: "Bienvenue !",
+              text: "Bienvenue chez Media Template !"
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error)
+                return console.log(error);
+            });
           }
           res.render('inscription.ejs', {title: title, helps: helps});
         });
       }
-      /*console.log("helps : " + helps)
-      for (let help in helps)
-      {
-        console.log("help : " + help);
-      }
-      res.render('inscription.ejs', {title: title, helps: helps});*/
     }
 });
 
@@ -194,7 +204,7 @@ app.get('/article' , (req , res) => {
 /* Post pour le login. */
 app.post('/login', [
     /* Vérification email et mot de passer. */
-    check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
+    check('email').isEmail().withMessage('Doit être un email').trim(),
     check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum')
   ], (req, res, next) => {
     const erreurs = validationResult(req);
