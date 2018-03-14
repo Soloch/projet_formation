@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express();
+const multer = require('multer');
+const upload = multer();
 
 // Générateur de faux contenu
 const faker = require('faker');
@@ -55,19 +57,75 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // GESTION DES ARTICLES
 
-app.post('/index' ,  (req , res) => {
+/*
+app.post('/adminarticle' ,  (req , res) => {
   console.log('Image de l\'article :', req.body.articleimage);
   console.log('Le titre :',req.body.articletitle);
   console.log('Contenu :',req.body.articletext);
   console.log('La date :',req.body.articledate);
   console.log('L\'auteur :',req.body.authorarticle);
+  const newArticle = { title: req.body.articletitle,
+                       content: req.body.articletext,
+                       date: req.body.articledate,
+                       author: req.body.authorarticle,
+                       image: req.body.articleimage};
+
+listArticle = [...frenchMovies, newArticle];
+console.log(listArticle);
+
   res.sendStatus(201);
 });
+*/
+app.get('/adminarticle', (req , res) => {
+  const newArticle = { title: req.body.articletitle,
+                       content: req.body.articletext,
+                       date: req.body.articledate,
+                       author: req.body.authorarticle,
+                       image: req.body.articleimage};
+  articleCategorie = [];
+  res.render('adminarticle.ejs' , {title: "Ajouter un article"});
+
+});
+app.post('/', upload.fields([]),  (req, res, next) => {
+  if(!req.body){
+    return res.sendStatus(500);
+
+  } else {
+    const formData = req.body;
+    console.log('formData:', formData);
+    const title = req.body.articletitle;
+    const image = req.body.articleimage;
+    const content = req.body.articletext;
+    const date = req.body.articledate;
+    const author = req.body.authorarticle;
+    const myArticle = new Article ({ articletitle : title, articleimage : image, articletext : content, articledate : date , authorarticle : author});
+
+                         var articleCategorie = [];
+    articleCategorie = [...articleCategorie, myArticle];
 
 
+    myArticle.save((err, savedArticle) => {
+      if (err) {
+        console.error(err);
+        return;
+      } else {
+        console.log(savedArticle);
+        res.sendStatus(201);
+      }
+    })
+
+    res.sendStatus(201);
+
+  }
+})
+app.get('/adminarticle/:id' , (req , res) => {
+  const id = req.params.id;
+  res.render('adminarticle', {articleid: id});
+})
 
 
 // FIN GESTION DES ARTICLES
+
 
 /* Middleware pour la gestion des sessions. */
 app.use(session({
@@ -102,9 +160,18 @@ app.use('/*', (req, res, next) => {
 /* Accueil */
 app.get('/', (req, res)=> {
   let title = "Accueil";
-  res.render(
-    'index.ejs',
-    {title: req.session.userName});
+  myArticle = [];
+  Article.find((err , articles) => {
+    if(err){
+    console.error('Impossible de récupérer les articles depuis la DB');
+    res.sendStatus(500);
+  } else {
+    myArticle = articles;
+    res.render('index.ejs',{title: req.session.userName , articles: myArticle});
+  }
+  });
+
+
 });
 // Page de contact
 app.get('/contact', (req, res) => {
@@ -193,9 +260,7 @@ app.get('/login', (req, res) => {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
 });
 
-app.get('/adminarticle', (req , res) => {
-  res.render('adminarticle.ejs' , {title: "Ajouter un article" });
-});
+
 
 app.get('/article' , (req , res) => {
   res.render('article.ejs' , {title: "Articles"});
