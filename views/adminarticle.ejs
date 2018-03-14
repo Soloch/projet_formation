@@ -2,7 +2,7 @@
 <title><%= title %></title>
 </head>
 <% include ./partials/navbar %>
-<form class="addarticle" action="/adminarticle" method="post">
+<form class="addarticle" action="/" method="post">
   <label for="articleimage">Illustration de l'article</label>
   <input type="file" name="articleimage" value="" id="articleimage">
   <br>
@@ -22,9 +22,7 @@
   <button type="submit" name="button">Ajouter l'article</button>
 </form>
 
-<div class="fresharticles">
 
-</div>
 
 
 <% include ./partials/footer %>
@@ -35,7 +33,7 @@
   function addArticle(event){
     event.preventDefault();
     if(fetch) {
-      fetch('/adminarticle', {
+      fetch('/', {
         method: 'POST',
         body: new FormData(form)
       })

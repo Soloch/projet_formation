@@ -80,7 +80,7 @@ app.get('/adminarticle', (req , res) => {
   res.render('adminarticle.ejs' , {title: "Ajouter un article" ,articles: newArticle});
 
 });
-app.post('/adminarticle', upload.fields([]),  (req, res, next) => {
+app.post('/', upload.fields([]),  (req, res, next) => {
   if(!req.body){
     return res.sendStatus(500);
 
@@ -92,8 +92,26 @@ app.post('/adminarticle', upload.fields([]),  (req, res, next) => {
                          date: req.body.articledate,
                          author: req.body.authorarticle,
                          image: req.body.articleimage};
+
                          var articleCategorie = [];
     articleCategorie = [...articleCategorie, newArticle];
+
+    const title = req.body.articletitle;
+    const image = req.body.articleimage;
+    const content = req.body.articletext;
+    const date = req.body.articledate;
+    const author = req.body.authorarticle;
+    const myArticle = new Article ({ articletitle : title, articleimage : image, articletext : content, articledate : date , authorarticle : author});
+    myArticle.save((err, savedArticle) => {
+      if (err) {
+        console.error(err);
+        return;
+      } else {
+        console.log(savedArticle);
+        res.sendStatus(201);
+      }
+    })
+
     res.sendStatus(201);
 
   }
@@ -138,9 +156,15 @@ app.get('/*', (req, res, next) => {
 /* Accueil */
 app.get('/', (req, res)=> {
   let title = "Accueil";
-  res.render(
-    'index.ejs',
-    {title: req.session.userName});
+
+  const articletitle = req.body.articletitle;
+  const image = req.body.articleimage;
+  const content = req.body.articletext;
+  const date = req.body.articledate;
+  const author = req.body.authorarticle;
+  const myArticle = new Article ({ articletitle : articletitle, articleimage : image, articletext : content, articledate : date , authorarticle : author});
+  console.log(myArticle);
+  res.render('index.ejs',{title: req.session.userName , article: myArticle});
 });
 // Page de contact
 app.get('/contact', (req, res) => {
