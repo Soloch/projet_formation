@@ -119,7 +119,7 @@ app.post('/inscription', [
   /* Vérification des champs. */
   check('lastname').exists(),
   check('firstname').exists(),
-  check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
+  check('email').isEmail().withMessage('Doit être une adresse email valide').trim().normalizeEmail(),
   check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum'),
   check('confirmPassword').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
   ], (req, res) => {
@@ -139,6 +139,7 @@ app.post('/inscription', [
       {
         console.log("Mots de passe différents !");
         helps['confirm'] = "Mots de passe différents !";
+        res.render('inscription.ejs', {title: title, helps: helps});
       }
       else
       {
@@ -162,14 +163,15 @@ app.post('/inscription', [
             /* Bienvenue. */
             title = "Bienvenue " + machin.firstName + " " + machin.lastName;
           }
+          res.render('inscription.ejs', {title: title, helps: helps});
         });
       }
-      console.log("helps : " + helps)
+      /*console.log("helps : " + helps)
       for (let help in helps)
       {
         console.log("help : " + help);
       }
-      res.render('inscription.ejs', {title: title, helps: helps});
+      res.render('inscription.ejs', {title: title, helps: helps});*/
     }
 });
 
