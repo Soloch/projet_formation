@@ -19,7 +19,15 @@ db.once('open', ()=> {
   console.log('Vous êtes connecté à la base de données. GG.');
 });
 
-
+/* Mailer */
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'mediatemplate.project@gmail.com',
+    pass: 'webforce3'
+  }
+});
 
 /** Inclusion des modèles **/
 var User = require('./models/user');
@@ -143,7 +151,7 @@ app.use(session({
 }));
 
 /* Middleware pour répondre l'objet «utilisateur» s'il existe. */
-app.get('/*', (req, res, next) => {
+app.use('/*', (req, res, next) => {
   if (typeof req.session.userName !== "undifined")
   {
     /* L'utilisateur est ajouté dans les variables locales de la réponse. */
@@ -152,6 +160,8 @@ app.get('/*', (req, res, next) => {
   }
   next();
 });
+
+
 
 /* Accueil */
 app.get('/', (req, res)=> {
@@ -172,14 +182,84 @@ app.get('/contact', (req, res) => {
 });
 
 app.get ('/inscription', (req, res) => {
-  res.render('inscription.ejs', {title: "Inscription"});
+  res.render('inscription.ejs', {title: "Inscription", helps: {}});
 });
 
-app.post('/inscription', (req, res) => {
-  res.redirect('/inscription');
+app.post('/inscription', [
+  /* Vérification des champs. */
+  check('lastname').exists(),
+  check('firstname').exists(),
+  check('email').isEmail().withMessage('Doit être un email').trim(),
+  check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum'),
+  check('confirmPassword').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
+  ], (req, res) => {
+    const erreurs = validationResult(req);
+    let title = "Échec de l'inscription";
+    var helps = {};
+    /* Présence d'erreurs. */
+    if (!erreurs.isEmpty())
+    {
+      erreurs.mapped().foreach((erreur) => {
+        helps[erreur] = erreur.msg;
+      });
+      console.log(erreurs.mapped());
+      res.render('inscription.ejs', {title: title, helps: helps});
+    }
+    else
+    {
+      /* Vérification de la correspondance des 2 mots de passe. */
+      if (req.body.password != req.body.confirmPassword)
+      {
+        console.log("Mots de passe différents !");
+        helps['confirm'] = "Mots de passe différents !";
+        res.render('inscription.ejs', {title: title, helps: helps});
+      }
+      else
+      {
+        /* Création du nouvel utilisateur. */
+        let machin = new User();
+        machin.lastName = req.body.lastname;
+        machin.firstName = req.body.firstname;
+        machin.email = req.body.email;
+        machin.password = req.body.password;
+        machin.role = 0;
+        machin.connected = true;
+
+        /* Tentative de sauvegarde du nouvel utilisateur. */
+        machin.save(function (err) {
+          if (err)
+          {
+            helps['email'] = "L'adresse email est déjà utilisée";
+          }
+          else
+          {
+            /* Bienvenue. */
+            title = "Bienvenue " + machin.firstName + " " + machin.lastName;
+
+            /* Envoi de l'email de bienvenue. */
+            let mailOptions = {
+              from: '"Media Template" <mediatemplate.project@gmail.com>',
+              to: req.body.email,
+              subject: "Bienvenue !",
+              text: "Bienvenue chez Media Template !"
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error)
+                return console.log(error);
+            });
+          }
+          res.render('inscription.ejs', {title: title, helps: helps});
+        });
+      }
+    }
 });
 
-app.get('/login', (req, res)=> {
+app.get('/welcome', (req, res) => {
+  res.render('welcome.ejs', {title: "Bienvenue"});
+});
+
+app.get('/login', (req, res) => {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
 });
 
@@ -188,20 +268,21 @@ app.get('/login', (req, res)=> {
 app.get('/article' , (req , res) => {
   res.render('article.ejs' , {title: "Articles"});
 });
+
 /* Post pour le login. */
 app.post('/login', [
-  /* Vérification email. */
-  check('email').isEmail().withMessage('Doit être un email').trim().normalizeEmail(),
-  check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum')
-], (req, res, next) => {
-  const erreurs = validationResult(req);
-  if (!erreurs.isEmpty())
-  {
-    res.redirect('/');
-    console.log(erreurs.mapped());
-  }
-  else
-  {
+    /* Vérification email et mot de passer. */
+    check('email').isEmail().withMessage('Doit être un email').trim(),
+    check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum')
+  ], (req, res, next) => {
+    const erreurs = validationResult(req);
+    if (!erreurs.isEmpty())
+    {
+      res.redirect('/');
+      console.log(erreurs.mapped());
+    }
+    else
+    {
     /* Création histoire d'avoir quelquechose à controller. */
     /*var tata = new User();
     tata.email = "tata@tete.titi";
@@ -215,8 +296,8 @@ app.post('/login', [
       res.send({message: "Tata enregistrée !"});
     });*/
     /* Contrôle de l'identité de l'utilisateur. */
-    User.findOne({email: req.body.email}, function(err, user) {
-      if (err) throw err;
+      User.findOne({email: req.body.email}, function(err, user) {
+        if (err) throw err;
 
       console.log("user : " + user);
       if (user)
@@ -228,7 +309,7 @@ app.post('/login', [
           req.session.user = user;
         }
 
-        res.redirect('/');
+        res.redirect("back");
       }
     });
   }
@@ -253,7 +334,7 @@ app.get('/article/:nom', function (req, res) {
 /* Déconnection */
 app.get('/logout', function (req, res) {
   req.session.destroy();
-  res.redirect('/');
+  res.redirect('back');
 });
 
 /* Page erreur 404. */

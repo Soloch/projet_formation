@@ -29,11 +29,24 @@ body{
     margin-top: 11px;
     margin-right: 6px;
 }
+.form-control.navco {
+   width: 40%;
+   margin-bottom: 0.5em;
+}
 
 .fabutton{
     background: transparent;
     border: none;
     color:white;
+}
+
+.user_name{
+    color: #9d9d9d;
+}
+
+.user_name:hover{
+    color: #FFF;
+    text-decoration: none;
 }
 /*
 ------ END NAVBAR -------
@@ -79,13 +92,16 @@ body#notfound{
         font-size: 20px;
         padding: 10px 20px 10px 20px;
         text-decoration: none;
-        margin-top: 10px;
+        margin-top: 1em;
+        display: inline-block;    
         border-style: unset;
-        transition-duration: 2s;
+        transition-duration: 0.5s;
+        
 }
 .btnerror:hover{
     background: #fff;
     color: #0d0e0e;
+    text-decoration: none;
     
 }
 
@@ -150,8 +166,9 @@ article a {
 
 }
 
-
 /* ----- END ARTICLE ----- */
+
+
 
 /*----- SIDEBAR -----
 **/
@@ -180,15 +197,66 @@ ul li {
     list-style: none;
 }
 
+
+.envedette{
+    
+}
+
 /**
 ----- END SIDEBAR -----
 **/
 
 
 
+/**
+----- INSCRIPTION -----
+**/
+.inscription {
+    margin-top: 2%;
+}
+
+.text-center {
+    margin-top: 5%;
+}
 
 
+label{
+    margin-top: 1em;
+    color: #ad8dda;
+    font-weight: 700;
+    
+}
 
+.btninscription {
+    background: #0d0e0e;
+    background-image: -webkit-linear-gradient(top, #ad8dda);
+    border-radius: 28px;
+    color: #ad8dda;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    display: inline-block;    
+    border-style: unset;
+    transition-duration: 0.5s;
+    margin-bottom: 2em;
+    
+}
+
+.btninscription:hover{
+background: #ad8dda;
+color: #0d0e0e;
+text-decoration: none;
+}
+
+.jumbotron {
+    background-color: #fff;
+    box-shadow: 2px 2px 1px rgba(13, 14, 14, 0.4);
+}
+
+
+/**
+------ END INSCRIPTION -----
+*/
 /*
 ----- FOOTER -----
  */
@@ -246,3 +314,16 @@ footer .container{
 /*
 ------ END FOOTER -------
  */
+
+
+ /*
+------ INSCRIPTION -------
+ */
+ .inqcription {
+     
+ }
+
+/*
+------ END INSCRIPTION -------
+ */
+
