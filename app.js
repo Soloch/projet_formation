@@ -32,7 +32,19 @@ var User = require('./models/user');
 
 var Article = require('./models/article');
 
+var Configuration = require('./models/configuration');
 
+var Texte = Configuration.Texte;
+
+var emailAddr = new Texte ();
+emailAddr.name = "test email 2";
+emailAddr.texte = "essai2@test.fr";
+
+var Nombre = Configuration.Nombre;
+
+var nombreTest = new Nombre ();
+nombreTest.name = "test nombre";
+nombreTest.nombre = 350;
 
 const PORT = 3000;
 const bodyParser = require('body-parser');
@@ -102,6 +114,26 @@ app.use('/*', (req, res, next) => {
 /* Accueil */
 app.get('/', (req, res)=> {
   let title = "Accueil";
+  emailAddr.save(function (err) {
+    if (err)
+    {
+      console.log("Erreur d'enregistrement de l'addresse email !");
+    }
+    else
+    {
+      console.log("Enregistrement de l'addresse email réussi !");
+    }
+  });
+  nombreTest.save(function (err) {
+    if (err)
+    {
+      console.log("Erreur d'enregistrement du nombre test !");
+    }
+    else
+    {
+      console.log("Enregistrement du nombre test réussi !");
+    }
+  });
   res.render(
     'index.ejs',
     {title: req.session.userName});
