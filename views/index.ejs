@@ -4,12 +4,20 @@
 </head>
 <body>
   <% include ./partials/navbar %>
-  
+
 
     <div class="container bgimg">
-      
+
         <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
-      
+        <div class="fresharticles">
+          <% for(article of articles) {%>
+          <div><%= article.articletitle %></div>
+          <img src="<%= article.articleimage %>" alt="<%= article.articletitle %>">
+          <div><%= article.articletext %></div>
+          <div><%= article.articledate %></div>
+          <div><%= article.authorarticle %></div>
+          <% } %>
+      </div>
 
       <div class="row">
         <% include ./partials/main %>
@@ -17,8 +25,8 @@
         <% include ./partials/sidebar %>
 
       </div> <!-- DIV ROW -->
-    </div> <!-- DIV CONTAINER -->  
+    </div> <!-- DIV CONTAINER -->
 
-  
+
 
   <% include ./partials/footer %>

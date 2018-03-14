@@ -26,10 +26,10 @@
         </ul>
         <div class="nav navbar-right login">
             <% if (typeof user === "undefined") { %>
-                <form method="post" action="/login">
+                <form class="form-inline" method="post" action="/login">
                     <p>
-                        <input type="email" name="email" id="email" placeholder="Votre email" />
-                        <input type="password" name="password" id="password" placeholder="Votre mot de passe" />
+                        <input class="form-control navco" type="email" name="email" id="email" placeholder="Votre email" />
+                        <input class="form-control navco" type="password" name="password" id="password" placeholder="Votre mot de passe" />
                         <button type="submit" id="submit" class="fabutton fa fa-user fa-lg"></button>                      
                     </p>
                 </form>
