@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express();
+const multer = require('multer');
+const upload = multer();
 
 // Générateur de faux contenu
 const faker = require('faker');
@@ -47,6 +49,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // GESTION DES ARTICLES
 
+/*
 app.post('/adminarticle' ,  (req , res) => {
   console.log('Image de l\'article :', req.body.articleimage);
   console.log('Le titre :',req.body.articletitle);
@@ -64,15 +67,46 @@ console.log(listArticle);
 
   res.sendStatus(201);
 });
+*/
+app.get('/adminarticle', (req , res) => {
+  const newArticle = { title: req.body.articletitle,
+                       content: req.body.articletext,
+                       date: req.body.articledate,
+                       author: req.body.authorarticle,
+                       image: req.body.articleimage};
+  articleCategorie = [
+    { title: 'Titre type', content: 'Contenu type', author: 'Le mec du back'}
+  ];
+  res.render('adminarticle.ejs' , {title: "Ajouter un article" ,articles: newArticle});
 
+});
+app.post('/adminarticle', upload.fields([]),  (req, res, next) => {
+  if(!req.body){
+    return res.sendStatus(500);
+
+  } else {
+    const formData = req.body;
+    console.log('formData:', formData);
+    const newArticle = { title: req.body.articletitle,
+                         content: req.body.articletext,
+                         date: req.body.articledate,
+                         author: req.body.authorarticle,
+                         image: req.body.articleimage};
+                         var articleCategorie = [];
+    articleCategorie = [...articleCategorie, newArticle];
+    res.sendStatus(201);
+
+  }
+})
+app.get('/adminarticle/:id' , (req , res) => {
+  const id = req.params.id;
+  res.render('adminarticle', {articleid: id});
+})
 
 
 // FIN GESTION DES ARTICLES
 
-<<<<<<< HEAD
 
-=======
->>>>>>> dev
 /* Middleware pour la gestion des sessions. */
 app.use(session({
   /* Utilisation de goose-session. */
@@ -125,9 +159,7 @@ app.get('/login', (req, res)=> {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
 });
 
-app.get('/adminarticle', (req , res) => {
-  res.render('adminarticle.ejs' , {title: "Ajouter un article" });
-});
+
 
 app.get('/article' , (req , res) => {
   res.render('article.ejs' , {title: "Articles"});

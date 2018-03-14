@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+const multer = require('multer');
+const upload = multer;
 let listArticle = [];
 
 const articleSchema = mongoose.Schema({
@@ -6,7 +8,7 @@ const articleSchema = mongoose.Schema({
   articledate : Date,
   articletext : String,
   articleimage: String,
-  authorarticle: String,
+  authorarticle: String, 
 
 });
 
