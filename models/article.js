@@ -5,10 +5,10 @@ let listArticle = [];
 
 const articleSchema = mongoose.Schema({
   articletitle: String,
-  articledate : Date,
+  articledate : {type: Date , default: Date.now},
   articletext : String,
-  articleimage: String,
-  authorarticle: String, 
+  articleimage: Buffer,
+  authorarticle: String,
 
 });
 

@@ -82,10 +82,8 @@ app.get('/adminarticle', (req , res) => {
                        date: req.body.articledate,
                        author: req.body.authorarticle,
                        image: req.body.articleimage};
-  articleCategorie = [
-    { title: 'Titre type', content: 'Contenu type', author: 'Le mec du back'}
-  ];
-  res.render('adminarticle.ejs' , {title: "Ajouter un article" ,articles: newArticle});
+  articleCategorie = [];
+  res.render('adminarticle.ejs' , {title: "Ajouter un article"});
 
 });
 app.post('/', upload.fields([]),  (req, res, next) => {
@@ -95,21 +93,17 @@ app.post('/', upload.fields([]),  (req, res, next) => {
   } else {
     const formData = req.body;
     console.log('formData:', formData);
-    const newArticle = { title: req.body.articletitle,
-                         content: req.body.articletext,
-                         date: req.body.articledate,
-                         author: req.body.authorarticle,
-                         image: req.body.articleimage};
-
-                         var articleCategorie = [];
-    articleCategorie = [...articleCategorie, newArticle];
-
     const title = req.body.articletitle;
     const image = req.body.articleimage;
     const content = req.body.articletext;
     const date = req.body.articledate;
     const author = req.body.authorarticle;
     const myArticle = new Article ({ articletitle : title, articleimage : image, articletext : content, articledate : date , authorarticle : author});
+
+                         var articleCategorie = [];
+    articleCategorie = [...articleCategorie, myArticle];
+
+
     myArticle.save((err, savedArticle) => {
       if (err) {
         console.error(err);
@@ -166,15 +160,18 @@ app.use('/*', (req, res, next) => {
 /* Accueil */
 app.get('/', (req, res)=> {
   let title = "Accueil";
+  myArticle = [];
+  Article.find((err , articles) => {
+    if(err){
+    console.error('Impossible de récupérer les articles depuis la DB');
+    res.sendStatus(500);
+  } else {
+    myArticle = articles;
+    res.render('index.ejs',{title: req.session.userName , articles: myArticle});
+  }
+  });
 
-  const articletitle = req.body.articletitle;
-  const image = req.body.articleimage;
-  const content = req.body.articletext;
-  const date = req.body.articledate;
-  const author = req.body.authorarticle;
-  const myArticle = new Article ({ articletitle : articletitle, articleimage : image, articletext : content, articledate : date , authorarticle : author});
-  console.log(myArticle);
-  res.render('index.ejs',{title: req.session.userName , article: myArticle});
+
 });
 // Page de contact
 app.get('/contact', (req, res) => {
