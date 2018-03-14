@@ -112,7 +112,7 @@ app.get('/contact', (req, res) => {
 });
 
 app.get ('/inscription', (req, res) => {
-  res.render('inscription.ejs', {title: "Inscription"});
+  res.render('inscription.ejs', {title: "Inscription", helps: {}});
 });
 
 app.post('/inscription', [
@@ -125,7 +125,7 @@ app.post('/inscription', [
   ], (req, res) => {
     const erreurs = validationResult(req);
     let title = "Échec de l'inscription";
-    let helps = {};
+    var helps = {};
     /* Présence d'erreurs. */
     if (!erreurs.isEmpty())
     {
@@ -155,7 +155,7 @@ app.post('/inscription', [
         machin.save(function (err) {
           if (err)
           {
-            console.log("erreur enregistrement machin : " + err);
+            helps['email'] = "L'adresse email est déjà utilisée";
           }
           else
           {
@@ -163,6 +163,11 @@ app.post('/inscription', [
             title = "Bienvenue " + machin.firstName + " " + machin.lastName;
           }
         });
+      }
+      console.log("helps : " + helps)
+      for (let help in helps)
+      {
+        console.log("help : " + help);
       }
       res.render('inscription.ejs', {title: title, helps: helps});
     }
