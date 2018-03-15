@@ -11,7 +11,6 @@ body{
     background-image: url(/img/bgnews.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-
 }
 
 
@@ -22,7 +21,9 @@ body{
 
 .navbar{
     border-radius: 0px;
+    background-color: #FEFDF0;
 }
+
     
 .login{
     border: none;
@@ -48,6 +49,8 @@ body{
     color: #FFF;
     text-decoration: none;
 }
+
+
 /*
 ------ END NAVBAR -------
  */
@@ -96,7 +99,6 @@ body#notfound{
         display: inline-block;    
         border-style: unset;
         transition-duration: 0.5s;
-        
 }
 .btnerror:hover{
     background: #fff;
@@ -221,9 +223,14 @@ ul li {
 
 
 label{
-    margin-top: 1em;
+    margin-top: 0.5em;
     color: #ad8dda;
     font-weight: 700;
+    
+}
+
+.h1scription{
+    color: #ad8dda;
     
 }
 
@@ -257,6 +264,90 @@ text-decoration: none;
 /**
 ------ END INSCRIPTION -----
 */
+
+/**
+------- ADMINARTICLE -----
+*/
+
+.btnerroraa {
+    background: #0d0e0e;
+    background-image: -webkit-linear-gradient(top, #ad8dda);
+    border-radius: 28px;
+    color: #ad8dda;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    display: inline-block;    
+    border-style: unset;
+    transition-duration: 0.5s;
+}
+.btnerroraa:hover{
+background: #ad8dda;
+color: #FEFDF0;
+text-decoration: none;
+
+}
+
+label.labelaa{
+    color: #ad8dda;
+    font-weight: 700;
+    margin-top: 0;
+}
+
+[type="file"] {
+    height: 0.1px;
+    width: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  [type="file"] + label {
+    background-color: #ad8dda;
+    color: #f1e5e6;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 28px;
+  }
+  [type="file"] + label:hover {
+    background-color: #0d0e0e;
+    color: #ad8dda;
+  }
+  [type="file"]:focus + label {
+    background-color: #FEFDF0;
+    outline: 1px dotted #ad8dda;
+  }
+  
+
+/**
+------- END ADMINARTICLE -----
+*/
+
+/**
+------ WELCOME -----
+**/
+
+body#welcomebody {
+    background-image: linear-gradient(-200deg, #ad8dda 50%, #0d0e0e 50%);
+}
+.jumbotron h1{
+    font-size: 25px;
+}
+
+.welcomeh1 {
+    font-size: 25px;
+}
+/**
+------ END WELCOME -----
+**/
+
+
 /*
 ----- FOOTER -----
  */
@@ -267,7 +358,7 @@ footer {
     height: 100px;
     bottom: 0px;
     width: 100%;
-    background-color: #111;
+    background-color: #FEFDF0;
     text-align: center;
 }
 
@@ -283,18 +374,18 @@ footer .container{
 }
 
 .h3footer {
-    color: wheat;
+    color: #ad8dda;
 ;
 }
 
 .pfooter {
-    color: #CCC;
+    color: #0d0e0e;
 }
 
 .reservedrigth {
-    background-color: #111;
+    background-color: #FEFDF0;
     text-align: center;
-    color: #CCC;
+    color: #0d0e0e;
 }
 
 .rsr{
@@ -303,6 +394,10 @@ footer .container{
     margin-top: 2%;
     line-height: 100%;
     font-size: 12px;
+}
+
+footer i {
+    color: #0d0e0e;
 }
 
 @media screen and (max-width: 768px) {
@@ -319,7 +414,7 @@ footer .container{
  /*
 ------ INSCRIPTION -------
  */
- .inqcription {
+ .inscription {
      
  }
 
