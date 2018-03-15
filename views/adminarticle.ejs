@@ -2,25 +2,44 @@
 <title><%= title %></title>
 </head>
 <% include ./partials/navbar %>
+<<<<<<< HEAD
+<div class="container text-center">
+  <form class="addarticle jumbotron" action="/index" method="post">
+  <label class="labelaa" for="articleimage">Illustration de l'article</label>
+  <!--<input type="file" style="color: #ad8dda;" name="articleimage" value="" id="articleimage"> -->
+<br>
+  <input type="file" id="articleimage" type="file">
+
+<label for="articleimage">
+ 
+    
+    <span> Importez l'image&hellip;</span>
+    
+</label>
+
+=======
 <div class="container">
   <form class="addarticle jumbotron" action="/" method="post">
   <label for="articleimage">Illustration de l'article</label>
   <input type="file" name="articleimage" value="" id="articleimage">
+>>>>>>> aefa17663225806e71dbba9612066e414bec2e86
   <br>
-  <label for="articletitle">Titre de l'article</label>
-  <input type="text" name="articletitle" id="articletitle" value="">
+  <label class="labelaa" for="articletitle">Titre de l'article</label>
+  <input type="text" class="form-control" name="articletitle" id="articletitle" value="">
   <br>
-  <label for="articledate">Date de parution</label>
-  <input type="date" name="articledate" id="articledate" value="">
+  <label class="labelaa" for="articledate">Date de parution</label>
+  <input type="date" class="form-control" name="articledate" id="articledate" value="">
   <br>
-  <label for="articletext">Contenu de l'article</label>
-  <input type="text" name="articletext" value="">
+  <label class="labelaa" for="articletext">Contenu de l'article</label>
+  <input type="text" class="form-control" name="articletext" value="">
   <br>
-  <label for="authorarticle">Auteur de l'article</label>
-  <input type="text" name="authorarticle" value="" id="authorarticle">
+  <label class="labelaa" for="authorarticle">Auteur de l'article</label>
+  <input type="text" class="form-control" name="authorarticle" value="" id="authorarticle">
   <br>
-
-  <button type="submit" name="button">Ajouter l'article</button>
+    <div class="text-center">
+      <button type="submit" class="btnerroraa" name="button">Ajouter l'article</button>
+    </div>
+  
 </form>
 </div>
 

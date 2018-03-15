@@ -34,7 +34,7 @@ var User = require('./models/user');
 
 var Article = require('./models/article');
 
-
+var Configuration = require('./models/configuration');
 
 const PORT = 3000;
 const bodyParser = require('body-parser');
@@ -84,8 +84,8 @@ app.get('/adminarticle', (req , res) => {
                        image: req.body.articleimage};
   articleCategorie = [];
   res.render('adminarticle.ejs' , {title: "Ajouter un article"});
-
 });
+
 app.post('/', upload.fields([]),  (req, res, next) => {
   if(!req.body){
     return res.sendStatus(500);
@@ -169,7 +169,7 @@ app.get('/', (req, res)=> {
     myArticle = articles;
     res.render('index.ejs',{title: req.session.userName , articles: myArticle});
   }
-  });
+});
 
 
 });
@@ -314,9 +314,15 @@ app.post('/login', [
 
 /* Page d'administration. */
 app.get('/admin', function (req, res) {
-    res.send('administration');
+  
+  res.send('administration');
 });
 
+/* Page de configuration. */
+/*app.post('/admin/image', multer({dest: "./uploads/"}), function (req, res) {
+  
+});
+*/
 /* Page de login. */
 app.get('/login', function (req, res) {
 
