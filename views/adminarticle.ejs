@@ -1,7 +1,8 @@
 <% include ./partials/head %>
-<title>Surface Ajout Articles</title>
+<title><%= title %></title>
 </head>
 <% include ./partials/navbar %>
+<<<<<<< HEAD
 <div class="container text-center">
   <form class="addarticle jumbotron" action="/index" method="post">
   <label class="labelaa" for="articleimage">Illustration de l'article</label>
@@ -16,6 +17,12 @@
     
 </label>
 
+=======
+<div class="container">
+  <form class="addarticle jumbotron" action="/" method="post">
+  <label for="articleimage">Illustration de l'article</label>
+  <input type="file" name="articleimage" value="" id="articleimage">
+>>>>>>> aefa17663225806e71dbba9612066e414bec2e86
   <br>
   <label class="labelaa" for="articletitle">Titre de l'article</label>
   <input type="text" class="form-control" name="articletitle" id="articletitle" value="">
@@ -37,4 +44,42 @@
 </div>
 
 
+
+
+
 <% include ./partials/footer %>
+
+<script type="text/javascript">
+  const form = document.querySelector('form');
+  form.addEventListener('submit', addArticle);
+  function addArticle(event){
+    event.preventDefault();
+    if(fetch) {
+      fetch('/', {
+        method: 'POST',
+        body: new FormData(form)
+      })
+      .then(checkStatus)
+      .catch(function(error){
+        console.error('request failled', error);
+      })
+    } else {
+      // JQUERY XHR
+    }
+  }
+  function checkStatus(response){
+    if(response.status>= 200 && response.status < 300){
+      let newArticleDiv = document.createElement('div');
+      const articletitle = document.getElementById('articletitle').value;
+      const articledate = document.getElementById('articledate').value;
+      const articleimage = document.getElementById('articleimage').value;
+      const articletext = document.getElementById('articletext').value;
+      const authorarticle = document.getElementById('authorarticle').value;
+      newArticleDiv.innerHTML = `${articletitle}  (${articledate}) ${articleimage} ${articletext} ${authorarticle}`;
+      document.querySelector('.fresharticles').appendChild(newArticleDiv);
+      form.reset();
+
+
+    }
+  }
+</script>
