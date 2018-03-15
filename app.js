@@ -84,8 +84,8 @@ app.get('/adminarticle', (req , res) => {
                        image: req.body.articleimage};
   articleCategorie = [];
   res.render('adminarticle.ejs' , {title: "Ajouter un article"});
-
 });
+
 app.post('/', upload.fields([]),  (req, res, next) => {
   if(!req.body){
     return res.sendStatus(500);
@@ -319,10 +319,10 @@ app.get('/admin', function (req, res) {
 });
 
 /* Page de configuration. */
-app.post('/admin/image', multer({dest: "./uploads/"}), function (req, res) {
+/*app.post('/admin/image', multer({dest: "./uploads/"}), function (req, res) {
   
 });
-
+*/
 /* Page de login. */
 app.get('/login', function (req, res) {
 
