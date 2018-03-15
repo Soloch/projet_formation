@@ -34,7 +34,7 @@ var User = require('./models/user');
 
 var Article = require('./models/article');
 
-
+var Configuration = require('./models/configuration');
 
 const PORT = 3000;
 const bodyParser = require('body-parser');
@@ -169,7 +169,7 @@ app.get('/', (req, res)=> {
     myArticle = articles;
     res.render('index.ejs',{title: req.session.userName , articles: myArticle});
   }
-  });
+});
 
 
 });
@@ -314,8 +314,14 @@ app.post('/login', [
 
 /* Page d'administration. */
 app.get('/admin', function (req, res) {
-    res.send('administration');
+  
+  res.send('administration');
 });
+
+/* Page de configuration. */
+/*app.get('/admin', function (req, res) {
+  
+});*/
 
 /* Page de login. */
 app.get('/login', function (req, res) {
