@@ -319,9 +319,9 @@ app.get('/admin', function (req, res) {
 });
 
 /* Page de configuration. */
-/*app.get('/admin', function (req, res) {
+app.post('/admin/image', multer({dest: "./uploads/"}), function (req, res) {
   
-});*/
+});
 
 /* Page de login. */
 app.get('/login', function (req, res) {
