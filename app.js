@@ -316,16 +316,20 @@ app.post('/login', [
   }
 });
 
-/* Page d'administration. */
-app.get('/admin', function (req, res) {
-  res.render('admin.ejs', {title: "Enregistrement d'une photo"});
-});
+var admin = require('./routes/admin');
 
+app.use('/admin', admin);
+
+/* Page d'administration. */
+/*app.get('/admin', function (req, res) {
+  res.render('admin.ejs', {title: "Enregistrement d'une photo"});
+});*/
+/*
 app.get('/admin/image', function (req, res) {
   res.render('adminimage.ejs', {title: "Affichage d'une image provenant de la base de données."});
-});
+});*/
 
-/* Page de configuration. */
+/* Page de configuration. *//*
 app.post('/admin/image', multer({storage: multer.memoryStorage()}).single('photo'), function (req, res) {
   let image = new ImageDb.Image();
   image.name = req.file.originalname;
@@ -351,7 +355,7 @@ app.get('/admin/image/test', function (req, res) {
       res.end(doc.image, 'binary');
     }
   })
-});
+});*/
 
 /* Page de login. */
 app.get('/login', function (req, res) {
