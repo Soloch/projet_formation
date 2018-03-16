@@ -8,7 +8,7 @@ body{
     height: 100%;
     width: 100%;
     display: table;
-    background-image: url(/img/bgnews.jpg);
+    background-image: /* ICI FAIRE UN GRADIENT */
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -50,6 +50,17 @@ body{
     text-decoration: none;
 }
 
+#submit {
+    color: #ad8dda;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #ad8dda;
+}
+
+.navbar-inverse {
+    border-color: #FEFDF0;
+}
 
 /*
 ------ END NAVBAR -------
