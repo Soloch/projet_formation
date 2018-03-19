@@ -1,14 +1,11 @@
     <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
     <div class="col-md-7 col-sm-12 couleur">
         <div class="fresharticles">
-            <% for(article of articles) {%>
-                <div class="jumbotron">
-                    <div class="articletitle"><%= article.articletitle %></div>
-                    <img src="<%= article.articleimage %>" class="image" alt="<%= article.articletitle %>">
-                    <div class="articletext"><%= article.articletext %></div>
-                    <div class="authorarticle"><%= article.authorarticle %> - <%= article.articledate %></div>
-                </div>    
-        <% } %>
+                <% for(article of articles) {%>
+                <div><%- article.contentarticle %></div>
+        
+                <% } %>
         </div>
+          
     </div>
 
