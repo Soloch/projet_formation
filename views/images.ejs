@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <title><%= title %></title>
+    <style>
+      div.calque-opaque {
+        display: none;
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(128, 128, 128, 0.8);
+      }
+
+      div.box {
+        margin-left: 10%;
+        margin-top: 10%;
+        width: 80%;
+        height: 80%;
+        background: #fff;
+      }
+
+      div.box-header {
+        height: 20%;
+        text-align: center;
+      }
+
+      span.box-title {
+        color: #000;
+      }
+
+      div#box-content {
+        width: 100%;
+        height: 64%;
+        background: blueviolet;
+      }
+
+      div#box-content img {
+        width: 25%;
+        height: auto;
+      }
+
+      div.box-footer {
+
+      }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center"><%= title %></h1>
+    <div class="row">
+      <button id="choix" class="btn btn-info">Choisir une image</button>
+      <img id="img_cible" src="#" alt=""/>
+    </div>
+  </div>
+  <!-- Boîte de dialogue pour la sélection d'une image -->
+  <div id="layout" class="calque-opaque">
+    <div class="box">
+      <div class="box-header">
+        <div class="title-bar">
+          <span class="title">Choix d'une image</span>
+        </div>
+        <div class="tool-bar">
+          <div class="row">
+            <form action="/admin/images/search" method="GET">
+              <label for="search">Nom de l'image</label>
+              <input id="search" type="text" name="search" placeholder="Nom de l'image" />
+              <button id="recherche" type="submit" name="recherche">Rechercher</button>
+            </form>
+            <form id="ajout_image" action="/admin/image" method="POST">
+              <label for="image">Image</label>
+              <input id="image" type="file" name="image" />
+              <button id="ajout" type="submit" name="submit">Ajouter une image</button>
+            </form>
+            <button id="precedentes" class="btn btn-default">Précédentes</button>
+            <button id="suivantes" class="btn btn-default">Suivantes</button>
+          </div>
+        </div>
+      </div>
+      <div id="box-content">
+
+      </div>
+      <div class="box-footer">
+
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  let image_choisie_id;
+  let image_choisie_name;
+
+  /* Image à afficher. */
+  let image_cible = document.getElementById("img_cible");
+
+  /* Paramètres des images à obtenir. */
+  let pas;
+  let depart;
+  let limite;
+  let action;
+
+  /* Bouton d'affichage de la boîte de dialogue. */
+  let bouton_choix = document.getElementById("choix");
+  bouton_choix.addEventListener("click", afficher_boite);
+
+  /* Boîte de dialogue. */
+  let layout = document.getElementById('layout');
+
+  /* Bouton de recherche d'une image. */
+  let bouton_recherche = document.getElementById('recherche');
+  bouton_recherche.addEventListener("click", recherche_images);
+
+  /* Bouton d'ajout d'une image. */
+  let bouton_ajout = document.getElementById('ajout');
+  bouton_ajout.addEventListener("click", ajouter_image);
+
+  /* Bouton «Précédentes». */
+  let bouton_precedentes = document.getElementById('precedentes');
+  bouton_precedentes.addEventListener("click", images_precedentes);
+
+  /* Bouton «Suivantes». */
+  let bouton_suivantes = document.getElementById('suivantes');
+  bouton_suivantes.addEventListener("click", images_suivantes);
+
+  /* Place où les images seront affichées. */
+  let div_box_content = document.getElementById('box-content');
+
+  /* Affichage de la boîte de choix d'image. */
+  function afficher_boite ()
+  {
+    /* Initialisation des images à obtenir. */
+    pas = 8;
+    depart = 0;
+    limite = depart + pas;
+
+    /* Affichage. */
+    layout.style.display = "block";
+
+    /* Chargement des images. */
+    obtenir_images(div_box_content);
+    
+  };
+
+  /* Masquage de la boîte de choix d'image. */
+  window.onclick = (event) =>
+  {
+    if (event.target == layout)
+      layout.style.display = "none";
+  };
+
+  /* Obtention des images. */
+  function obtenir_images (div_box_content)
+  {
+    /* Action. */
+    action = "obtenir";
+
+    /* Requête. */
+    fetch("/admin/images/from/" + depart + "/to/" + limite)
+    .then((resp) => resp.json())
+    .then(function(images) {
+      console.log(images);
+      
+      /* Affichage des images. */
+      afficher_images (div_box_content, images);
+    });
+  }
+
+  /* Afficher des images. */
+  function afficher_images (balise, images)
+  {
+    for (let i = 0; i < images.length; i++)
+    {
+      console.log(images[i]);
+      let image = document.createElement("img");
+      balise.appendChild(image);
+      let image_telechargement = new Image();
+      image_telechargement.src = "http://localhost:3000/admin/images/" + images[i].name;
+      image.setAttribute("alt", images[i].name);
+      image.setAttribute("data-id", images[i]._id);
+      image.setAttribute("title", images[i].originalName);
+      image.addEventListener("click", cette_image);
+      image.src = image_telechargement.src;
+    }
+  }
+
+  /* Suprrimer les images. */
+  function supprimer_images ()
+  {
+    let div_box_content = document.getElementById('box-content');
+    while (div_box_content.hasChildNodes())
+    {
+      div_box_content.removeChild(div_box_content.firstChild);
+    }
+  }
+
+  /* Ajouter une image. */
+  function ajouter_image (event)
+  {
+    /* Suppression du comportement par défaut. */
+    event.preventDefault();
+
+    let formulaire = document.getElementById("ajout_image");
+
+    fetch('/admin/image', {
+        method: 'POST',
+        body: new FormData(formulaire)
+      })
+      .then((resp) => resp.json())
+      .then(function(image) {
+        console.log(image);
+      })
+      .catch(function(error){
+        console.error('request failled', error);
+      })
+  }
+
+  /* Afficher les images précédentes. */
+  function images_precedentes ()
+  {
+    /* Suppression des images. */
+    supprimer_images();
+
+    /* Modification des paramètres. */
+    if ((depart - pas) >= 0)
+    {
+      depart -= pas;
+      limite -= pas;
+    }
+
+    /* Affichage des images en fonction de l'action. */
+    if (action == "obtenir")
+      obtenir_images(div_box_content);
+    else
+      rechercher_images();
+  }
+
+  /* Afficher les images suivantes. */
+  function images_suivantes (event)
+  {
+    /* Suppression des images. */
+    supprimer_images();
+
+    /* Modification des paramètres. */
+    depart += pas;
+    limite += pas;
+
+    console.log("Images suivantes pour " + action);
+
+    /* Affichage des images en fonction de l'action. */
+    if (action == "obtenir")
+      obtenir_images(div_box_content);
+    else
+      rechercher_images();
+  }
+
+  /* Valider l'image. */
+  function cette_image (event)
+  {
+    let image = event.target;
+    image_choisie_id = image.getAttribute("data-id");
+    image_choisie_src = image.getAttribute("src");
+    image_choisie_name = image.getAttribute("title");
+
+    /* Supression des images. */
+    supprimer_images();
+
+    /* Masquage de la boîte de dialogue. */
+    layout.style.display = "none";
+
+    /* Affichage de l'image cible. */
+    image_cible.src = image_choisie_src;
+    image_cible.setAttribute("data-id", image_choisie_id);
+    image_cible.setAttribute("title", image_choisie_name);
+  }
+
+  /* Recherche d'images. */
+  function recherche_images (event)
+  {
+    /* Suppression du comportement par défaut. */
+    event.preventDefault();
+
+    /* Action. */
+    action = "rechercher";
+
+    /* Initialisation des images à obtenir. */
+    pas = 8;
+    depart = 0;
+    limite = depart + pas;
+
+    /* Recherche des images. */
+    rechercher_images ();
+  }
+
+  /* Rechercher des images. */
+  function rechercher_images ()
+  {
+    /* Supression des images. */
+    supprimer_images();
+
+    let search = document.getElementById("search");
+    let name = search.value;
+
+    /* Requête. */
+    console.log("/admin/images/find/" + name + "/from/" + depart + "/to/" + limite);
+    fetch("/admin/images/find/" + name + "/from/" + depart + "/to/" + limite)
+    .then((resp) => resp.json())
+    .then(function(images) {
+      console.log(images);
+      
+      /* Affichage des images. */
+      afficher_images (div_box_content, images);
+    });
+  }
+
+
+
+</script>
+</html>

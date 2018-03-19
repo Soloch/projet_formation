@@ -15,6 +15,7 @@ var Schema = mongoose.Schema;
 /* Schema Configuration. */
 var imageSchema = mongoose.Schema({
     name: {type: String, index: true, unique: true, required: true},
+    originalName: String,
     image: Buffer,
     contentType: String,
     date_update: {type: Date, default: Date.now},
@@ -22,4 +23,4 @@ var imageSchema = mongoose.Schema({
   });
 imageSchema.plugin(uniqueValidator);
 /* Modèle Configuration. */
-module.exports.Image = mongoose.model('Image', configurationSchema);;d
+module.exports.Image = mongoose.model('Image', imageSchema);
