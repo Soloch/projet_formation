@@ -29,19 +29,23 @@ router.get('/image', function (req, res) {
   });
   
 /* Page de dépôt d'une image. */
-router.post('/image', multer({storage: multer.memoryStorage()}).single('photo'), function (req, res) {
+router.post('/image', multer({storage: multer.memoryStorage()}).single('image'), function (req, res) {
   let image = new ImageDb.Image();
   image.name = req.file.originalname;
   console.log("Fichier photo mimetype : " + req.file.originalname);
   image.contentType = req.file.mimetype;
   image.image = req.file.buffer;
-  image.save(function(err) {
+  image.save(function(err, image) {
     if (err) console.log("Erreur d'enregistrement de l'image");
-    else console.log("Image enregistrée");
-  });
+    else
+    {
+      console.log("Image enregistrée");
+      res.send(image);
+    }
+  })
   //res.contentType(req.file.mimetype);
   //res.send(req.file.buffer.data);
-  res.redirect('/admin');
+  //res.redirect('back');
 });
 
 /* Gestion des images. */
@@ -62,9 +66,9 @@ router.get('/images/:name', function (req, res) {
   })
 });
 
-router.get('/images/:from/:to', function (req, res) {
-  ImageDb.Image.find().select('name _id').skip().limit().exec(function (err, images) {
-    if (err) console.log("Erreur de récupération des images.");
+router.get('/images/from/:from/to/:to', function (req, res) {
+  ImageDb.Image.find().select('name _id').skip(parseInt(req.params.from)).limit(parseInt(req.params.to)).exec(function (err, images) {
+    if (err) console.log("Erreur de récupération des images avec offset " + req.params.from + " et limite " + req.params.to + " : " + err);
     else
     {
       res.send(images);

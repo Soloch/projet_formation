@@ -11,7 +11,8 @@
     <title><%= title %></title>
     <style>
       div.calque-opaque {
-        z-index: 0;
+        display: none;
+        z-index: 1;
         position: fixed;
         top: 0;
         left: 0;
@@ -29,6 +30,7 @@
       }
 
       div.box-header {
+        height: 20%;
         text-align: center;
       }
 
@@ -36,13 +38,13 @@
         color: #000;
       }
 
-      div.box-content {
+      div#box-content {
         width: 100%;
-        height: 80%;
+        height: 64%;
         background: blueviolet;
       }
 
-      div.box-content img {
+      div#box-content img {
         width: 25%;
         height: auto;
       }
@@ -57,88 +59,192 @@
     <h1 class="text-center"><%= title %></h1>
     <div class="row">
       <button id="choix" class="btn btn-info">Choisir une image</button>
-      <img src="#" alt=""/>
+      <img id="img_cible" src="#" alt=""/>
+    </div>
+  </div>
+  <!-- Boîte de dialogue pour la sélection d'une image -->
+  <div id="layout" class="calque-opaque">
+    <div class="box">
+      <div class="box-header">
+        <div class="title-bar">
+          <span class="title">Choix d'une image</span>
+        </div>
+        <div class="tool-bar">
+          <div class="row">
+            <form id="recherche" action="/admin/images/search" method="POST">
+              <label for="search">Nom de l'image</label>
+              <input id="search" type="text" name="search" placeholder="Nom de l'image" />
+              <button type="submit" name="submit">Rechercher</button>
+            </form>
+            <form id="ajout_image" action="/admin/image" method="POST">
+              <label for="image">Image</label>
+              <input id="image" type="file" name="image" />
+              <button id="ajout" type="submit" name="submit">Ajouter une image</button>
+            </form>
+            <button id="precedentes" class="btn btn-default">Précédentes</button>
+            <button id="suivantes" class="btn btn-default">Suivantes</button>
+          </div>
+        </div>
+      </div>
+      <div id="box-content">
+
+      </div>
+      <div class="box-footer">
+
+      </div>
     </div>
   </div>
 </body>
 <script>
   let image_choisie_id;
   let image_choisie_name;
-  
 
-  /* Affichage de la «fenêtre» de choix d'image. */
-  function choisir_image ()
+  /* Image à afficher. */
+  let image_cible = document.getElementById("img_cible");
+
+  /* Paramètres des images à obtenir. */
+  let pas;
+  let depart;
+  let limite;
+  let action;
+
+  /* Bouton d'affichage de la boîte de dialogue. */
+  let bouton_choix = document.getElementById("choix");
+  bouton_choix.addEventListener("click", afficher_boite);
+
+  /* Boîte de dialogue. */
+  let layout = document.getElementById('layout');
+
+  /* Bouton d'ajout d'une image. */
+  let bouton_ajout = document.getElementById('ajout');
+  bouton_ajout.addEventListener("click", ajouter_image);
+
+  /* Bouton «Précédentes». */
+  let bouton_precedentes = document.getElementById('precedentes');
+  bouton_precedentes.addEventListener("click", images_precedentes);
+
+  /* Bouton «Suivantes». */
+  let bouton_suivantes = document.getElementById('suivantes');
+  bouton_suivantes.addEventListener("click", images_suivantes);
+
+  /* Place où les images seront affichées. */
+  let div_box_content = document.getElementById('box-content');
+
+  /* Affichage de la boîte de choix d'image. */
+  function afficher_boite ()
   {
-    /* Éléments. */
-    let div_calque = document.createElement("div");
-    div_calque.setAttribute("class", "calque-opaque");
-    let div_box = document.createElement("div");
-    div_box.setAttribute("class", "box");
-    let div_box_header = document.createElement("div");
-    div_box_header.setAttribute("class", "box-header");
-    let span_title = document.createElement("span");
-    span_title.setAttribute("class", "box-title");
-    span_title.textContent = "Choix d'une image";
-    let div_box_content = document.createElement("div");
-    div_box_content.setAttribute("class", "box-content");
-    let div_box_footer = document.createElement("div");
-    div_box_footer.setAttribute("class", "box-footer");
-    let bouton_precedent = document.createElement("button");
-    bouton_precedent.textContent = "Précédentes";
-    let bouton_suivant = document.createElement("button");
-    bouton_suivant.textContent = "Suivantes";
+    /* Initialisation des images à obtenir. */
+    pas = 8;
+    depart = 0;
+    limite = depart + pas;
 
-    /* Ajout à la page. */
-    document.body.appendChild(div_calque);
-    div_calque.appendChild(div_box);
-    div_box.appendChild(div_box_header);
-    div_box_header.appendChild(span_title);
-    div_box.appendChild(div_box_content);
-    div_box.appendChild(div_box_footer);
-    div_box_footer.appendChild(bouton_precedent);
-    div_box_footer.appendChild(bouton_suivant);
+    /* Affichage. */
+    layout.style.display = "block";
 
+    /* Chargement des images. */
     obtenir_images(div_box_content);
     
   };
 
-  /* Ne rien faire. */
-  function rien_faire (e)
+  /* Masquage de la boîte de choix d'image. */
+  window.onclick = (event) =>
   {
-    return;
-  }
-
-  /* Masquage de la «fenêtre» de choix d'image. */
-  function masquer_choix (e)
-  {
-    e.target.style.display = "none";
+    if (event.target == layout)
+      layout.style.display = "none";
   };
 
   /* Obtention des images. */
   function obtenir_images (div_box_content)
   {
     /* Requête. */
-    fetch('/admin/images/0/8')
+    fetch("/admin/images/from/" + depart + "/to/" + limite)
     .then((resp) => resp.json())
     .then(function(images) {
       console.log(images);
-      for (let i = 0; i < images.length; i++)
-      {
-        console.log(images[i]);
-        let image = document.createElement("img");
-        div_box_content.appendChild(image);
-        let image_telechargement = new Image();
-        image_telechargement.src = "http://localhost:3000/admin/images/" + images[i].name;
-        image.setAttribute("alt", images[i].name);
-        image.setAttribute("data-id", images[i]._id);
-        image.setAttribute("title", images[i].name);
-        image.addEventListener("click", cette_image);
-        image_telechargement.onload = function() {
-          image.src = this.src;
-        }
-      }
+      
+      /* Affichage des images. */
+      afficher_images (div_box_content, images);
     });
+  }
 
+  /* Afficher des images. */
+  function afficher_images (balise, images)
+  {
+    for (let i = 0; i < images.length; i++)
+    {
+      console.log(images[i]);
+      let image = document.createElement("img");
+      balise.appendChild(image);
+      let image_telechargement = new Image();
+      image_telechargement.src = "http://localhost:3000/admin/images/" + images[i].name;
+      image.setAttribute("alt", images[i].name);
+      image.setAttribute("data-id", images[i]._id);
+      image.setAttribute("title", images[i].name);
+      image.addEventListener("click", cette_image);
+      image.src = image_telechargement.src;
+    }
+  }
+
+  /* Suprrimer les images. */
+  function supprimer_images ()
+  {
+    let div_box_content = document.getElementById('box-content');
+    while (div_box_content.hasChildNodes())
+    {
+      div_box_content.removeChild(div_box_content.firstChild);
+    }
+  }
+
+  /* Ajouter une image. */
+  function ajouter_image (event)
+  {
+    /* Suppression du comportement par défaut. */
+    event.preventDefault();
+
+    let formulaire = document.getElementById("ajout_image");
+
+    fetch('/admin/image', {
+        method: 'POST',
+        body: new FormData(formulaire)
+      })
+      .then((resp) => resp.json())
+      .then(function(image) {
+        console.log(image);
+      })
+      .catch(function(error){
+        console.error('request failled', error);
+      })
+  }
+
+  /* Afficher les images précédentes. */
+  function images_precedentes ()
+  {
+    /* Suppression des images. */
+    supprimer_images();
+
+    /* Modification des paramètres. */
+    if ((depart - pas) >= 0)
+    {
+      depart -= pas;
+      limite -= pas;
+    }
+
+    /* Affichage des images. */
+    obtenir_images(div_box_content);
+  }
+
+  /* Afficher les images suivantes. */
+  function images_suivantes ()
+  {
+    /* Suppression des images. */
+    supprimer_images();
+
+    /* Modification des paramètres. */
+    depart += pas;
+    limite += pas;
+
+    /* Affichage des images. */
+    obtenir_images(div_box_content);
   }
 
   /* Valider l'image. */
@@ -146,13 +252,22 @@
   {
     let image = event.target;
     image_choisie_id = image.getAttribute("data-id");
-    image_choisie_name = image.getAttribute("src");
-    
+    image_choisie_src = image.getAttribute("src");
+    image_choisie_name = image.getAttribute("title");
+
+    /* Supression des images. */
+    supprimer_images();
+
+    /* Masquage de la boîte de dialogue. */
+    layout.style.display = "none";
+
+    /* Affichage de l'image cible. */
+    image_cible.src = image_choisie_src;
+    image_cible.setAttribute("data-id", image_choisie_id);
+    image_cible.setAttribute("title", image_choisie_name);
   }
 
-  let bouton_choix = document.getElementById("choix");
-  console.log(bouton_choix);
-  bouton_choix.addEventListener("click", choisir_image);
+  
 
 
 
