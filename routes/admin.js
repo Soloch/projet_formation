@@ -13,6 +13,8 @@ const uuidV1 = require('uuid/v1');
 
 var ImageDb = require('../models/image');
 
+var UserDb = require('../models/user');
+
 
 /*router.use('../css' , express.static('assets/css'));
 router.use('../js' , express.static('assets/js'));
@@ -95,6 +97,89 @@ router.get('/images/find/:name/from/:from/to/:to', function (req, res) {
 /** Configuration. **/
 router.get('/configuration', function (req, res) {
   res.render('configuration.ejs', {title: "Configuration"});
+});
+
+/** Utilisateurs. **/
+/* Affichage liste utilisateurs. */
+router.get('/users', function (req, res) {
+  UserDb.find(function (err, users) {
+    if (err) console.log("Erreurs obtention utilisateurs");
+    else
+    {
+      console.log("Utilisateurs : " + users);
+      res.render('users.ejs', {title: "Utilisateurs", users: users});
+    }
+  })
+});
+
+/* Page d'édition d'un utilisateur. */
+router.get('/user/edit/:id', function (req, res) {
+  UserDb.findOne({_id: req.params.id}, function(err, user) {
+    if (err) console.log("Erreur de récupération de l'utilisateur pour l'édition");
+    else
+    {
+      console.log("Utilisateur à éditer : " + user.lastName + " " + user.firstName);
+      res.render("user_edit.ejs", {title: "edition", user: user, helps: "undefined"});
+    }
+  })
+});
+
+/* Édition d'un utilisateur. */
+router.post('/user/edit/:id', [
+  [
+    /* Vérification des champs. */
+    check('lastname').exists(),
+    check('firstname').exists(),
+    check('email').isEmail().withMessage('Doit être un email').trim(),
+    check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum'),
+    check('confirmPassword').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
+  ],
+  function (req, res) {
+    const erreurs = validationResult(req);
+    let title = "Échec de l'inscription";
+    let helps = {};
+    /* Présence d'erreurs. */
+    if (!erreurs.isEmpty())
+    {
+      erreurs.mapped().foreach((erreur) => {
+        helps[erreur] = erreur.msg;
+      });
+      console.log(erreurs.mapped());
+      res.render('user_edit.ejs', {title: title, helps: helps});
+    }
+    else
+    {
+      /* Création du nouvel utilisateur. */
+      let machin = new User();
+      machin.lastName = req.body.lastname;
+      machin.firstName = req.body.firstname;
+      machin.email = req.body.email;
+      machin.password = req.body.password;
+      machin.role = 0;
+      machin.connected = true;
+
+      /* Tentative de sauvegarde du nouvel utilisateur. */
+      machin.save(function (err) {
+        if (err)
+        {
+          helps['email'] = "L'adresse email est déjà utilisée";
+        }
+        else
+        {
+            
+        }
+        res.render('inscription.ejs', {title: title, helps: helps});
+      });
+    }
+  }
+);
+
+/* Effacement d'un utilisateur. */
+router.get('/users/delete/:id', function (req, res) {
+  UserDb.findByIdAndRemove({_id: req.params.id}, function(err, user) {
+    if (err) console.log("Erreur d'effacement de l'utilisateur.");
+    else res.redirect('/admin/users');
+  });
 });
 
 

@@ -1,0 +1,47 @@
+<% include ./partials/head %>
+<title><%= title %></title>
+</head
+<% include ./partials/navbar %>
+
+ <h1><%= title %> pour <%= user.firstName %> <%= user.lastName %></h1>
+
+    <form class="inscription" method="POST">
+              <div class="form-group">
+                  <label for="lastname">Nom</label> 
+                  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Nom" value="<%= user.lastName %>" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="firstname">Prénom</label> 
+                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Prénom" value="<%= user.firstName %>" required>
+              </div>
+              
+      
+              <div class="form-group <% if (typeof helps.email !== "undefined") { %>has-error<% } %>">
+                  <label for="email">Email</label> 
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<%= user.email %>" required>
+                  <span class="help-block"><% if (typeof helps.email !== "undefined") { %><%= helps.email %><% } %></span>
+              </div>
+              
+      
+              <div class="form-group">
+                  <label for="password">Mot de passe (min 5 caractères)</label> 
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe" value="<%= user.password%>" required>
+                  <span class="help-block"></span>
+              </div>
+              
+      
+              <div class="form-group">
+                  <label for="user-role">Confirmation du mot de passe</label> 
+                  <input type="texte" class="form-control" id="user-role" name="confirmPassword" placeholder="Confirmation mot de passe" value="<%= user.role %>" required>
+                  <span class="help-block"></span>
+              </div>
+              
+      
+              <div class="text-center">
+                <input class="btninscription" type="submit" name="Confirmer" value="Confirmer">
+              </div>
+          </form>
+    
+
+<% include ./partials/footer %>
