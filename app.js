@@ -29,6 +29,10 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+/* CKEDITOR */
+
+
+
 /** Inclusion des modèles **/
 var User = require('./models/user');
 
@@ -97,12 +101,8 @@ app.post('/', upload.fields([]),  (req, res, next) => {
   } else {
     const formData = req.body;
     console.log('formData:', formData);
-    const title = req.body.articletitle;
-    const image = req.body.articleimage;
-    const content = req.body.articletext;
-    const date = req.body.articledate;
-    const author = req.body.authorarticle;
-    const myArticle = new Article ({ articletitle : title, articleimage : image, articletext : content, articledate : date , authorarticle : author});
+    const article = req.body.contentarticle;
+    const myArticle = new Article ({ contentarticle : article });
 
                          var articleCategorie = [];
     articleCategorie = [...articleCategorie, myArticle];

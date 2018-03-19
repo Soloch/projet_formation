@@ -14,12 +14,18 @@ You can check it with this command
 node -v
 ```
 
-If you want to install it go on the fucking website dude : 
+Well.. You need it anyway :
 ```
 https://nodejs.org/en/
 ```
 
+We're using MLAB for the database !
+I'm sure you'll love it
+```
+https://mlab.com/
+```
 
+Alright you'll need to link the DataBase to your project (Cause I guess you don't want to use our)
 ### Prerequisites
 
 What things you need to install the software and how to install them

@@ -2,36 +2,33 @@
 <title><%= title %></title>
 </head>
 <% include ./partials/navbar %>
-<div class="container">
-  <form class="addarticle jumbotron" action="/" method="post">
-  <label for="articleimage">Illustration de l'article</label>
-  <input type="file" name="articleimage" value="" id="articleimage">
-  <br>
-  <label class="labelaa" for="articletitle">Titre de l'article</label>
-  <input type="text" class="form-control" name="articletitle" id="articletitle" value="">
-  <br>
-  <label class="labelaa" for="articledate">Date de parution</label>
-  <input type="date" class="form-control" name="articledate" id="articledate" value="">
-  <br>
-  <label class="labelaa" for="articletext">Contenu de l'article</label>
-  <input type="text" class="form-control" name="articletext" value="">
-  <br>
-  <label class="labelaa" for="authorarticle">Auteur de l'article</label>
-  <input type="text" class="form-control" name="authorarticle" value="" id="authorarticle">
-  <br>
-    <div class="text-center">
-      <button type="submit" class="btnerroraa" name="button">Ajouter l'article</button>
-    </div>
 
+
+
+<form class="" action="/" method="post" id="articleform">
+<textarea name="contentarticle" id="contentarticle"></textarea>
+<button type="submit" name="button">Submit</button>
+<a onclick="CKupdate();$("#articleform").ajaxSubmit();" class="btn btn-warning">Done with this article ? Post it there !</a>
 </form>
-</div>
+
 
 
 
 
 
 <% include ./partials/footer %>
-
+<script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-beta.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#contentarticle' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+    function CKupdate() {
+      for ( instance in CKEDITOR.instances)
+      CKEDITOR.instances[instance].updateElement();
+    }
+</script>
 <script type="text/javascript">
   const form = document.querySelector('form');
   form.addEventListener('submit', addArticle);
@@ -53,12 +50,8 @@
   function checkStatus(response){
     if(response.status>= 200 && response.status < 300){
       let newArticleDiv = document.createElement('div');
-      const articletitle = document.getElementById('articletitle').value;
-      const articledate = document.getElementById('articledate').value;
-      const articleimage = document.getElementById('articleimage').value;
-      const articletext = document.getElementById('articletext').value;
-      const authorarticle = document.getElementById('authorarticle').value;
-      newArticleDiv.innerHTML = `${articletitle}  (${articledate}) ${articleimage} ${articletext} ${authorarticle}`;
+      const contentarticle = document.getElementById('contentarticle').value;
+      newArticleDiv.innerHTML = `${contentarticle}  `;
       document.querySelector('.fresharticles').appendChild(newArticleDiv);
       form.reset();
 

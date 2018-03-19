@@ -11,11 +11,8 @@
         <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
         <div class="fresharticles">
           <% for(article of articles) {%>
-          <div><%= article.articletitle %></div>
-          <img src="<%= article.articleimage %>" alt="<%= article.articletitle %>">
-          <div><%= article.articletext %></div>
-          <div><%= article.articledate %></div>
-          <div><%= article.authorarticle %></div>
+          <div><%- article.contentarticle %></div>
+
           <% } %>
       </div>
 
