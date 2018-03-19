@@ -8,6 +8,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const uuidV1 = require('uuid/v1');
 
 
 var ImageDb = require('../models/image');
@@ -31,7 +32,8 @@ router.get('/image', function (req, res) {
 /* Page de dépôt d'une image. */
 router.post('/image', multer({storage: multer.memoryStorage()}).single('image'), function (req, res) {
   let image = new ImageDb.Image();
-  image.name = req.file.originalname;
+  image.originalName = req.file.originalname;
+  image.name = uuidV1();
   console.log("Fichier photo mimetype : " + req.file.originalname);
   image.contentType = req.file.mimetype;
   image.image = req.file.buffer;
@@ -66,11 +68,25 @@ router.get('/images/:name', function (req, res) {
   })
 });
 
+/* Récupérer des images à l'intérieur d'un intervalle. */
 router.get('/images/from/:from/to/:to', function (req, res) {
-  ImageDb.Image.find().select('name _id').skip(parseInt(req.params.from)).limit(parseInt(req.params.to)).exec(function (err, images) {
+  ImageDb.Image.find().select('name originalName _id').skip(parseInt(req.params.from)).limit(parseInt(req.params.to)).exec(function (err, images) {
     if (err) console.log("Erreur de récupération des images avec offset " + req.params.from + " et limite " + req.params.to + " : " + err);
     else
     {
+      res.send(images);
+    }
+  });
+});
+
+/* Recherche d'images selon un nom. */
+router.get('/images/find/:name/from/:from/to/:to', function (req, res) {
+  ImageDb.Image.find({originalName: new RegExp(req.params.name, "i")}).select('originalName name _id').skip(parseInt(req.params.from)).limit(parseInt(req.params.to)).exec(function (err, images) {
+    if (err) console.log("Erreur de récupération des images avec offset " + req.params.from + " et limite " + req.params.to + " : " + err);
+    else
+    {
+      console.log("Recherche nom : " + req.params.name);
+      console.log("Images trouvées : " + images);
       res.send(images);
     }
   });

@@ -15,6 +15,7 @@ var Schema = mongoose.Schema;
 /* Schema Configuration. */
 var imageSchema = mongoose.Schema({
     name: {type: String, index: true, unique: true, required: true},
+    originalName: String,
     image: Buffer,
     contentType: String,
     date_update: {type: Date, default: Date.now},
