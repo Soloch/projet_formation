@@ -1,138 +1,14 @@
-
-    <!--colleft-->
-    <div class="col-md-8 col-sm-12">
-        <!--post-detail-->
-        <article class="post-detail">
-            <h1>TITREARTICLE</h1>
-            <div class="meta-post">
-                <a href="#">
-                    PRENOMAUTEUR NOMAUTEUR
-                </a>
-                <em></em>
-                <time datetime="DATECREATIONARTICLE"></time>
-            </div>
-
-            <img alt="TITREARTICLE  Météo"
-                 src="../img/meteo_france2.jpg"
-            class="img-responsive" />
-
-            CONTENUARTICLE
-
-            <h5 class="text-right font-heading"><strong>PRENOMAUTEUR Françoise NOMAUTEUR Laborde</strong> </h5>
-
-        </article>
-        <!--social-detail-->
-        <div class="social-detail">
-            <span>   Share article</span>
-
-            <ul class="list-social-icon">
-                <li>
-                    <a href="#" class="facebook">
-                        <i class="fa fa-facebook"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="twitter">
-                        <i class="fa fa-twitter"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="google">
-                        <i class="fa fa-google"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="youtube">
-                        <i class="fa fa-youtube-play"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="pinterest">
-                        <i class="fa fa-pinterest-p"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="rss">
-                        <i class="fa fa-rss"></i>
-                    </a>
-                </li>
-
-            </ul>
+    <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
+    <div class="col-md-7 col-sm-12 couleur">
+        <div class="fresharticles">
+            <% for(article of articles) {%>
+                <div class="jumbotron">
+                    <div class="articletitle"><%= article.articletitle %></div>
+                    <img src="<%= article.articleimage %>" class="image" alt="<%= article.articletitle %>">
+                    <div class="articletext"><%= article.articletext %></div>
+                    <div class="authorarticle"><%= article.authorarticle %> - <%= article.articledate %></div>
+                </div>    
+        <% } %>
         </div>
-
-        <!--related post-->
-        <div class="detail-caption">
-            <span>  DANS LA MÊME CAT&Eacute;GORIE</span>
-        </div>
-        <section class="spotlight-thumbs spotlight-thumbs-related">
-            <div class="row">                
-                <div class="col-md-4 col-sm-4 col-xs-12">
-                    <div class="spotlight-item-thumb">
-                        <div class="spotlight-item-thumb-img">
-                            <a href="# TITREARTICLE">
-                                <img alt="TITREARTICLE" src="../img/thalassa.jpg"
-                            </a>
-                            <a href="LIBELLECATEGORIE" class="cate-tag">LIBELLECATEGORIE</a>
-                        </div>
-                        <h3><a href="TITREARTICLE">TITREARTICLE</a></h3>
-                        <div class="meta-post">
-                            <a href="#">
-                                PRENOMAUTEUR NOMAUTEUR
-                            </a>
-                            <em></em>
-                            <time datetime="DATECREATIONARTICLE"></time>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
-
-<!-- SIDE BAR -->
-
-
-
-    <div class="container">
-
-      <div class="row">
-
-        <div class="col-md-8 col-sm-12">
-            <article class="article">
-              <h1 class="titrearticle"><%= title %></h1>
-
-              <div class="auteurdate">
-                  <a href="#"><%= AUTEUR %></a>
-                  <span class="cssdate"><%= DATE %></span>
-              </div>
-
-              <div class="imagearticle">
-                <img src="<%= CHEMINIMAGE %>" alt="<%= TITREIMAGE %>">
-              </div>
-
-              <p class="textarticle">
-                <%= CONTENUARTICLE %>
-              </p>
-              <h5 class="auteur">
-                <%= AUTEUR %>
-              </h5>
-
-            </article>
-
-            <div class="socialsarticle">
-               <p class="textsocials">
-                partager nos articles sur les réseaux sociaux
-               </p>
-               <ul class="socialsicons">
-                   <li><a href="#"><i class="fa fa-facebook-square fa-3x"></i></a></i></li>
-                   <li><a href="#"><i class="fa fa-twitter-square fa-3x"></i></a></li>
-               </ul>
-            </div>
-
-        </div>
-
-
-
-
-     
-
 

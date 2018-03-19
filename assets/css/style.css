@@ -17,7 +17,7 @@ body{
 
 
 /*
------ NAVABAR -----
+----- NAVBAR -----
  */
 
 .navbar{
@@ -53,7 +53,48 @@ body{
  */
 
 
+/*
+----- INDEX -----
+ */
 
+.container {
+  
+}
+
+.couleur{
+    color: black;
+    margin-right: 5%;
+}
+
+.articletitle{
+    
+ }
+
+ .image{
+   
+ }
+
+.articletext{
+    
+
+}
+
+.articledate{
+    margin-right: 60px;
+    /**margin-bottom: 60px;**/
+    color: #f8f6f6;
+
+}
+
+.authorarticle{
+    /**margin-left: 40px; **/
+    /**margin-bottom: 60px;**/
+    color: f8f6f6;
+}
+        
+/*
+------ END INDEX -------
+ */
 
 
 /* ----- 404 ------
@@ -319,7 +360,7 @@ footer .container{
  /*
 ------ INSCRIPTION -------
  */
- .inqcription {
+ .inscription {
      
  }
 
