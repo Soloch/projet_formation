@@ -4,7 +4,7 @@
   "description": "Media Template",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,13 @@
   },
   "homepage": "https://github.com/Soloch/projet_formation#readme",
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^1.0.0-beta.1",
+    "@ckeditor/ckeditor5-build-classic": "^1.0.0-beta.1",
+    "@ckeditor/ckeditor5-dev-utils": "^7.0.5",
+    "@ckeditor/ckeditor5-editor-classic": "^1.0.0-beta.1",
+    "@ckeditor/ckeditor5-essentials": "^1.0.0-beta.1",
+    "@ckeditor/ckeditor5-paragraph": "^1.0.0-beta.1",
+    "@ckeditor/ckeditor5-theme-lark": "^1.0.0-beta.1",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.7",
@@ -26,11 +33,16 @@
     "goose-session": "^1.0.0",
     "mongoose": "^5.0.9",
     "mongoose-unique-validator": "^2.0.0",
+    "multer": "^1.3.0",
     "nodemailer": "^4.6.2",
-    "multer": "^1.3.0"
+    "postcss-loader": "^2.1.2",
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.1.1"
   },
   "devDependencies": {
     "faker": "^4.1.0",
-    "nodemon": "^1.17.1"
+    "nodemon": "^1.17.1",
+    "webpack-cli": "^2.0.12"
   }
 }
