@@ -8,6 +8,15 @@
 
     <div class="container bgimg">
         
+
+        <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
+        <div class="fresharticles">
+          <% for(article of articles) {%>
+          <div><%- article.contentarticle %></div>
+
+          <% } %>
+      </div>
+
       <div class="row">
         <% include ./partials/main %>
 

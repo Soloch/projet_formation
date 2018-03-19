@@ -29,13 +29,21 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+/* CKEDITOR */
+
+
+
 /** Inclusion des modèles **/
 var User = require('./models/user');
 
 var Article = require('./models/article');
 
+var Configuration = require('./models/configuration');
+
+var ImageDb = require('./models/image');
 
 
+const fs = require('fs');
 const PORT = 3000;
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -84,8 +92,8 @@ app.get('/adminarticle', (req , res) => {
                        image: req.body.articleimage};
   articleCategorie = [];
   res.render('adminarticle.ejs' , {title: "Ajouter un article"});
-
 });
+
 app.post('/', upload.fields([]),  (req, res, next) => {
   if(!req.body){
     return res.sendStatus(500);
@@ -93,12 +101,8 @@ app.post('/', upload.fields([]),  (req, res, next) => {
   } else {
     const formData = req.body;
     console.log('formData:', formData);
-    const title = req.body.articletitle;
-    const image = req.body.articleimage;
-    const content = req.body.articletext;
-    const date = req.body.articledate;
-    const author = req.body.authorarticle;
-    const myArticle = new Article ({ articletitle : title, articleimage : image, articletext : content, articledate : date , authorarticle : author});
+    const article = req.body.contentarticle;
+    const myArticle = new Article ({ contentarticle : article });
 
                          var articleCategorie = [];
     articleCategorie = [...articleCategorie, myArticle];
@@ -169,7 +173,7 @@ app.get('/', (req, res)=> {
     myArticle = articles;
     res.render('index.ejs',{title: req.session.userName , articles: myArticle});
   }
-  });
+});
 
 
 });
@@ -312,10 +316,46 @@ app.post('/login', [
   }
 });
 
+var admin = require('./routes/admin');
+
+app.use('/admin', admin);
+
 /* Page d'administration. */
-app.get('/admin', function (req, res) {
-    res.send('administration');
+/*app.get('/admin', function (req, res) {
+  res.render('admin.ejs', {title: "Enregistrement d'une photo"});
+});*/
+/*
+app.get('/admin/image', function (req, res) {
+  res.render('adminimage.ejs', {title: "Affichage d'une image provenant de la base de données."});
+});*/
+
+/* Page de configuration. *//*
+app.post('/admin/image', multer({storage: multer.memoryStorage()}).single('photo'), function (req, res) {
+  let image = new ImageDb.Image();
+  image.name = req.file.originalname;
+  console.log("Fichier photo mimetype : " + req.file.originalname);
+  image.contentType = req.file.mimetype;
+  image.image = req.file.buffer;
+  image.save(function(err) {
+    if (err) console.log("Erreur d'enregistrement de l'image");
+    else console.log("Image enregistrée");
+  });
+  //res.contentType(req.file.mimetype);
+  //res.send(req.file.buffer.data);
+  res.redirect('/admin');
 });
+
+app.get('/admin/image/test', function (req, res) {
+  ImageDb.Image.findOne({name: 'hua-mg-yumeiren4.jpg'}, function (err, doc) {
+    if (err) console.log("erreur récupération image : " + err);
+    else
+    {
+      console.log(doc.contentType);
+      res.contentType(doc.contentType);
+      res.end(doc.image, 'binary');
+    }
+  })
+});*/
 
 /* Page de login. */
 app.get('/login', function (req, res) {
