@@ -176,7 +176,22 @@ app.use('/*', (req, res, next) => {
   next();
 });
 
-
+/* Middleware pour envoyer la liste des articles dans le menu «Arcticles» de la navbar. */
+app.use('/*', (req, res, next) => {
+  Article.find().select('_id articletitle').exec(function (err, articles) {
+    if (err)
+    {
+      console.log("Erreur de récupération des articles avec offset : " + err);
+      next();
+    }
+    else
+    {
+      console.log("Articles trouvés : " + articles);
+      res.locals.articlesList = articles;
+      next();
+    }
+  });
+});
 
 /* Accueil */
 app.get('/', (req, res)=> {

@@ -37,3 +37,7 @@ module.exports.Nombre = Configuration.discriminator('Nombre',
 /* Modèle Date. */
 module.exports.Date = Configuration.discriminator('Date',
   new mongoose.Schema({value: Date}, options));
+
+/* Modèle ObjectId. */
+module.exports.ObjId = Configuration.discriminator('ObjectId',
+  new mongoose.Schema({value: Schema.Types.ObjectId}, options));

@@ -9,10 +9,11 @@
                 <li class="">
                     <a href="/articles">Articles</a>
                     <ul>
-                        <li><a href="#">News</a></li>
-                        <li><a href="#">Business</a></li>
-                        <li><a href="#">Tech</a></li>
-                        <li><a href="#">Dernières minutes</a></li>
+                      <% if (articlesList !== "undefined") { %>
+                        <% articlesList.forEach(function(article) { %>
+                          <li><a href="/article/<%= article._id %>"><%= article.articletitle %></a></li>
+                        <% }); %>
+                      <% } %>
                     </ul> 
                 </li>
 
