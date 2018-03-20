@@ -1,6 +1,6 @@
 /**
  * admin.js
- * 
+ *
  * Routeur pour l'administration.
  */
 
@@ -18,18 +18,14 @@ var ImageDb = require('../models/image');
 
 var User = require('../models/user');
 
+var Article = require('../models/article');
+
 
 /*router.use('../css' , express.static('assets/css'));
 router.use('../js' , express.static('assets/js'));
 router.use('../img' , express.static('assets/img'));*/
 
 /** TODO Mettre un middleware pour authoriser uniquement les utilisateurs avec droits admin. */
-router.use('/*', (req, res, next) => {
-  if ((typeof req.session.sessionUser !== "undefined") && (req.session.sessionUser.role == 1))
-    next();
-  else
-    res.redirect("/");
-});
 
 /* Page principale de l'administration. */
 router.get('/', function (req, res) {
@@ -40,7 +36,7 @@ router.get('/', function (req, res) {
 router.get('/image', function (req, res) {
     res.render('adminimage.ejs', {title: "Affichage d'une image provenant de la base de données."});
   });
-  
+
 /* Page de dépôt d'une image. */
 router.post('/image', multer({storage: multer.memoryStorage()}).single('image'), function (req, res) {
   let image = new ImageDb.Image();
@@ -64,7 +60,7 @@ router.post('/image', multer({storage: multer.memoryStorage()}).single('image'),
 
 /* Gestion des images. */
 router.get('/images', function (req, res) {
-  
+
   res.render('images.ejs', {title: "Images"});
 });
 
@@ -110,6 +106,7 @@ router.get('/configuration', function (req, res) {
 });
 
 /** Utilisateurs. **/
+
 /* Affichage liste utilisateurs. */
 router.get('/users', function (req, res) {
   User.find(function (err, users) {
@@ -192,6 +189,57 @@ router.get('/users/delete/:id', function (req, res) {
   });
 });
 
+/* Article admin */
+router.get('/articles', function (req, res) {
+  Article.find(function (err, articles) {
+    if (err) console.log("Erreurs obtention des articles");
+    else
+    {
+      console.log("Utilisateurs : " + articles);
+      res.render('adminarticles.ejs', {title: "Article", articles: articles});
+    }
+  })
+});
+/* Effacement d'un article */
+router.get('/articles/delete/:id', function (req, res) {
+  Article.findByIdAndRemove({_id: req.params.id}, function(err, article) {
+    if (err) console.log("Erreur d'effacement de l'article");
+    else res.redirect('/admin/articles');
+  });
+});
+router.get('/articles/edit/:id', function (req, res) {
+  Article.findOne({_id: req.params.id}, function(err, article) {
+    if (err) console.log("Erreur de récupération de l'article pour l'édition");
+    else
+    {
+      console.log("Article à éditer : " + article.articletitle + " " + article.contentarticle);
+      res.render("adminarticles_edit.ejs", {title: "Edition d'article", article: article, helps: "undefined"});
+    }
+  })
+});
+/* Editer un article */
+router.post('/articles/edit/:id', [],
+  function (req, res) {
+    console.log(req.body);
+
+      /* Tentative de sauvegarde du nouvel utilisateur. */
+      Article.findByIdAndUpdate(req.params.id, {$set: {contentarticle: req.body.contentarticle, articletitle: req.body.articletitle}}, function (err, article) {
+        if (err)
+        {
+          console.log("Erreur mise à jour article" + err);
+          res.render('/admin/articles', {title: title, helps: helps});
+        }
+        else
+        {
+          res.redirect("/admin/articles");
+        }
+      });
+      //res.send("Mise à jour effectuée");
+      //res.contentType('application/json');
+      //res.json({id: req.params.id});
+    }
+
+);
 
 /* Export du module. */
 module.exports = router;
