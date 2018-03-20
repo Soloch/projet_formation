@@ -146,6 +146,7 @@ router.post('/user/edit/:id', [
     /* Présence d'erreurs. */
     if (!erreurs.isEmpty())
     {
+      /* TODO refaire la gestion des erreurs. */
       erreurs.mapped().foreach((erreur) => {
         helps[erreur] = erreur.msg;
       });
