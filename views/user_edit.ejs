@@ -1,9 +1,9 @@
-<% include ./partials/head %>
+<% include ./partials/headadmin %>
 <title><%= title %></title>
-</head
-<% include ./partials/navbar %>
-
-  <h1><%= title %> pour <%= user.firstName %> <%= user.lastName %></h1>
+</head>
+<% include ./partials/adminside %>
+  <div class="col-md-6">
+    <h1><%= title %> pour <%= user.firstName %> <%= user.lastName %></h1>
 
     <form id="formulaire_edition" action="/admin/user/edit/<%= user.id %>" class="inscription" method="POST">
       <div class="form-group">
@@ -29,5 +29,7 @@
         <input class="btninscription" type="submit" name="Confirmer" value="Confirmer">
       </div>
     </form>
+  </div>
+  
     
 <% include ./partials/footer %>
