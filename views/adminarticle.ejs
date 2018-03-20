@@ -7,8 +7,7 @@
 
 <form class="" action="/" method="post" id="articleform">
 <textarea name="contentarticle" id="contentarticle"></textarea>
-<button type="submit" name="button">Submit</button>
-<a onclick="CKupdate();$("#articleform").ajaxSubmit();" class="btn btn-warning">Done with this article ? Post it there !</a>
+<button type="submit" name="button" class="btn btn-success" style="margin-left: 45%; margin-top: 20px;">Postez l'article</button>
 </form>
 
 
@@ -17,7 +16,24 @@
 
 
 <% include ./partials/footer %>
-<script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-beta.1/classic/ckeditor.js"></script>
+<script src="/js/tinymce/tinymce.min.js"></script>
+  <script>tinymce.init({ selector:'textarea',
+skin: 'custom' ,
+language: 'fr_FR',
+language_url: '/js/tinymce/langs/fr_FR.js',
+
+},{
+  selector: 'textarea',
+  plugins: "media",
+  menubar: "insert",
+  toolbar: "media"
+});
+
+tinymce.activeEditor.uploadImages(function(success) {
+  $.post('/image', tinymce.activeEditor.getContent()).done(function() {
+    console.log("Image posté en Ajax");
+  });
+});</script>
 <script>
     ClassicEditor
         .create( document.querySelector( '#contentarticle' ) )

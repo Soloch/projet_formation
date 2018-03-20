@@ -19,6 +19,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-basic-styles": "^1.0.0-beta.1",
     "@ckeditor/ckeditor5-build-classic": "^1.0.0-beta.1",
+    "@ckeditor/ckeditor5-build-inline": "^1.0.0-beta.1",
     "@ckeditor/ckeditor5-dev-utils": "^7.0.5",
     "@ckeditor/ckeditor5-editor-classic": "^1.0.0-beta.1",
     "@ckeditor/ckeditor5-essentials": "^1.0.0-beta.1",
