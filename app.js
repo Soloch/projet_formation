@@ -130,6 +130,20 @@ app.get('/adminarticle/:id' , (req , res) => {
 
 // FIN GESTION DES ARTICLES
 
+/* Affichage d'une image avec son nom. */
+/* N'a pas besoin du système de session. */
+app.get('/images/:name', function (req, res) {
+  console.log("Demande d'une image.");
+  ImageDb.Image.findOne({name: req.params.name}, function (err, image) {
+    if (err) console.log("erreur récupération image : " + err);
+    else
+    {
+      //console.log(image.contentType);
+      res.contentType(image.contentType);
+      res.end(image.image, 'binary');
+    }
+  })
+});
 
 /* Middleware pour la gestion des sessions. */
 app.use(session({
@@ -153,6 +167,7 @@ app.use('/*', (req, res, next) => {
   if (typeof req.session.userName !== "undifined")
   {
     /* L'utilisateur est ajouté dans les variables locales de la réponse. */
+    /** TODO remplacer par sessionUser et mettre à jour le comportement partout. */
     res.locals.user = req.session.user;
     //console.log("res.locals.user : " + req.session.user);
   }
@@ -167,16 +182,17 @@ app.get('/', (req, res)=> {
   myArticle = [];
   Article.find((err , articles) => {
     if(err){
-    console.error('Impossible de récupérer les articles depuis la DB');
-    res.sendStatus(500);
-  } else {
-    myArticle = articles;
-    res.render('index.ejs',{title: req.session.userName , articles: myArticle});
-  }
+      console.error('Impossible de récupérer les articles depuis la DB');
+      res.sendStatus(500);
+    } else {
+      myArticle = articles;
+      res.render('index.ejs',{title: req.session.userName , articles: myArticle});
+    }
+  });
 });
 
 
-});
+
 // Page de contact
 app.get('/contact', (req, res) => {
   res.render('contact.ejs', {title: "Contact"});

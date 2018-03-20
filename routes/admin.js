@@ -9,6 +9,9 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const uuidV1 = require('uuid/v1');
+const {body, check, validationResult} = require('express-validator/check');
+const {sanitizeBody} = require('express-validator/filter');
+const validator = require('express-validator');
 
 
 var ImageDb = require('../models/image');
@@ -20,6 +23,7 @@ var UserDb = require('../models/user');
 router.use('../js' , express.static('assets/js'));
 router.use('../img' , express.static('assets/img'));*/
 
+/** TODO Mettre un middleware pour authoriser uniquement les utilisateurs avec droits admin. */
 
 /* Page principale de l'administration. */
 router.get('/', function (req, res) {
@@ -126,7 +130,6 @@ router.get('/user/edit/:id', function (req, res) {
 
 /* Édition d'un utilisateur. */
 router.post('/user/edit/:id', [
-  [
     /* Vérification des champs. */
     check('lastname').exists(),
     check('firstname').exists(),
