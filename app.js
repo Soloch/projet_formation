@@ -265,6 +265,8 @@ app.post('/inscription', [
               if (error)
                 return console.log(error);
             });
+
+            return res.redirect('/welcome');
           }
           res.render('inscription.ejs', {title: title, helps: helps});
         });
