@@ -24,14 +24,17 @@
         </nav>
      
         <div class="nav navbar-right login bouton">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><% if (typeof user === "undefined") { %>Connexion / Inscription<% } else { %><%= user.firstName + " " + user.lastName %><% } %>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><% if (typeof sessionUser === "undefined") { %>Connexion / Inscription<% } else { %><%= sessionUser.firstName + " " + sessionUser.lastName %><% } %>
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <% if (typeof user === "undefined") { %>
+            <% if (typeof sessionUser === "undefined") { %>
             <li><a id="connexion" href="#">Connexion</a></li>
             <li><a href="/inscription">Inscription</a></li>
             <% } else { %>
+              <% if (sessionUser.role == 1) { %>
+                <li><a href="/admin">Administration</a></li>
+              <% } %>
             <li><a href="/logout">Déconnexion</a></li>
             <% } %>
           </ul>

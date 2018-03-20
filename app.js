@@ -165,11 +165,11 @@ app.use(session({
 
 /* Middleware pour répondre l'objet «utilisateur» s'il existe. */
 app.use('/*', (req, res, next) => {
-  if (typeof req.session.userName !== "undifined")
+  if (typeof req.session.sessionUser !== "undifined")
   {
     /* L'utilisateur est ajouté dans les variables locales de la réponse. */
     /** TODO remplacer par sessionUser et mettre à jour le comportement partout. */
-    res.locals.user = req.session.user;
+    res.locals.sessionUser = req.session.sessionUser;
     //console.log("res.locals.user : " + req.session.user);
   }
   next();
@@ -324,7 +324,7 @@ app.post('/login', [
         /* Contrôle du mot de passe. */
         if (req.body.password == user.password)
         {
-          req.session.user = user;
+          res.session.sessionUser = user;
         }
 
         res.redirect("back");
@@ -336,43 +336,6 @@ app.post('/login', [
 var admin = require('./routes/admin');
 
 app.use('/admin', admin);
-
-/* Page d'administration. */
-/*app.get('/admin', function (req, res) {
-  res.render('admin.ejs', {title: "Enregistrement d'une photo"});
-});*/
-/*
-app.get('/admin/image', function (req, res) {
-  res.render('adminimage.ejs', {title: "Affichage d'une image provenant de la base de données."});
-});*/
-
-/* Page de configuration. *//*
-app.post('/admin/image', multer({storage: multer.memoryStorage()}).single('photo'), function (req, res) {
-  let image = new ImageDb.Image();
-  image.name = req.file.originalname;
-  console.log("Fichier photo mimetype : " + req.file.originalname);
-  image.contentType = req.file.mimetype;
-  image.image = req.file.buffer;
-  image.save(function(err) {
-    if (err) console.log("Erreur d'enregistrement de l'image");
-    else console.log("Image enregistrée");
-  });
-  //res.contentType(req.file.mimetype);
-  //res.send(req.file.buffer.data);
-  res.redirect('/admin');
-});
-
-app.get('/admin/image/test', function (req, res) {
-  ImageDb.Image.findOne({name: 'hua-mg-yumeiren4.jpg'}, function (err, doc) {
-    if (err) console.log("erreur récupération image : " + err);
-    else
-    {
-      console.log(doc.contentType);
-      res.contentType(doc.contentType);
-      res.end(doc.image, 'binary');
-    }
-  })
-});*/
 
 /* Page de login. */
 app.get('/login', function (req, res) {
