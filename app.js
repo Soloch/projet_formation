@@ -187,7 +187,7 @@ app.get('/', (req, res)=> {
       res.sendStatus(500);
     } else {
       myArticle = articles;
-      res.render('index.ejs',{title: req.session.userName , articles: myArticle});
+      res.render('index.ejs',{title: title, articles: myArticle});
     }
   });
 });
@@ -261,7 +261,6 @@ app.post('/inscription', [
               subject: "Bienvenue !",
               text: "Bienvenue chez Media Template !"
             };
-
             transporter.sendMail(mailOptions, (error, info) => {
               if (error)
                 return console.log(error);
@@ -277,14 +276,11 @@ app.get('/welcome', (req, res) => {
   res.render('welcome.ejs', {title: "Bienvenue"});
 });
 
+
+/** Connexion. **/
+/* Page de connexion. */
 app.get('/login', (req, res) => {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
-});
-
-
-
-app.get('/article' , (req , res) => {
-  res.render('article.ejs' , {title: "Articles"});
 });
 
 /* Post pour le login. */
@@ -301,30 +297,19 @@ app.post('/login', [
     }
     else
     {
-    /* Création histoire d'avoir quelquechose à controller. */
-    /*var tata = new User();
-    tata.email = "tata@tete.titi";
-    tata.password = "totote";
-    tata.firstName = "tata";
-    tata.lastName = "tete";
-    tata.role = 1;
-    tata.connected = true;
-    tata.save(function(err) {
-      if (err) res.send(err);
-      res.send({message: "Tata enregistrée !"});
-    });*/
     /* Contrôle de l'identité de l'utilisateur. */
       User.findOne({email: req.body.email}, function(err, user) {
         if (err) throw err;
 
-      console.log("user : " + user);
+      /* Utilisateur trouvé. */
       if (user)
       {
         console.log("session user");
         /* Contrôle du mot de passe. */
         if (req.body.password == user.password)
         {
-          res.session.sessionUser = user;
+          console.log("Utilisateur : " + user);
+          req.session.sessionUser = user;
         }
 
         res.redirect("back");
@@ -333,15 +318,13 @@ app.post('/login', [
   }
 });
 
+app.get('/article' , (req , res) => {
+  res.render('article.ejs' , {title: "Articles"});
+});
+
 var admin = require('./routes/admin');
 
 app.use('/admin', admin);
-
-/* Page de login. */
-app.get('/login', function (req, res) {
-
-  res.send('login');
-});
 
 /* Articles. */
 app.get('/article/:nom', function (req, res) {
