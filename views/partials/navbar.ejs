@@ -45,15 +45,15 @@
 <div id="layout" class="calque-opaque">
   <div class="box">
     <div class="box-header">
-      <div class="title-bar">
+      <div class="title-bar connexion_title">
         <span class="title">Connexion</span>
       </div>
     </div>
-    <div class="box-content">
+    <div class="box-content fenetre_connexion">
         <form class="" method="post" action="/login">
             <input class="form-control navco" type="email" name="email" id="email" placeholder="Votre email" />
             <input class="form-control navco" type="password" name="password" id="password" placeholder="Votre mot de passe" />
-            <button type="submit" id="submit" class="fabutton fa fa-user fa-lg"></button>
+            <button type="submit" id="submit" class="fabutton fa fa-user fa-lg fa-2x" style="margin-top: 0.5em;"></button>
         </form>
     </div>
     <div class="box-footer">
@@ -61,10 +61,7 @@
     </div>
   </div>
 </div>
-<style>
-  div.calque-opaque {display: none; z-index: 1; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(128, 128, 128, 0.8);}
-  div.box {margin-left: 10%; margin-top: 10%; width: 80%; height: 80%; background: #fff;}
-</style>
+
 <script>
   /* Bouton d'affichage de la boîte de dialogue. */
   let connexion = document.getElementById("connexion");

@@ -11,8 +11,11 @@ body{
     background-image: linear-gradient(-200deg, rgba(175, 49, 89, 0.3) 50%, rgba(119, 119, 119, 0.3) 50%);
     background-repeat: no-repeat;
     background-size: auto;
+    font-family: CreateRound;
+     src: url(./fonts/CreteRound-Regular.ttf)
     
 }
+
 
 
 .articles h1,h2,h3{
@@ -177,7 +180,7 @@ body{
 }
 .form-control.navco {
    width: 40%;
-   margin-bottom: 0.5em;
+   margin: 0 auto 0.5em auto;
 }
 
 .fabutton{
@@ -206,6 +209,47 @@ body{
 .navbar-inverse {
     border-color: #FEFDF0;
 }
+
+/*
+----- CONNEXION -----
+ */
+
+ div.calque-opaque {
+    display: none; z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    background: rgba(128, 128, 128, 0.8);
+}
+
+ div.box {
+    margin-left: 30%;
+    margin-top: 10%;
+    width: 40%; 
+    height: 20%; 
+    background: #e0e0e0;
+    border-radius: 10px;
+}
+ 
+ .fenetre_connexion {
+     text-align: center;
+ }
+ 
+ .title-bar {
+     text-align: center;
+ }
+ 
+ .connexion_title {
+     font-size: 20px;
+     padding-top: 12px;
+     margin-bottom: 20px;
+ }
+
+ /*
+ ----- END CONNEXION -----
+  */
 
 /* form-control */
 .form-control {

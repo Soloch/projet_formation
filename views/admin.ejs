@@ -4,13 +4,29 @@
 <div class="container-fluid">
     <div class="row">
         <% include ./partials/adminside %>
-        <div class="col-md-8">
-            <form id="photoForm" class="photoFormm" action="/admin/image" method="POST" enctype="multipart/form-data">
-                <h1><%= title%></h1>
-                <label for="photo">Photo</label>
-                <input type="file" name="photo" id="photo">
-                <button type="submit">Enregistrer photo</button>
-            </form>
+        <div class="col-md-8 text-center jumbotron">
+            <h1>Fonctionnalités:</h1>
+            <br>
+            <h3>Thème :</h3>
+            <p> Malheureusement, la fonctionnalité pour changer de thème n'est pas déployée, il faudra patienter un peu. <br>
+                Cette fonctionnalité a pour but de pouvoir changer le thème de votre site d'informations simplement. Un autre thème à d'ailleurs été développé.
+            </p>
+            <br>
+            <h3>Utilisateurs :</h3>
+            <p>
+                Fonctionnalité permetant à l'administrateur du site de gérer les membres inscrits.
+                Il peut changer le Prénom, le Nom, et le rôle du membre.
+            </p>
+            <br>
+            <h3>Articles :</h3>
+            <p>
+                Cette fonctionnalité est en cours de déploiement.
+            </p>
+            <br>
+            <h3>Configuration :</h3>
+            <p>
+                Parmettant à l'admin de gérer son compte. Malheureusement ceci n'est pas disponible par manque de temps.
+            </p>
         </div>
     </div>
 </div>
