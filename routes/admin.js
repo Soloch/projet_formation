@@ -24,6 +24,12 @@ router.use('../js' , express.static('assets/js'));
 router.use('../img' , express.static('assets/img'));*/
 
 /** TODO Mettre un middleware pour authoriser uniquement les utilisateurs avec droits admin. */
+router.use('/*', (req, res, next) => {
+  if ((typeof req.session.sessionUser !== "undefined") && (req.session.sessionUser.role == 1))
+    next();
+  else
+    res.redirect("/");
+});
 
 /* Page principale de l'administration. */
 router.get('/', function (req, res) {

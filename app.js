@@ -166,11 +166,11 @@ app.use(session({
 
 /* Middleware pour répondre l'objet «utilisateur» s'il existe. */
 app.use('/*', (req, res, next) => {
-  if (typeof req.session.userName !== "undifined")
+  if (typeof req.session.sessionUser !== "undifined")
   {
     /* L'utilisateur est ajouté dans les variables locales de la réponse. */
     /** TODO remplacer par sessionUser et mettre à jour le comportement partout. */
-    res.locals.user = req.session.user;
+    res.locals.sessionUser = req.session.sessionUser;
     //console.log("res.locals.user : " + req.session.user);
   }
   next();
@@ -188,7 +188,7 @@ app.get('/', (req, res)=> {
       res.sendStatus(500);
     } else {
       myArticle = articles;
-      res.render('index.ejs',{title: req.session.userName , articles: myArticle});
+      res.render('index.ejs',{title: title, articles: myArticle});
     }
   });
 });
@@ -262,11 +262,12 @@ app.post('/inscription', [
               subject: "Bienvenue !",
               text: "Bienvenue chez Media Template !"
             };
-
             transporter.sendMail(mailOptions, (error, info) => {
               if (error)
                 return console.log(error);
             });
+
+            return res.redirect('/welcome');
           }
           res.render('inscription.ejs', {title: title, helps: helps});
         });
@@ -278,14 +279,11 @@ app.get('/welcome', (req, res) => {
   res.render('welcome.ejs', {title: "Bienvenue"});
 });
 
+
+/** Connexion. **/
+/* Page de connexion. */
 app.get('/login', (req, res) => {
   res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
-});
-
-
-
-app.get('/article' , (req , res) => {
-  res.render('article.ejs' , {title: "Articles"});
 });
 
 /* Post pour le login. */
@@ -302,30 +300,19 @@ app.post('/login', [
     }
     else
     {
-    /* Création histoire d'avoir quelquechose à controller. */
-    /*var tata = new User();
-    tata.email = "tata@tete.titi";
-    tata.password = "totote";
-    tata.firstName = "tata";
-    tata.lastName = "tete";
-    tata.role = 1;
-    tata.connected = true;
-    tata.save(function(err) {
-      if (err) res.send(err);
-      res.send({message: "Tata enregistrée !"});
-    });*/
     /* Contrôle de l'identité de l'utilisateur. */
       User.findOne({email: req.body.email}, function(err, user) {
         if (err) throw err;
 
-      console.log("user : " + user);
+      /* Utilisateur trouvé. */
       if (user)
       {
         console.log("session user");
         /* Contrôle du mot de passe. */
         if (req.body.password == user.password)
         {
-          req.session.user = user;
+          console.log("Utilisateur : " + user);
+          req.session.sessionUser = user;
         }
 
         res.redirect("back");
@@ -334,52 +321,13 @@ app.post('/login', [
   }
 });
 
+app.get('/article' , (req , res) => {
+  res.render('article.ejs' , {title: "Articles"});
+});
+
 var admin = require('./routes/admin');
 
 app.use('/admin', admin);
-
-/* Page d'administration. */
-/*app.get('/admin', function (req, res) {
-  res.render('admin.ejs', {title: "Enregistrement d'une photo"});
-});*/
-/*
-app.get('/admin/image', function (req, res) {
-  res.render('adminimage.ejs', {title: "Affichage d'une image provenant de la base de données."});
-});*/
-
-/* Page de configuration. *//*
-app.post('/admin/image', multer({storage: multer.memoryStorage()}).single('photo'), function (req, res) {
-  let image = new ImageDb.Image();
-  image.name = req.file.originalname;
-  console.log("Fichier photo mimetype : " + req.file.originalname);
-  image.contentType = req.file.mimetype;
-  image.image = req.file.buffer;
-  image.save(function(err) {
-    if (err) console.log("Erreur d'enregistrement de l'image");
-    else console.log("Image enregistrée");
-  });
-  //res.contentType(req.file.mimetype);
-  //res.send(req.file.buffer.data);
-  res.redirect('/admin');
-});
-
-app.get('/admin/image/test', function (req, res) {
-  ImageDb.Image.findOne({name: 'hua-mg-yumeiren4.jpg'}, function (err, doc) {
-    if (err) console.log("erreur récupération image : " + err);
-    else
-    {
-      console.log(doc.contentType);
-      res.contentType(doc.contentType);
-      res.end(doc.image, 'binary');
-    }
-  })
-});*/
-
-/* Page de login. */
-app.get('/login', function (req, res) {
-
-  res.send('login');
-});
 
 /* Articles. */
 app.get('/article/:nom', function (req, res) {
