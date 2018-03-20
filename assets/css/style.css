@@ -371,6 +371,7 @@ article a {
 **/
 .sidebar{
     background-color: #efefef;
+    margin-bottom: 1em;
 }
 
 .listarticle {
