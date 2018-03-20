@@ -29,7 +29,7 @@ router.use('../img' , express.static('assets/img'));*/
 
 /* Page principale de l'administration. */
 router.get('/', function (req, res) {
-  res.render('admin.ejs', {title: "Enregistrement d'une photo"});
+  res.render('admin.ejs', {title: "Administration du site"});
 });
 
 /*  */
@@ -128,7 +128,7 @@ router.get('/user/edit/:id', function (req, res) {
       console.log("Utilisateur à éditer : " + user.lastName + " " + user.firstName);
       res.render("user_edit.ejs", {title: "edition", user: user, helps: "undefined"});
     }
-  })
+  });
 });
 
 /* Édition d'un utilisateur. */
@@ -196,7 +196,7 @@ router.get('/articles', function (req, res) {
     else
     {
       console.log("Utilisateurs : " + articles);
-      res.render('adminarticles.ejs', {title: "Article", articles: articles});
+      res.render('adminarticles.ejs', {title: "Articles", articles: articles});
     }
   })
 });

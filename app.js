@@ -336,8 +336,14 @@ app.post('/login', [
   }
 });
 
-app.get('/article' , (req , res) => {
-  res.render('article.ejs' , {title: "Articles"});
+app.get('/article/:id' , (req , res) => {
+  Article.findOne({_id: req.params.id}, function(err, article) {
+    if (err) console.log("Erreur de récupération de l'article pour l'affichage.");
+    else
+    {
+      res.render("article.ejs", {title: article.articletitle, article: article});
+    }
+  });
 });
 
 var admin = require('./routes/admin');

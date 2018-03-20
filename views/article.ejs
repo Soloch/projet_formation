@@ -6,52 +6,28 @@
   <% include ./partials/navbar %>
 
 
-    <div class="container">
+  <div class="container bgimg">
 
-      <div class="row">
 
-        <div class="col-md-8 col-sm-12">
-            <article class="article">
-              <h1 class="titrearticle"><%= title %></h1>
+  <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
+  <div class="fresharticles jumbotron col-md-7 couleur" style="margin-bottom: 15px;">
+    <% if (typeof article !== "undefined") { %>
+      <h1 class="text-center articles" style="font-size: 55px;"><%= article.articletitle %></h1>
+      <div><%- article.contentarticle %></div>
+    <% } else { %>
+      <h1 class="text-center articles" style="font-size: 55px;">Article non trouvé !</h1>
+    <% } %>
 
-              <div class="auteurdate">
-                  <a href="#"><%= AUTEUR %></a>
-                  <span class="cssdate"><%= DATE %></span>
-              </div>
+</div>
 
-              <div class="imagearticle">
-                <img src="<%= CHEMINIMAGE %>" alt="<%= TITREIMAGE %>">
-              </div>
+<div class="row">
 
-              <p class="textarticle">
-                <%= CONTENUARTICLE %>
-              </p>
-              <h5 class="auteur">
-                <%= AUTEUR %>
-              </h5>
 
-            </article>
+  <% include ./partials/sidebar %>
 
-            <div class="socialsarticle">
-               <p class="textsocials">
-                partager nos articles sur les réseaux sociaux
-               </p>
-               <ul class="socialsicons">
-                   <li><a href="#"><i class="fa fa-facebook-square fa-3x"></i></a></i></li>
-                   <li><a href="#"><i class="fa fa-twitter-square fa-3x"></i></a></li>
-               </ul>
-            </div>
-
-        </div>
+</div> <!-- DIV ROW -->
+</div> <!-- DIV CONTAINER -->
 
 
 
-
-        <% include ./partials/sidebar %>
-
-      </div> <!-- DIV ROW -->
-    </div> <!-- DIV CONTAINER -->
-
-
-
-  <% include ./partials/footer %>
+<% include ./partials/footer %>
