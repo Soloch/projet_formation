@@ -2,10 +2,20 @@
 <title><%= title %></title>
 </head>
 <% include ./partials/navbar %>
-<div class="container">
-  <form class="addarticle jumbotron" action="/" method="post">
-  <label for="articleimage">Illustration de l'article</label>
-  <input type="file" name="articleimage" value="" id="articleimage">
+<div class="container text-center">
+  <form class="addarticle jumbotron" action="/index" method="post">
+  <label class="labelaa" for="articleimage">Illustration de l'article</label>
+  <!--<input type="file" style="color: #ad8dda;" name="articleimage" value="" id="articleimage"> -->
+<br>
+  <input type="file" id="articleimage" type="file">
+
+<label for="articleimage">
+ 
+    
+    <span> Importez l'image&hellip;</span>
+    
+</label>
+
   <br>
   <label class="labelaa" for="articletitle">Titre de l'article</label>
   <input type="text" class="form-control" name="articletitle" id="articletitle" value="">
