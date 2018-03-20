@@ -57,6 +57,7 @@ app.use('/js' , express.static('assets/js'));
 app.use('/img' , express.static('assets/img'));
 
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // GESTION DES ARTICLES

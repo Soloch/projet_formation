@@ -16,7 +16,7 @@ const validator = require('express-validator');
 
 var ImageDb = require('../models/image');
 
-var UserDb = require('../models/user');
+var User = require('../models/user');
 
 
 /*router.use('../css' , express.static('assets/css'));
@@ -106,7 +106,7 @@ router.get('/configuration', function (req, res) {
 /** Utilisateurs. **/
 /* Affichage liste utilisateurs. */
 router.get('/users', function (req, res) {
-  UserDb.find(function (err, users) {
+  User.find(function (err, users) {
     if (err) console.log("Erreurs obtention utilisateurs");
     else
     {
@@ -118,7 +118,7 @@ router.get('/users', function (req, res) {
 
 /* Page d'édition d'un utilisateur. */
 router.get('/user/edit/:id', function (req, res) {
-  UserDb.findOne({_id: req.params.id}, function(err, user) {
+  User.findOne({_id: req.params.id}, function(err, user) {
     if (err) console.log("Erreur de récupération de l'utilisateur pour l'édition");
     else
     {
@@ -133,11 +133,10 @@ router.post('/user/edit/:id', [
     /* Vérification des champs. */
     check('lastname').exists(),
     check('firstname').exists(),
-    check('email').isEmail().withMessage('Doit être un email').trim(),
-    check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum'),
-    check('confirmPassword').isLength({min: 5}).withMessage('Le mot de passe de confirmation doit avoir une longueur de 5 caractères au minimum')
+    check('userrole').exists().isDecimal()
   ],
   function (req, res) {
+    console.log(req.body);
     const erreurs = validationResult(req);
     let title = "Échec de l'inscription";
     let helps = {};
@@ -148,38 +147,40 @@ router.post('/user/edit/:id', [
         helps[erreur] = erreur.msg;
       });
       console.log(erreurs.mapped());
-      res.render('user_edit.ejs', {title: title, helps: helps});
+      res.send(erreurs);
     }
     else
     {
-      /* Création du nouvel utilisateur. */
-      let machin = new User();
-      machin.lastName = req.body.lastname;
-      machin.firstName = req.body.firstname;
-      machin.email = req.body.email;
-      machin.password = req.body.password;
-      machin.role = 0;
-      machin.connected = true;
+      /* Mise à jour des informations sur l'utilisateur. */
+      let utilisateur = new User();
+      utilisateur.lastName = req.body.lastname;
+      utilisateur.firstName = req.body.firstname;
+      utilisateur.role = Number(req.body.userrole);
+
+      console.log("Utilisateur : " + utilisateur);
 
       /* Tentative de sauvegarde du nouvel utilisateur. */
-      machin.save(function (err) {
+      User.findByIdAndUpdate(req.params.id, {$set: {lastName: req.body.lastname, firstName: req.body.firstname, role: Number(req.body.userrole)}}, function (err, utilisateur) {
         if (err)
         {
-          helps['email'] = "L'adresse email est déjà utilisée";
+          console.log("Erreur mise à jour utilisateur" + err);
+          res.render('inscription.ejs', {title: title, helps: helps});
         }
         else
         {
-            
+          res.redirect("/admin/users");
         }
-        res.render('inscription.ejs', {title: title, helps: helps});
       });
+      //res.send("Mise à jour effectuée");
+      //res.contentType('application/json');
+      //res.json({id: req.params.id});
     }
   }
 );
 
 /* Effacement d'un utilisateur. */
 router.get('/users/delete/:id', function (req, res) {
-  UserDb.findByIdAndRemove({_id: req.params.id}, function(err, user) {
+  User.findByIdAndRemove({_id: req.params.id}, function(err, user) {
     if (err) console.log("Erreur d'effacement de l'utilisateur.");
     else res.redirect('/admin/users');
   });
