@@ -19,28 +19,68 @@
             </li>
             <li>
                 <ul class="nav navbar-nav">
-                    <li><a href="/inscription">Inscription</a></li>
                     <li><a href="/contact">Contact</a></li>
                 </ul>
             </li>
         </ul>
         <div class="nav navbar-right login">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><% if (typeof user === "undefined") { %>Connexion / Inscription<% } else { %><%= user.firstName + " " + user.lastName %><% } %>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
             <% if (typeof user === "undefined") { %>
-                <form class="form-inline" method="post" action="/login">
-                    <p>
-                        <input class="form-control navco" type="email" name="email" id="email" placeholder="Votre email" />
-                        <input class="form-control navco" type="password" name="password" id="password" placeholder="Votre mot de passe" />
-                        <button type="submit" id="submit" class="fabutton fa fa-user fa-lg"></button>                      
-                    </p>
-                </form>
+            <li><a id="connexion" href="#">Connexion</a></li>
+            <li><a href="/inscription">Inscription</a></li>
             <% } else { %>
-                <form method="get" action="/logout">
-                    <p>
-                        <a class="user_name" href="/user/<%= user._id %>"><%= user.firstName + " " + user.lastName %></a>
-                        <button type="submit" id="submit" class="fabutton fa fa-times fa-lg"></button>                                    
-                    </p>
-                </form>
+            <li><a href="/logout">Déconnexion</a></li>
             <% } %>
+          </ul>
         </div>
     </div>
 </nav>
+<!-- Formulaire de connexion. -->
+<div id="layout" class="calque-opaque">
+  <div class="box">
+    <div class="box-header">
+      <div class="title-bar">
+        <span class="title">Connexion</span>
+      </div>
+    </div>
+    <div class="box-content">
+        <form class="" method="post" action="/login">
+            <input class="form-control navco" type="email" name="email" id="email" placeholder="Votre email" />
+            <input class="form-control navco" type="password" name="password" id="password" placeholder="Votre mot de passe" />
+            <button type="submit" id="submit" class="fabutton fa fa-user fa-lg"></button>
+        </form>
+    </div>
+    <div class="box-footer">
+
+    </div>
+  </div>
+</div>
+<style>
+  div.calque-opaque {display: none; z-index: 1; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(128, 128, 128, 0.8);}
+  div.box {margin-left: 10%; margin-top: 10%; width: 80%; height: 80%; background: #fff;}
+</style>
+<script>
+  /* Bouton d'affichage de la boîte de dialogue. */
+  let connexion = document.getElementById("connexion");
+  connexion.addEventListener("click", afficher_boite);
+
+  /* Boîte de dialogue. */
+  let layout = document.getElementById('layout');
+
+  /* Affichage de la boîte de choix d'image. */
+  function afficher_boite ()
+  {
+    /* Affichage. */
+    layout.style.display = "block";
+  };
+
+  /* Masquage de la boîte de choix d'image. */
+  window.onclick = (event) =>
+  {
+    if (event.target == layout)
+      layout.style.display = "none";
+  };
+</script>

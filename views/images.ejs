@@ -71,10 +71,10 @@
         </div>
         <div class="tool-bar">
           <div class="row">
-            <form id="recherche" action="/admin/images/search" method="POST">
+            <form action="/admin/images/search" method="GET">
               <label for="search">Nom de l'image</label>
               <input id="search" type="text" name="search" placeholder="Nom de l'image" />
-              <button type="submit" name="submit">Rechercher</button>
+              <button id="recherche" type="submit" name="recherche">Rechercher</button>
             </form>
             <form id="ajout_image" action="/admin/image" method="POST">
               <label for="image">Image</label>
@@ -114,6 +114,10 @@
 
   /* Boîte de dialogue. */
   let layout = document.getElementById('layout');
+
+  /* Bouton de recherche d'une image. */
+  let bouton_recherche = document.getElementById('recherche');
+  bouton_recherche.addEventListener("click", recherche_images);
 
   /* Bouton d'ajout d'une image. */
   let bouton_ajout = document.getElementById('ajout');
@@ -156,6 +160,9 @@
   /* Obtention des images. */
   function obtenir_images (div_box_content)
   {
+    /* Action. */
+    action = "obtenir";
+
     /* Requête. */
     fetch("/admin/images/from/" + depart + "/to/" + limite)
     .then((resp) => resp.json())
@@ -179,7 +186,7 @@
       image_telechargement.src = "http://localhost:3000/admin/images/" + images[i].name;
       image.setAttribute("alt", images[i].name);
       image.setAttribute("data-id", images[i]._id);
-      image.setAttribute("title", images[i].name);
+      image.setAttribute("title", images[i].originalName);
       image.addEventListener("click", cette_image);
       image.src = image_telechargement.src;
     }
@@ -229,12 +236,15 @@
       limite -= pas;
     }
 
-    /* Affichage des images. */
-    obtenir_images(div_box_content);
+    /* Affichage des images en fonction de l'action. */
+    if (action == "obtenir")
+      obtenir_images(div_box_content);
+    else
+      rechercher_images();
   }
 
   /* Afficher les images suivantes. */
-  function images_suivantes ()
+  function images_suivantes (event)
   {
     /* Suppression des images. */
     supprimer_images();
@@ -243,8 +253,13 @@
     depart += pas;
     limite += pas;
 
-    /* Affichage des images. */
-    obtenir_images(div_box_content);
+    console.log("Images suivantes pour " + action);
+
+    /* Affichage des images en fonction de l'action. */
+    if (action == "obtenir")
+      obtenir_images(div_box_content);
+    else
+      rechercher_images();
   }
 
   /* Valider l'image. */
@@ -267,7 +282,44 @@
     image_cible.setAttribute("title", image_choisie_name);
   }
 
-  
+  /* Recherche d'images. */
+  function recherche_images (event)
+  {
+    /* Suppression du comportement par défaut. */
+    event.preventDefault();
+
+    /* Action. */
+    action = "rechercher";
+
+    /* Initialisation des images à obtenir. */
+    pas = 8;
+    depart = 0;
+    limite = depart + pas;
+
+    /* Recherche des images. */
+    rechercher_images ();
+  }
+
+  /* Rechercher des images. */
+  function rechercher_images ()
+  {
+    /* Supression des images. */
+    supprimer_images();
+
+    let search = document.getElementById("search");
+    let name = search.value;
+
+    /* Requête. */
+    console.log("/admin/images/find/" + name + "/from/" + depart + "/to/" + limite);
+    fetch("/admin/images/find/" + name + "/from/" + depart + "/to/" + limite)
+    .then((resp) => resp.json())
+    .then(function(images) {
+      console.log(images);
+      
+      /* Affichage des images. */
+      afficher_images (div_box_content, images);
+    });
+  }
 
 
 

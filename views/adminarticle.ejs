@@ -2,6 +2,7 @@
 <title><%= title %></title>
 </head>
 <% include ./partials/navbar %>
+<<<<<<< HEAD
 
 
 
@@ -9,6 +10,39 @@
 <textarea name="contentarticle" id="contentarticle"></textarea>
 <button type="submit" name="button">Submit</button>
 <a onclick="CKupdate();$("#articleform").ajaxSubmit();" class="btn btn-warning">Done with this article ? Post it there !</a>
+=======
+<div class="container text-center">
+  <form class="addarticle jumbotron" action="/index" method="post">
+  <label class="labelaa" for="articleimage">Illustration de l'article</label>
+  <!--<input type="file" style="color: #ad8dda;" name="articleimage" value="" id="articleimage"> -->
+<br>
+  <input type="file" id="articleimage" type="file">
+
+<label for="articleimage">
+ 
+    
+    <span> Importez l'image&hellip;</span>
+    
+</label>
+
+  <br>
+  <label class="labelaa" for="articletitle">Titre de l'article</label>
+  <input type="text" class="form-control" name="articletitle" id="articletitle" value="">
+  <br>
+  <label class="labelaa" for="articledate">Date de parution</label>
+  <input type="date" class="form-control" name="articledate" id="articledate" value="">
+  <br>
+  <label class="labelaa" for="articletext">Contenu de l'article</label>
+  <input type="text" class="form-control" name="articletext" value="">
+  <br>
+  <label class="labelaa" for="authorarticle">Auteur de l'article</label>
+  <input type="text" class="form-control" name="authorarticle" value="" id="authorarticle">
+  <br>
+    <div class="text-center">
+      <button type="submit" class="btnerroraa" name="button">Ajouter l'article</button>
+    </div>
+  
+>>>>>>> f38062d44c3261d104c2e5586b609088d20df1cd
 </form>
 
 
