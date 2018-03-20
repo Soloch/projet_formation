@@ -7,21 +7,22 @@
 
 
     <div class="container bgimg">
-        
+
 
         <!--<img src="/img/bgnews.jpg" alt="Background du site."> -->
         <div class="fresharticles jumbotron col-md-7 couleur" style="margin-bottom: 15px;">
           <% for(article of articles) {%>
+            <h1 class="text-center articles"> <%= article.articletitle %></h1>
           <div><%- article.contentarticle %></div>
 
           <% } %>
       </div>
 
       <div class="row">
-       
+
 
         <% include ./partials/sidebar %>
-      
+
       </div> <!-- DIV ROW -->
     </div> <!-- DIV CONTAINER -->
 

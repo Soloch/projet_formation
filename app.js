@@ -102,8 +102,9 @@ app.post('/', upload.fields([]),  (req, res, next) => {
   } else {
     const formData = req.body;
     console.log('formData:', formData);
+    const articletitles = req.body.articletitle;
     const article = req.body.contentarticle;
-    const myArticle = new Article ({ contentarticle : article });
+    const myArticle = new Article ({ contentarticle : article , articletitle : articletitles});
 
                          var articleCategorie = [];
     articleCategorie = [...articleCategorie, myArticle];
