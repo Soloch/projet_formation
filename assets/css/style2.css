@@ -1,3 +1,5 @@
+
+
 html, body {
 height: 100%;
 margin: 0;
@@ -8,10 +10,9 @@ body{
     height: 100%;
     width: 100%;
     display: table;
-    background-image: linear-gradient(-200deg, rgba(175, 49, 89, 0.3) 50%, rgba(119, 119, 119, 0.3) 50%);
+    background-image: linear-gradient(-200deg, rgba(173, 141, 218, 0.3) 50%, rgba(13, 14, 14, 0.7) 50%);
     background-repeat: no-repeat;
-    background-size: auto;
-    
+    background-size: cover;
 }
 
 
@@ -30,7 +31,7 @@ body{
 */
 
  .photoFormm {
-    text-align: center;
+    /* margin-left: 350px;*/
  }
 
 
@@ -39,134 +40,14 @@ body{
 ----- END SIDEADMIN -----
 */
 
-/*
------ INDEX -----
- */
-
- .container {
-  
-}
-
-.couleur{
-    color: black;
-    margin-right: 5%;
-}
-
-.articletitle{
-    
- }
-
- .image{
-   
- }
-
-.articletext{
-    
-
-}
-
-.articledate{
-    margin-right: 60px;
-    /**margin-bottom: 60px;**/
-    color: #f8f6f6;
-
-}
-
-.authorarticle{
-    /**margin-left: 40px; **/
-    /**margin-bottom: 60px;**/
-    color: f8f6f6;
-}
-        
-/*
------- END INDEX -------
- */
-
 
 /*
 ----- NAVABAR -----
  */
 
- .menu {
-    line-height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-  .menu ul {
-    color: pink;
-  }
-  
-  
-  .menu, .menu ul {
-    margin: 0px;
-    padding: 0px;
-    position: relative;
-    line-height: 2em;
-  }
-  
-  .menu a {
-    color: #777777;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-size: 20px;
-    margin-right: 10px;
-    border-bottom: 2px solid transparent;
-    transition: 0.5s;
-    padding: 10px;
-    position: relative;
-    display: block;
-    width: 100%;
-  }
-  
-  .menu a:before {
-    content: ' ';
-    position: absolute;
-    height: 3.5px;
-    left: 0;
-    bottom: 0;
-    width: 0%;
-    background-color: rgba(175, 49, 89, 0.5);
-    transition: 0.7s;
-    
-  }
-  
-  .menu a:hover:before {
-    width: 100%;
-  }
-  
-  .menu a:hover {
-    color: rgba(175, 49, 89, 0.7);
-  }
-  
-  .menu .menu-interne li ul {
-    background-color: #FFF;
-    color: rgba(175, 49, 89, 0.7);
-    z-index: 500;
-    
-  }
-  
-  .menu li {
-    float: left;
-    list-style: none;
-    position: relative;
-  }
-  
-  .menu-interne li ul li{
-    width: 100%;
-    text-align: center;
-  }
-  
-  .menu ul li ul {
-    line-height: 1.7em;
-    position: absolute;
-    display: none;
-  
-  }
-
 .navbar{
     border-radius: 0px;
-    background-color: white;
+    background-color: #FEFDF0;
 }
 
     
@@ -196,7 +77,7 @@ body{
 }
 
 #submit {
-    color: rgba(175, 49, 89, 0.7);
+    color: #ad8dda;
 }
 
 .navbar-inverse .navbar-nav>li>a {
@@ -205,37 +86,6 @@ body{
 
 .navbar-inverse {
     border-color: #FEFDF0;
-}
-
-/* form-control */
-.form-control {
-    color: rgba(175, 49, 89, 0.7);
-}
-
-.form-control:focus {
-     border-color: rgba(175, 49, 89, 0.7);
-    outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(175, 49, 89, 0.7);
-    /* box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); */
-}
-
-/*end form-control */
-
-.bouton {
-    border:none;
-	padding: 8px;;
-	border-radius: 8px;
-	background: rgba(119, 119, 119, 0.4);
-	font:bold 13px Arial;
-}
-
-.dropdown-toggle {
-    color: white;
-}
-
-.dropdown-toggle:hover {
-    color: rgb(175, 49, 89);
-    text-decoration: none;
 }
 
 /*
@@ -250,7 +100,7 @@ body{
 */
 
 body#notfound{
-    background: linear-gradient(1.6turn,rgba(119, 119, 119, 0.3), rgba(175, 49, 89, 0.3), #fff);
+    background: linear-gradient(1.6turn,#0d0e0e, #ad8dda, #fff);
 }
 
 .text-center {
@@ -274,19 +124,11 @@ body#notfound{
     bottom: 0px;
 }
 
-.error404 {
-    color: #777777;
-}
-
-.pageintrouvable{
-    color: #777777;
-}
-
 .btnerror {
-        background: rgba(175, 49, 89, 0.3);
+        background: #0d0e0e;
         background-image: -webkit-linear-gradient(top, #ad8dda);
         border-radius: 28px;
-        color: #fff;
+        color: #ad8dda;
         font-size: 20px;
         padding: 10px 20px 10px 20px;
         text-decoration: none;
@@ -297,7 +139,7 @@ body#notfound{
 }
 .btnerror:hover{
     background: #fff;
-    color: rgba(175, 49, 89, 0.7);
+    color: #0d0e0e;
     text-decoration: none;
     
 }
@@ -370,7 +212,7 @@ article a {
 /*----- SIDEBAR -----
 **/
 .sidebar{
-    background-color: #efefef;
+    background-color: grey;
 }
 
 .listarticle {
@@ -396,7 +238,7 @@ ul li {
 
 
 .envedette{
-    margin-top: 1em;
+    
 }
 
 /**
@@ -419,31 +261,21 @@ ul li {
 
 label{
     margin-top: 0.5em;
-    color: rgba(175, 49, 89, 0.4);
+    color: #ad8dda;
     font-weight: 700;
     
 }
 
-.jumbotron {
-    background-color: #fff;
-    box-shadow: 2px 2px 1px rgba(175, 49, 89, 0.7);
-}
-
-
-
-.jumbotron h1 {
-    color: rgba(175, 49, 89, 0.7);
+.h1scription{
+    color: #ad8dda;
     
-}
-.jumbotron p {
-    color: rgba(119, 119, 119, 0.7)
 }
 
 .btninscription {
-    background: rgba(119, 119, 119, 0.3);
-    background-image: -webkit-linear-gradient(top, rgba(175, 49, 89, 0.3));
+    background: #0d0e0e;
+    background-image: -webkit-linear-gradient(top, #ad8dda);
     border-radius: 28px;
-    color: rgba(175, 49, 89, 0.7);
+    color: #ad8dda;
     font-size: 20px;
     padding: 10px 20px 10px 20px;
     text-decoration: none;
@@ -455,10 +287,16 @@ label{
 }
 
 .btninscription:hover{
-background: rgba(175, 49, 89, 0.7);
-color: #fff;
+background: #ad8dda;
+color: #0d0e0e;
 text-decoration: none;
 }
+
+.jumbotron {
+    background-color: #fff;
+    box-shadow: 2px 2px 1px rgba(13, 14, 14, 0.4);
+}
+
 
 /**
 ------ END INSCRIPTION -----
@@ -469,10 +307,10 @@ text-decoration: none;
 */
 
 .btnerroraa {
-    background: rgba(119, 119, 119, 0.4);
-    background-image: -webkit-linear-gradient(top, rgba(175, 49, 89, 0.3));
+    background: #0d0e0e;
+    background-image: -webkit-linear-gradient(top, #ad8dda);
     border-radius: 28px;
-    color: rgba(175, 49, 89, 0.7);
+    color: #ad8dda;
     font-size: 20px;
     padding: 10px 20px 10px 20px;
     text-decoration: none;
@@ -481,14 +319,14 @@ text-decoration: none;
     transition-duration: 0.5s;
 }
 .btnerroraa:hover{
-background: rgba(175, 49, 89, 0.7);
-color: #fff;
+background: #ad8dda;
+color: #FEFDF0;
 text-decoration: none;
 
 }
 
 label.labelaa{
-    color: rgba(175, 49, 89, 0.7);
+    color: #ad8dda;
     font-weight: 700;
     margin-top: 0;
 }
@@ -502,8 +340,8 @@ label.labelaa{
     z-index: -1;
   }
   [type="file"] + label {
-    background-color: rgba(175, 49, 89, 0.7);
-    color: #fff;
+    background-color: #ad8dda;
+    color: #f1e5e6;
     cursor: pointer;
     display: inline-block;
     font-size: 1.25rem;
@@ -515,12 +353,12 @@ label.labelaa{
     border-radius: 28px;
   }
   [type="file"] + label:hover {
-    background-color: rgba(175, 49, 89, 0.7);
-    color: #fff;
+    background-color: #0d0e0e;
+    color: #ad8dda;
   }
   [type="file"]:focus + label {
-    background-color: #fff;
-    outline: 1px dotted rgba(175, 49, 89, 0.7);
+    background-color: #FEFDF0;
+    outline: 1px dotted #ad8dda;
   }
   
 
@@ -533,7 +371,7 @@ label.labelaa{
 **/
 
 body#welcomebody {
-    background-image: linear-gradient(-200deg, rgba(175, 49, 89, 0.3) 50%, rgba(119, 119, 119, 0.3) 50%);
+    background-image: linear-gradient(-200deg, #ad8dda 50%, #0d0e0e 50%);
 }
 .jumbotron h1{
     font-size: 25px;
@@ -557,7 +395,7 @@ footer {
     height: 100px;
     bottom: 0px;
     width: 100%;
-    background-color: #fff;
+    background-color: #FEFDF0;
     text-align: center;
 }
 
@@ -573,18 +411,18 @@ footer .container{
 }
 
 .h3footer {
-    color: rgba(175, 49, 89, 0.7);
+    color: #ad8dda;
 ;
 }
 
 .pfooter {
-    color: #777777;
+    color: #0d0e0e;
 }
 
 .reservedrigth {
-    background-color: rgba(175, 49, 89, 0.3);;
+    background-color: #FEFDF0;
     text-align: center;
-    color: #777777;
+    color: #0d0e0e;
 }
 
 .rsr{
@@ -596,7 +434,7 @@ footer .container{
 }
 
 footer i {
-    color: #777777;
+    color: #0d0e0e;
 }
 
 @media screen and (max-width: 768px) {
