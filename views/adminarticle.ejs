@@ -6,6 +6,7 @@
 
 
 <form class="" action="/" method="post" id="articleform">
+<input type="text" name="articletitle" value="" id="articletitle" placeholder="">
 <textarea name="contentarticle" id="contentarticle"></textarea>
 <button type="submit" name="button" class="btn btn-success" style="margin-left: 45%; margin-top: 20px;">Postez l'article</button>
 </form>
@@ -17,16 +18,17 @@
 
 <% include ./partials/footer %>
 <script src="/js/tinymce/tinymce.min.js"></script>
-  <script>tinymce.init({ selector:'textarea',
+  <script>tinymce.init({ selector:'#contentarticle',
 skin: 'custom' ,
 language: 'fr_FR',
 language_url: '/js/tinymce/langs/fr_FR.js',
+plugins: "media image insertdatetime table",
+menubar: "insert",
+
 
 },{
   selector: 'textarea',
-  plugins: "media",
-  menubar: "insert",
-  toolbar: "media"
+
 });
 
 tinymce.activeEditor.uploadImages(function(success) {
@@ -34,17 +36,6 @@ tinymce.activeEditor.uploadImages(function(success) {
     console.log("Image posté en Ajax");
   });
 });</script>
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#contentarticle' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-    function CKupdate() {
-      for ( instance in CKEDITOR.instances)
-      CKEDITOR.instances[instance].updateElement();
-    }
-</script>
 <script type="text/javascript">
   const form = document.querySelector('form');
   form.addEventListener('submit', addArticle);
@@ -57,7 +48,7 @@ tinymce.activeEditor.uploadImages(function(success) {
       })
       .then(checkStatus)
       .catch(function(error){
-        console.error('request failled', error);
+        console.error('request failed', error);
       })
     } else {
       // JQUERY XHR
@@ -67,7 +58,8 @@ tinymce.activeEditor.uploadImages(function(success) {
     if(response.status>= 200 && response.status < 300){
       let newArticleDiv = document.createElement('div');
       const contentarticle = document.getElementById('contentarticle').value;
-      newArticleDiv.innerHTML = `${contentarticle}  `;
+      const articletitle  = document.getElementById('articletitle').value;
+      newArticleDiv.innerHTML = `${articletitle} ${contentarticle}  `;
       document.querySelector('.fresharticles').appendChild(newArticleDiv);
       form.reset();
 

@@ -4,7 +4,8 @@ const upload = multer;
 let listArticle = [];
 
 const articleSchema = mongoose.Schema({
-  contentarticle : Array,
+  articletitle : String,
+  contentarticle : String,
   articledate : {type: Date , default: Date.now},
 
 
