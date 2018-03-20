@@ -11,10 +11,10 @@
 {
 	.navbar-fixed-side
 	{
-	position: fixed;
+		/*position: fixed;*/
 		margin:0 -15px;
 		height:100vh;
-		/*width:inherit;*/
+		width:70%;
 		overflow:auto;
 		border-top-width:0;
 		border-bottom-width:0;
