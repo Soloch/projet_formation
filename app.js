@@ -182,13 +182,6 @@ app.use('/admin', admin);
 var front = require('./routes/front');
 app.use('/', front);
 
-/* Articles. */
-/*app.get('/article/:nom', function (req, res) {
-  res.send(`article ${req.params.nom}`);
-});*/
-
-
-
 /* Page erreur 404. */
 app.use(function (req, res, next) {
   res.status(404).render('404.ejs', {title: "Page introuvable"});
@@ -196,5 +189,4 @@ app.use(function (req, res, next) {
 
 app.listen(PORT, ()=> {
     console.log(`Serveur lancé sur le port ${PORT}`);
-
 });

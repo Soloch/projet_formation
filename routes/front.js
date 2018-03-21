@@ -22,20 +22,20 @@ var Article = require('../models/article');
 
 /* Middleware pour envoyer la liste des articles dans le menu «Arcticles» de la navbar. */
 router.use('/*', (req, res, next) => {
-    Article.find().select('_id articletitle').exec(function (err, articles) {
-      if (err)
-      {
-        console.log("Erreur de récupération des articles avec offset : " + err);
-        next();
-      }
-      else
-      {
-        console.log("Articles trouvés : " + articles);
-        res.locals.articlesList = articles;
-        next();
-      }
-    });
+  Article.find().select('_id articletitle').exec(function (err, articles) {
+    if (err)
+    {
+      console.log("Erreur de récupération des articles avec offset : " + err);
+      next();
+    }
+    else
+    {
+      console.log("Articles trouvés : " + articles);
+      res.locals.articlesList = articles;
+      next();
+    }
   });
+});
 
 /* Accueil */
 router.get('/', (req, res)=> {
@@ -133,20 +133,21 @@ router.post('/inscription', [
     }
   }
 });
+
+/* Page de bienvenue suite à l'inscription. */
+router.get('/welcome', (req, res) => {
+  res.render('welcome.ejs', {title: "Bienvenue"});
+});
   
-  router.get('/welcome', (req, res) => {
-    res.render('welcome.ejs', {title: "Bienvenue"});
-  });
   
+/** Connexion. **/
+/* Page de connexion. */
+router.get('/login', (req, res) => {
+  res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
+});
   
-  /** Connexion. **/
-  /* Page de connexion. */
-  router.get('/login', (req, res) => {
-    res.render('login.ejs', {title: "Connexion", erreurs: "Entrez votre email et votre mot de passe"});
-  });
-  
-  /* Post pour le login. */
-  router.post('/login', [
+/* Post pour le login. */
+router.post('/login', [
       /* Vérification email et mot de passer. */
       check('email').isEmail().withMessage('Doit être un email').trim(),
       check('password').isLength({min: 5}).withMessage('Le mot de passe doit avoir une longueur de 5 caractères au minimum')
@@ -159,22 +160,21 @@ router.post('/inscription', [
       }
       else
       {
-      /* Contrôle de l'identité de l'utilisateur. */
+        /* Contrôle de l'identité de l'utilisateur. */
         User.findOne({email: req.body.email}, function(err, user) {
-          if (err) throw err;
+        if (err) throw err;
   
         /* Utilisateur trouvé. */
         if (user)
         {
           console.log("session user");
           /* Contrôle du mot de passe. */
-          if (req.body.password == user.password)
-          {
-            console.log("Utilisateur : " + user);
-            req.session.sessionUser = user;
-          }
-  
-          res.redirect("back");
+        if (req.body.password == user.password)
+        {
+          console.log("Utilisateur : " + user);
+          req.session.sessionUser = user;
+        }
+        res.redirect("back");
       }
     });
   }
