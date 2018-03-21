@@ -1,19 +1,16 @@
 html, body {
-height: 100%;
 margin: 0;
 padding: 0;;
 }
 
 body{
-    height: 100%;
     width: 100%;
     display: table;
     background-image: linear-gradient(-200deg, rgba(175, 49, 89, 0.3) 50%, rgba(119, 119, 119, 0.3) 50%);
     background-repeat: no-repeat;
-    background-size: auto;
+    background-size: cover;
     font-family: CreateRound;
-     src: url(./fonts/CreteRound-Regular.ttf)
-    
+    src: url(./fonts/CreteRound-Regular.ttf)
 }
 
 
@@ -177,6 +174,10 @@ body{
     border: none;
     margin-top: 11px;
     margin-right: 6px;
+}
+a:focus, a:hover {
+    color: rgba(175, 49, 89, 0.7); 
+    text-decoration: none;
 }
 .form-control.navco {
    width: 40%;
@@ -416,6 +417,7 @@ article a {
 .sidebar{
     background-color: #efefef;
     margin-bottom: 1em;
+    border-radius: 5px;
 }
 
 .listarticle {
@@ -600,8 +602,8 @@ footer {
     /*position: relative;*/
     display: table-row;
     height: 100px;
-    bottom: 0px;
     width: 100%;
+    bottom: 0px;
     background-color: #fff;
     text-align: center;
 }
