@@ -43,8 +43,8 @@ router.get('/', function (req, res) {
 
 /*  */
 router.get('/image', function (req, res) {
-    res.render('adminimage.ejs', {title: "Affichage d'une image provenant de la base de données."});
-  });
+  res.render('adminimage.ejs', {title: "Affichage d'une image provenant de la base de données."});
+});
 
 /* Page de dépôt d'une image. */
 router.post('/image', multer({storage: multer.memoryStorage()}).single('image'), function (req, res) {

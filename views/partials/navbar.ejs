@@ -7,9 +7,9 @@
                 </li>
 
                 <li class="">
-                    <a href="/articles">Articles</a>
+                    <a href="#">Articles</a>
                     <ul>
-                      <% if (articlesList !== "undefined") { %>
+                      <% if (typeof articlesList !== "undefined") { %>
                         <% articlesList.forEach(function(article) { %>
                           <li><a href="/article/<%= article._id %>"><%= article.articletitle %></a></li>
                         <% }); %>
