@@ -29,10 +29,6 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-/* CKEDITOR */
-
-
-
 /** Inclusion des modèles **/
 var User = require('./models/user');
 
@@ -44,7 +40,7 @@ var ImageDb = require('./models/image');
 
 
 const fs = require('fs');
-const PORT = 3000;
+const PORT = 80;
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -85,49 +81,7 @@ console.log(listArticle);
   res.sendStatus(201);
 });
 */
-app.get('/adminarticle', (req , res) => {
-  const newArticle = { title: req.body.articletitle,
-                       content: req.body.articletext,
-                       date: req.body.articledate,
-                       author: req.body.authorarticle,
-                       image: req.body.articleimage};
-  articleCategorie = [];
-  res.render('adminarticle.ejs' , {title: "Ajouter un article"});
-});
 
-app.post('/', upload.fields([]),  (req, res, next) => {
-  if(!req.body){
-    return res.sendStatus(500);
-
-  } else {
-    const formData = req.body;
-    console.log('formData:', formData);
-    const articletitles = req.body.articletitle;
-    const article = req.body.contentarticle;
-    const myArticle = new Article ({ contentarticle : article , articletitle : articletitles});
-
-                         var articleCategorie = [];
-    articleCategorie = [...articleCategorie, myArticle];
-
-
-    myArticle.save((err, savedArticle) => {
-      if (err) {
-        console.error(err);
-        return;
-      } else {
-        console.log(savedArticle);
-        res.sendStatus(201);
-      }
-    })
-
-    res.sendStatus(201);
-
-  }
-})
-app.get('/adminarticle/:id' , (req , res) => {
-  const id = req.params.id;
-  res.render('adminarticle', {articleid: id});
-})
 
 
 // FIN GESTION DES ARTICLES

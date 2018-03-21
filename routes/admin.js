@@ -12,6 +12,7 @@ const uuidV1 = require('uuid/v1');
 const {body, check, validationResult} = require('express-validator/check');
 const {sanitizeBody} = require('express-validator/filter');
 const validator = require('express-validator');
+const upload = multer();
 
 
 var ImageDb = require('../models/image');
@@ -20,10 +21,8 @@ var User = require('../models/user');
 
 var Article = require('../models/article');
 
+var Configuration = require('../models/configuration');
 
-/*router.use('../css' , express.static('assets/css'));
-router.use('../js' , express.static('assets/js'));
-router.use('../img' , express.static('assets/img'));*/
 
 /** TODO Mettre un middleware pour authoriser uniquement les utilisateurs avec droits admin. */
 router.use('/*', (req, res, next) => {
@@ -62,9 +61,6 @@ router.post('/image', multer({storage: multer.memoryStorage()}).single('image'),
       res.send(image);
     }
   })
-  //res.contentType(req.file.mimetype);
-  //res.send(req.file.buffer.data);
-  //res.redirect('back');
 });
 
 /* Gestion des images. */
@@ -184,9 +180,6 @@ router.post('/user/edit/:id', [
           res.redirect("/admin/users");
         }
       });
-      //res.send("Mise à jour effectuée");
-      //res.contentType('application/json');
-      //res.json({id: req.params.id});
     }
   }
 );
@@ -232,24 +225,111 @@ router.post('/articles/edit/:id', [],
   function (req, res) {
     console.log(req.body);
 
-      /* Tentative de sauvegarde du nouvel utilisateur. */
-      Article.findByIdAndUpdate(req.params.id, {$set: {contentarticle: req.body.contentarticle, articletitle: req.body.articletitle}}, function (err, article) {
-        if (err)
-        {
-          console.log("Erreur mise à jour article" + err);
-          res.render('/admin/articles', {title: title, helps: helps});
-        }
-        else
-        {
-          res.redirect("/admin/articles");
-        }
-      });
-      //res.send("Mise à jour effectuée");
-      //res.contentType('application/json');
-      //res.json({id: req.params.id});
-    }
-
+    /* Tentative de sauvegarde du nouvel utilisateur. */
+    Article.findByIdAndUpdate(req.params.id, {$set: {contentarticle: req.body.contentarticle, articletitle: req.body.articletitle}}, function (err, article) {
+      if (err)
+      {
+        console.log("Erreur mise à jour article : " + err);
+        res.render('/admin/articles', {title: title, helps: helps});
+      }
+      else
+      {
+        res.redirect("/admin/articles");
+      }
+    });
+  }
 );
+
+router.get('/article', (req, res) => {
+  res.render('adminarticle.ejs' , {title: "Ajouter un article"});
+});
+
+router.post('/article', upload.fields([]),  (req, res, next) => {
+  if(!req.body){
+    return res.sendStatus(500);
+
+  } else {
+    const formData = req.body;
+    console.log('formData:', formData);
+    const articletitles = req.body.articletitle;
+    const article = req.body.contentarticle;
+    const myArticle = new Article ({ contentarticle : article , articletitle : articletitles});
+
+                         var articleCategorie = [];
+    articleCategorie = [...articleCategorie, myArticle];
+
+
+    myArticle.save((err, savedArticle) => {
+      if (err) {
+        console.error(err);
+        return;
+      } else {
+        console.log(savedArticle);
+        res.sendStatus(201);
+      }
+    })
+
+    res.sendStatus(201);
+
+  }
+})
+router.get('/article/:id' , (req , res) => {
+  const id = req.params.id;
+  res.render('adminarticle.ejs', {articleid: id});
+})
+/** Configuration **/
+router.get('/config',(req, res) => {
+  console.log("Route configuration");
+  Article.find().select('_id articletitle').exec((err, articles) => {
+    if (err)
+    {
+      console.log("Erreur de récupération des articles : " + err);
+      //res.render('configuration.ejs', {title: Configuration, articleList: "undefined"});
+    }
+    else
+    {
+      console.log("Articles trouvés : " + articles);
+      res.render('configuration.ejs', {title: "Configuration", articlesList: articles});
+    }
+  });
+});
+/*router.get('/coucou', (req, res) => {
+  console.log('Coucou');
+  res.send("coucou");
+});
+router.get('/config', (req, res) => {
+  console.log('Page de configuration');
+  res.send("salut");
+  //res.render('configuration.ejs', {title: "Configuration", articleList: "undefined"});
+});*/
+
+router.post('/config', [
+    /* Vérification du champs. */
+    check('articleaccueil').exists(),
+  ], (req, res) => {
+    const erreurs = validationResult(req);
+    console.log("Id article accueil : " + req.body.articleaccueil);
+    if (!erreurs.isEmpty())
+    {
+      console.log(erreurs.mapped());
+      res.redirect('/admin');
+    }
+    else
+    {
+      /* Article de l'accueil. */
+      let article = new Configuration.ObjId();
+      /*article.name = "article_accueil";
+      article.value = req.body.articleaccueil;
+      article.save((err, article) => {*/
+
+      
+      article.update({name: "article_accueil"}, {$set: {value: req.body.articleaccueil}}, (err, larticle) => {
+        if (err) console.log("Article de l'accueil pas enregistré.");
+        else console.log("Article de l'accueil enrigistré : " + article);
+        res.redirect('/admin');
+      });
+    }
+});
 
 /* Export du module. */
 module.exports = router;

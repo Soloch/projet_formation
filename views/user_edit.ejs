@@ -7,7 +7,7 @@
 
     <form id="formulaire_edition" action="/admin/user/edit/<%= user.id %>" class="inscription" method="POST">
       <div class="form-group">
-        <label for="lastname">Nom</label> 
+        <label for="lastname">Nom</label>
         <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Nom" value="<%= user.lastName %>" required>
       </div>
               
@@ -17,7 +17,7 @@
       </div>
               
       <div class="form-group">
-        <label for="user-role">Rôle</label> 
+        <label for="user_role">Rôle</label> 
         <select id="user_role" name="userrole">
           <option value="0" <% if (user.role == 0) { %>selected<% } %>>Commentateur</option>
           <option value="1" <% if (user.role == 1) { %>selected<% } %>>Administrateur</option>

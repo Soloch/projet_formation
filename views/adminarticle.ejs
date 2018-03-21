@@ -1,7 +1,11 @@
-<% include ./partials/head %>
+<% include ./partials/headadmin %>
 <title><%= title %></title>
 </head>
-<% include ./partials/navbar %>
+<% include ./partials/adminside %>
+
+<div class="col-sm-9 col-xs-9 col-lg-10">
+
+  <h1><%= title %></h1>
 
 
 
@@ -11,12 +15,13 @@
 <button type="submit" name="button" class="btn btn-success" style="margin-left: 45%; margin-top: 20px;">Postez l'article</button>
 </form>
 
+</div>
 
 
 
 
 
-<% include ./partials/footer %>
+
 <script src="/js/tinymce/tinymce.min.js"></script>
   <script>tinymce.init({ selector:'#contentarticle',
 skin: 'custom' ,
@@ -39,7 +44,7 @@ tinymce.activeEditor.uploadImages(function(success) {
   function addArticle(event){
     event.preventDefault();
     if(fetch) {
-      fetch('/', {
+      fetch('/admin/article', {
         method: 'POST',
         body: new FormData(form)
       })

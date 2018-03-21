@@ -1,24 +1,27 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/animate.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <title><%= title %></title>
+<% include ./partials/headadmin %>
+<title><%= title %></title>
 </head>
-<body>
-  <div class="container">
-    <h1 class="text-center"><%= title %></h1>
-    <div class="row">
+<% include ./partials/adminside %>
+  <div class="col-sm-9 col-xs-9 col-lg-10">
+    <h1><%= title %></h1>
 
-    </div>
-    <form action="/admin/configuration" method="POST">
-      
+    <form id="formulaire_configuration" action="/admin/config" class="inscription" method="POST">
+              
+      <div class="form-group">
+        <label for="article_accueil">Article à mettre sur la page d'accueil</label> 
+        <select id="article_accueil" name="articleaccueil">
+              <option value="undefined" >Aucun article</option>
+          <% if (typeof articlesList !== "undefined") { %>
+            <% articlesList.forEach(function(article) { %>
+              <option value="<%= article._id %>"><%= article.articletitle %></option>
+            <% }); %>
+          <% } %>
+        </select>
+        <span class="help-block"></span>
+      </div>
+              
+      <div class="text-center">
+        <input class="btninscription" type="submit" name="Confirmer" value="Confirmer">
+      </div>
     </form>
   </div>
-</body>
-</html>

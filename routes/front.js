@@ -20,12 +20,14 @@ var User = require('../models/user');
 
 var Article = require('../models/article');
 
+var Configuration = require('../models/configuration');
+
 /* Middleware pour envoyer la liste des articles dans le menu «Arcticles» de la navbar. */
 router.use('/*', (req, res, next) => {
   Article.find().select('_id articletitle').exec(function (err, articles) {
     if (err)
     {
-      console.log("Erreur de récupération des articles avec offset : " + err);
+      console.log("Erreur de récupération des articles : " + err);
       next();
     }
     else
@@ -40,8 +42,29 @@ router.use('/*', (req, res, next) => {
 /* Accueil */
 router.get('/', (req, res)=> {
   let title = "Accueil";
-  myArticle = [];
-  Article.find((err , articles) => {
+  let myArticle/* = []*/;
+
+  /* Récupération de la configuration. */
+  Configuration.ObjId.findOne({name: "article_accueil"}, (err, id ) => {
+    if (err) console.log("Impossible de trouver l'article à afficher sur la page d'accueil.");
+    else
+    {
+      console.log("Id article accueil : " + id);
+      Article.findOne({_id: id.value}, (err, article) => {
+        if (err)
+        {
+          console.error("Impossible de récupérer l'article' depuis la DB");
+          res.sendStatus(500);
+        }
+        else
+        {
+          myArticle = article;
+          res.render('index.ejs',{title: title, article: myArticle});
+        }
+      });
+    }
+  });
+  /*Article.find((err , articles) => {
     if(err){
       console.error('Impossible de récupérer les articles depuis la DB');
       res.sendStatus(500);
@@ -51,7 +74,7 @@ router.get('/', (req, res)=> {
       myArticle = articles;
       res.render('index.ejs',{title: title, articles: myArticle});
     }
-  });
+  });*/
 });
 
 // Page de contact
