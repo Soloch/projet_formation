@@ -169,9 +169,8 @@ app.use('/*', (req, res, next) => {
   if (typeof req.session.sessionUser !== "undifined")
   {
     /* L'utilisateur est ajouté dans les variables locales de la réponse. */
-    /** TODO remplacer par sessionUser et mettre à jour le comportement partout. */
     res.locals.sessionUser = req.session.sessionUser;
-    //console.log("res.locals.user : " + req.session.user);
+    console.log("res.locals.sessionUser : " + res.locals.sessionUser);
   }
   next();
 });
