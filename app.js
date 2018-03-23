@@ -40,7 +40,7 @@ var ImageDb = require('./models/image');
 
 
 const fs = require('fs');
-const PORT = 80;
+const PORT = 3000;
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');

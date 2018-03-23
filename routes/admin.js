@@ -323,9 +323,9 @@ router.post('/config', [
       article.save((err, article) => {*/
 
       
-      article.update({name: "article_accueil"}, {$set: {value: req.body.articleaccueil}}, (err, larticle) => {
+        Configuration.ObjId.findOneAndUpdate({name: "article_accueil"}, {$set: {value: req.body.articleaccueil}}, {new: true}, (err, larticle) => {
         if (err) console.log("Article de l'accueil pas enregistré.");
-        else console.log("Article de l'accueil enrigistré : " + article);
+        else console.log("Article de l'accueil enregistré : " + larticle.value);
         res.redirect('/admin');
       });
     }
